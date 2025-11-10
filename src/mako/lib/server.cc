@@ -15,6 +15,7 @@
 #include <x86intrin.h>
 #include "deptran/s_main.h"
 #include "benchmarks/sto/sync_util.hh"
+#include "delta_store.h"
 
 std::function<int()> ss_callback_ = nullptr;
 void register_sync_util_ss(std::function<int()> cb) {
@@ -302,9 +303,44 @@ namespace mako
             //string value(v_ptr, vlen);
             obj_v.assign(v_ptr, vlen);
 
+            // Phase 2: Check if this is a delta and apply it if needed
+            std::string final_value = obj_v;
+            if (mako::isDeltaEnabled() && vlen > 0) {
+                // Try to deserialize as delta
+                try {
+                    mako::DeltaRecord delta = mako::DeltaRecord::deserialize(obj_v);
+                    
+                    // If deserialization succeeded and it's a delta type, apply it
+                    if (delta.type != mako::DeltaType::FULL_VALUE) {
+                        // Retrieve old value from local store
+                        std::string old_value;
+                        bool found = false;
+                        try {
+                            found = open_tables_table_id[table_id]->shard_get(obj_key0, old_value);
+                        } catch (...) {
+                            // If get fails, treat as insert (no old value)
+                            found = false;
+                        }
+                        
+                        if (found) {
+                            // Apply delta to reconstruct full value
+                            final_value = mako::DeltaComputer::applyDelta(old_value, delta);
+                            mako::g_delta_stats.deltas_applied.fetch_add(1);
+                        } else {
+                            // No old value, this shouldn't happen for updates
+                            // Fall back to treating as full value
+                            final_value = obj_v;
+                        }
+                    }
+                } catch (...) {
+                    // Deserialization failed, treat as full value
+                    final_value = obj_v;
+                }
+            }
+
             if (table_id > 0) {
                 try {
-                    open_tables_table_id[table_id]->shard_put(obj_key0, obj_v);
+                    open_tables_table_id[table_id]->shard_put(obj_key0, final_value);
                 } catch (abstract_db::abstract_abort_exception &ex) {
                    //db->shard_abort_txn(nullptr);
                    status = ErrorCode::ABORT;

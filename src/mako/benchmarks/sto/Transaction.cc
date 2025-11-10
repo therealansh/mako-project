@@ -405,30 +405,59 @@ bool Transaction::try_commit(bool no_paxos) {
     std::vector<int> remote_table_id_batch;
     std::vector<std::string> key_batch;
     std::vector<std::string> value_batch;
+    std::vector<std::string> old_value_batch;  // Phase 2: Store old values for delta computation
 
     for (unsigned tidx = 0; tidx != tset_size_; ++tidx) {
         it = (tidx % tset_chunk ? it + 1 : tset_[tidx / tset_chunk]);
         bool isRemote = it->owner()->get_is_remote();
         if (it->has_write() && isRemote) {
-            std::string key = "", val = "";
+            std::string key = "", val = "", old_val = "";
             if (hasInsertOp(it)) {  // key_write_value_type
                 key = (*it).write_value<std::string>();
                 versioned_str_struct *vvx = (*it).key<versioned_str_struct *>();
                 val = std::string(vvx->data(), vvx->length());
+                // For inserts, there's no old value
+                old_val = "";
             } else {
                 key = it->extra;
                 val = (*it).template write_value<std::string>();
+                // For updates, try to get old value from the versioned structure
+                versioned_str_struct *vvx = (*it).key<versioned_str_struct *>();
+                if (vvx) {
+                    old_val = std::string(vvx->data(), vvx->length());
+                }
             }
             
-            // Phase 2: Track bandwidth for delta replication measurement
-            // For now, just track full value size (delta computation will be added in future commits)
-            if (mako::isDeltaEnabled()) {
-                mako::g_delta_stats.bytes_sent_full.fetch_add(val.size());
+            // Phase 2: Compute delta if enabled and old value exists
+            std::string value_to_send = val;
+            if (mako::isDeltaEnabled() && !old_val.empty() && old_val != val) {
+                // Compute delta between old and new values
+                mako::DeltaRecord delta = mako::DeltaComputer::computeDelta(
+                    old_val, val, 
+                    0,  // version (will be set by replication layer)
+                    0,  // base_version
+                    0   // timestamp (will be set by replication layer)
+                );
+                
+                // Use delta if it's smaller than full value
+                std::string serialized_delta = delta.serialize();
+                if (serialized_delta.size() < val.size()) {
+                    value_to_send = serialized_delta;
+                    mako::g_delta_stats.bytes_sent_delta.fetch_add(serialized_delta.size());
+                } else {
+                    mako::g_delta_stats.bytes_sent_full.fetch_add(val.size());
+                }
+            } else {
+                // Track full value size
+                if (mako::isDeltaEnabled()) {
+                    mako::g_delta_stats.bytes_sent_full.fetch_add(val.size());
+                }
             }
             
             remote_table_id_batch.push_back(it->owner()->get_table_id());
             key_batch.push_back(key);
-            value_batch.push_back(val);
+            value_batch.push_back(value_to_send);
+            old_value_batch.push_back(old_val);
         }
     }
 
