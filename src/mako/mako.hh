@@ -36,6 +36,8 @@
 #include "lib/server.h"
 #include "lib/rust_wrapper.h"
 #include "delta_store.h"
+#include "delta_chain_manager.h"
+#include "delta_compaction.h"
 
 
 // Initialize Rust wrapper: communicate with rust-based redis client
@@ -764,6 +766,14 @@ static void init_env() {
   if (mako::g_delta_config.enabled) {
     fprintf(stderr, "Delta replication ENABLED (size_threshold=%u bytes)\n", 
             mako::g_delta_config.size_threshold);
+    
+    // Start delta compaction worker for background compaction
+    mako::DeltaCompactionWorker::getInstance().start(
+      mako::g_delta_config.compaction_interval_ms,
+      nullptr  // No RocksDB persistence callback for now
+    );
+    fprintf(stderr, "Delta compaction worker started (interval=%u ms)\n",
+            mako::g_delta_config.compaction_interval_ms);
   }
 
   // Setup callbacks
@@ -866,6 +876,12 @@ static void db_close() {
   }
 
   mako::stop_helper();
+
+  // Stop delta compaction worker if running
+  if (mako::g_delta_config.enabled && mako::DeltaCompactionWorker::getInstance().isRunning()) {
+    fprintf(stderr, "Stopping delta compaction worker...\n");
+    mako::DeltaCompactionWorker::getInstance().stop();
+  }
 
   // Stop multi-shard transports if running
   stopMultiShardTransports();
