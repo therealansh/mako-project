@@ -428,6 +428,7 @@ set(MAKO_SRCFILES
   "${W}/btree.cc"
   "${W}/core.cc"
   "${W}/counter.cc"
+  "${W}/delta_store.cc"
   "${W}/memory.cc"
   "${W}/rocksdb_persistence.cc"
   "${W}/rcu.cc"
