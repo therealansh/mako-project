@@ -35,6 +35,7 @@
 #include "lib/common.h"
 #include "lib/server.h"
 #include "lib/rust_wrapper.h"
+#include "delta_store.h"
 
 
 // Initialize Rust wrapper: communicate with rust-based redis client
@@ -757,6 +758,13 @@ static char** prepare_paxos_args(const vector<string>& paxos_config_file,
 
 static void init_env() {
   auto& benchConfig = BenchmarkConfig::getInstance();
+
+  // Initialize delta replication configuration from environment variables
+  mako::g_delta_config = mako::DeltaConfig::loadFromEnv();
+  if (mako::g_delta_config.enabled) {
+    fprintf(stderr, "Delta replication ENABLED (size_threshold=%u bytes)\n", 
+            mako::g_delta_config.size_threshold);
+  }
 
   // Setup callbacks
   setup_sync_util_callbacks();
