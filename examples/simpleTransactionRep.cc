@@ -12,6 +12,7 @@
 #include "benchmarks/rpc_setup.h"
 #include "../src/mako/spinbarrier.h"
 #include "../src/mako/benchmarks/mbta_sharded_ordered_index.hh"
+#include "delta_store.h"
 
 using namespace std;
 using namespace mako;
@@ -508,6 +509,9 @@ int main(int argc, char **argv) {
     }
 
     db_close() ;
+
+    cerr << "\n--- delta replication statistics ---" << endl;
+    mako::g_delta_stats.print();
 
     printf("\n" GREEN "All tests completed successfully!" RESET "\n");
     std::cout.flush();
