@@ -429,6 +429,8 @@ set(MAKO_SRCFILES
   "${W}/core.cc"
   "${W}/counter.cc"
   "${W}/delta_store.cc"
+  "${W}/delta_chain_manager.cc"
+  "${W}/delta_compaction.cc"
   "${W}/memory.cc"
   "${W}/rocksdb_persistence.cc"
   "${W}/rcu.cc"
