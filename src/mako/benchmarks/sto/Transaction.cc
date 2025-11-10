@@ -8,6 +8,7 @@
 #include "benchmarks/sto/sync_util.hh"
 #include "lib/common.h"
 #include "benchmarks/benchmark_config.h"
+#include "delta_store.h"
 
 #ifndef MAX
 #define MAX(a,b) ((a)>(b)?(a):(b))
@@ -418,6 +419,13 @@ bool Transaction::try_commit(bool no_paxos) {
                 key = it->extra;
                 val = (*it).template write_value<std::string>();
             }
+            
+            // Phase 2: Track bandwidth for delta replication measurement
+            // For now, just track full value size (delta computation will be added in future commits)
+            if (mako::isDeltaEnabled()) {
+                mako::g_delta_stats.bytes_sent_full.fetch_add(val.size());
+            }
+            
             remote_table_id_batch.push_back(it->owner()->get_table_id());
             key_batch.push_back(key);
             value_batch.push_back(val);
