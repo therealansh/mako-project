@@ -22,6 +22,7 @@
 #include "lib/fasttransport.h"
 #include "deptran/s_main.h"
 #include "benchmarks/sto/sync_util.hh"
+#include "delta_store.h"
 #include <chrono>
 #include <thread>
 
@@ -666,6 +667,8 @@ bench_runner::run()
       }
     }
 
+    cerr << "--- delta replication statistics ---" << endl;
+    mako::g_delta_stats.print();
     cerr << "--- system counters (for benchmark) ---" << endl;
     for (map<string, counter_data>::iterator it = ctrs.begin();
          it != ctrs.end(); ++it)
