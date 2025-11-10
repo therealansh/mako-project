@@ -182,6 +182,26 @@ inline void enableDelta(bool enable) {
     g_delta_config.enabled = enable;
 }
 
+// Helper function to compute delta or return full value
+// Returns the data to transmit (either delta or full value) and updates stats
+inline std::string computeDeltaOrFull(const std::string& old_value,
+                                      const std::string& new_value,
+                                      uint64_t version = 0,
+                                      uint64_t base_version = 0,
+                                      uint64_t timestamp = 0) {
+    if (!isDeltaEnabled()) {
+        g_delta_stats.bytes_sent_full.fetch_add(new_value.size());
+        return new_value;
+    }
+    
+    // Compute delta
+    DeltaRecord delta = DeltaComputer::computeDelta(old_value, new_value, 
+                                                     version, base_version, timestamp);
+    
+    // Return serialized delta
+    return delta.serialize();
+}
+
 } // namespace mako
 
 #endif // MAKO_DELTA_STORE_H
