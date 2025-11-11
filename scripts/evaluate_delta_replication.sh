@@ -30,8 +30,12 @@ run_test() {
     export MAKO_MAX_CHAIN_BYTES=4096
     export MAKO_COMPACTION_INTERVAL_MS=1000
     
-    cd "$BUILD_DIR"
-    timeout ${duration}s ./simpleTransaction 2>&1 | tee "$output_file" || true
+    cd "$PROJECT_ROOT"
+    timeout ${duration}s "$BUILD_DIR/dbtest" --num-threads 4 --shard-index 0 \
+        --local-shards "0,1" \
+        --shard-config "$PROJECT_ROOT/src/mako/config/local-shards2-warehouses4.yml" \
+        --paxos-proc-name localhost \
+        2>&1 | tee "$output_file" || true
     
     echo "Test completed: $test_name"
     echo ""
