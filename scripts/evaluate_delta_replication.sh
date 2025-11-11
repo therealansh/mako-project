@@ -69,20 +69,20 @@ echo "=== Phase 6.1: Bandwidth Reduction Measurement ==="
 echo "Testing with varying update sizes (10%, 50%, 90% of value)"
 echo ""
 
-run_test "baseline_small_updates" 0 10 30
-run_test "baseline_medium_updates" 0 50 30
-run_test "baseline_large_updates" 0 90 30
+run_test "baseline_small_updates" 0 10 120
+run_test "baseline_medium_updates" 0 50 120
+run_test "baseline_large_updates" 0 90 120
 
-run_test "delta_small_updates" 1 10 30
-run_test "delta_medium_updates" 1 50 30
-run_test "delta_large_updates" 1 90 30
+run_test "delta_small_updates" 1 10 120
+run_test "delta_medium_updates" 1 50 120
+run_test "delta_large_updates" 1 90 120
 
 echo "=== Phase 6.2: Latency Impact Analysis ==="
 echo "Comparing p50/p99 commit latency with delta replication enabled vs disabled"
 echo ""
 
-run_test "latency_baseline" 0 50 60
-run_test "latency_delta" 1 50 60
+run_test "latency_baseline" 0 50 180
+run_test "latency_delta" 1 50 180
 
 echo "=== Phase 6.3: Throughput Comparison ==="
 echo "Measuring transactions/second with baseline vs delta replication"
