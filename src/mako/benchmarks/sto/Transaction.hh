@@ -136,7 +136,26 @@ class StringAllocator{
         memcpy (queueLog + pos, &st_time, sizeof(uint32_t));
         pos += sizeof(uint32_t);
         //Warning("Paxos log cleanup!max_bytes_size:%d",max_bytes_size);
-        add_log_to_nc((char *)queueLog, pos, TThread::getPartitionID (), batch_size);
+        
+        // Conditionally encode with KDV for geo-replication if enabled
+        static std::atomic<uint64_t> paxos_seq_num{0};
+        if (BenchmarkConfig::getInstance().getEnableKDVLogs()) {
+            uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
+            uint32_t partition_id = TThread::getPartitionID();
+            uint64_t seq = paxos_seq_num.fetch_add(1, std::memory_order_relaxed);
+            std::string encoded = mako::kdv::kdv_encode_log(shard_id, partition_id, seq, 
+                                                             (const char*)queueLog, pos);
+            // Copy encoded data back to queueLog buffer (assuming it fits)
+            if (encoded.size() <= max_bytes_size) {
+                memcpy(queueLog, encoded.data(), encoded.size());
+                add_log_to_nc((char *)queueLog, encoded.size(), partition_id, batch_size);
+            } else {
+                // Encoded data too large, send original
+                add_log_to_nc((char *)queueLog, pos, partition_id, batch_size);
+            }
+        } else {
+            add_log_to_nc((char *)queueLog, pos, TThread::getPartitionID (), batch_size);
+        }
 
 #ifndef DISABLE_DISK
         // Asynchronously persist to RocksDB

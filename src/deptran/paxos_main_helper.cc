@@ -22,6 +22,9 @@
 using namespace janus;
 using namespace network_client;
 
+// Network savings instrumentation for KDV
+static std::atomic<uint64_t> total_network_bytes_sent{0};
+
 // network client
 std::vector<shared_ptr<network_client::NetworkClientServiceImpl>> nc_services = {};
 std::vector<shared_ptr<pthread_t>> nc_service_pthreads = {};
@@ -418,6 +421,15 @@ void add_log_to_nc(const char* log, int len, uint32_t par_id, int batch_size) {
     return;
   }
   //pxs_workers_g[par_id]->election_state_lock.unlock();
+
+  // Track network bytes sent for KDV instrumentation
+  total_network_bytes_sent.fetch_add(len, std::memory_order_relaxed);
+  static std::atomic<uint64_t> log_count{0};
+  uint64_t count = log_count.fetch_add(1, std::memory_order_relaxed);
+  if (count % 1000 == 0) {
+    Log_info("[Paxos Network] Sent %lu logs, total bytes: %lu", 
+             count, total_network_bytes_sent.load(std::memory_order_relaxed));
+  }
 
 	// l_.lock();
 	// len = len;
@@ -1159,4 +1171,4 @@ std::vector<std::vector<int>>* nc_get_read_requests(int par_id) {
 
 std::vector<std::vector<int>>* nc_get_rmw_requests(int par_id) {
   return &nc_services[par_id]->rmw_requests;
-}; 
+};    
