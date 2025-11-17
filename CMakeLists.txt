@@ -430,6 +430,7 @@ set(MAKO_SRCFILES
   "${W}/counter.cc"
   "${W}/memory.cc"
   "${W}/rocksdb_persistence.cc"
+  "${W}/kdv_format.cc"
   "${W}/rcu.cc"
   "${W}/stats_server.cc"
   "${W}/thread.cc"
@@ -952,6 +953,13 @@ if(BUILD_TESTS)
     target_compile_options(test_and_event PRIVATE ${TEST_COMPILE_OPTIONS})
     target_link_libraries(test_and_event ${TEST_LINK_LIBS} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
     add_test(NAME test_and_event COMMAND test_and_event)
+
+    # KDV Format Tests (standalone, no GTest dependency)
+    add_executable(kdv_format_test test/kdv_format_test.cc src/mako/kdv_format.cc)
+    target_include_directories(kdv_format_test PRIVATE src src/mako)
+    target_compile_options(kdv_format_test PRIVATE -std=c++17 -O2)
+    target_link_libraries(kdv_format_test pthread)
+    add_test(NAME kdv_format_test COMMAND kdv_format_test)
 
     # Integration tests from CI
     add_test(NAME simpleTransaction COMMAND simpleTransaction)
