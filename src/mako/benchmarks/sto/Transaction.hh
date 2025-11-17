@@ -20,6 +20,7 @@
 #include "benchmarks/sto/Interface.hh"
 #include "benchmarks/sto/sync_util.hh"
 #include "benchmarks/benchmark_config.h"
+#include "kdv_format.h"
 
 #ifndef STO_PROFILE_COUNTERS
 #define STO_PROFILE_COUNTERS 0
@@ -139,6 +140,7 @@ class StringAllocator{
 
 #ifndef DISABLE_DISK
         // Asynchronously persist to RocksDB
+        // KDV encoding is handled internally by persistAsync if enabled
         auto& persistence = mako::RocksDBPersistence::getInstance();
         uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
         static std::atomic<uint64_t> persist_success_count{0};

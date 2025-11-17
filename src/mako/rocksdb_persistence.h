@@ -94,6 +94,12 @@ public:
                               uint32_t& num_shards, size_t& num_partitions, size_t& num_workers,
                               int64_t& timestamp);
 
+    // Get next sequence number for a partition (for KDV encoding)
+    uint64_t getNextSequenceNumber(uint32_t partition_id);
+
+    // Print KDV compression statistics
+    void printKDVStats() const;
+
 private:
     RocksDBPersistence();
     ~RocksDBPersistence();
@@ -102,7 +108,6 @@ private:
     RocksDBPersistence& operator=(const RocksDBPersistence&) = delete;
 
     void workerThread(size_t worker_id, size_t total_workers);
-    uint64_t getNextSequenceNumber(uint32_t partition_id);
     void processOrderedCallbacks(uint32_t partition_id);
     void handlePersistComplete(uint32_t partition_id, uint64_t sequence_number,
                               std::function<void(bool)> callback, bool success,
@@ -141,6 +146,10 @@ private:
     uint32_t num_shards_{0};
 
     bool initialized_{false};
+
+    // KDV compression statistics
+    std::atomic<uint64_t> total_original_bytes_{0};
+    std::atomic<uint64_t> total_encoded_bytes_{0};
 };
 
 } // namespace mako
