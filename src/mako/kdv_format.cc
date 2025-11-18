@@ -292,11 +292,14 @@ std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
     auto start_time = std::chrono::high_resolution_clock::now();
     
     if (size < sizeof(KDVHeader)) {
-        std::cerr << "[KDV] Error: Encoded log too small, size=" << size << std::endl;
         return "";
     }
     
     const KDVHeader* header = reinterpret_cast<const KDVHeader*>(data);
+    
+    if (header->magic != KDV_MAGIC) {
+        return "";
+    }
     
     if (header->version != 1) {
         std::cerr << "[KDV] Error: Unsupported KDV version=" << (int)header->version << std::endl;

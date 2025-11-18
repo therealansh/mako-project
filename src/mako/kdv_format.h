@@ -22,12 +22,21 @@ enum class KDVEncodeMode : uint8_t {
 };
 
 /**
- * KDV Header Structure (12 bytes)
+ * KDV Magic Number
+ * 
+ * Used to identify KDV-encoded data and distinguish it from raw data.
+ * Value: 0x4B445630 = "KDV0" in ASCII
+ */
+constexpr uint32_t KDV_MAGIC = 0x4B445630;
+
+/**
+ * KDV Header Structure (20 bytes)
  * 
  * Stored at the beginning of each encoded log entry.
  * Provides metadata for decoding and chain management.
  */
 struct KDVHeader {
+    uint32_t magic;            // Magic number (0x4B445630 = "KDV0")
     uint8_t version;           // Format version (currently 1)
     uint8_t mode;              // KDVEncodeMode (BASE or DELTA)
     uint16_t chain_len;        // Number of deltas since last base
@@ -35,10 +44,10 @@ struct KDVHeader {
     uint32_t original_size;    // Original uncompressed size
     
     KDVHeader() 
-        : version(1), mode(0), chain_len(0), base_seq(0), original_size(0) {}
+        : magic(KDV_MAGIC), version(1), mode(0), chain_len(0), base_seq(0), original_size(0) {}
 } __attribute__((packed));
 
-static_assert(sizeof(KDVHeader) == 16, "KDVHeader must be 16 bytes");
+static_assert(sizeof(KDVHeader) == 20, "KDVHeader must be 20 bytes");
 
 /**
  * Delta Representation
