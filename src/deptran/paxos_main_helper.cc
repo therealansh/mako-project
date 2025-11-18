@@ -985,6 +985,14 @@ void wait_for_submit(uint32_t par_id) {
 }
 void pre_shutdown_step(){
     Log_info("shutdown Server Control Service after task finish total submit %d", (int)submit_tot);
+    
+    // Print final Paxos network statistics for KDV evaluation
+    uint64_t total_bytes = total_network_bytes_sent.load(std::memory_order_relaxed);
+    if (total_bytes > 0) {
+        Log_info("[Paxos Network] Final statistics: total bytes sent: %lu (%.2f MB)", 
+                 total_bytes, total_bytes / (1024.0 * 1024.0));
+    }
+    
     for (auto& worker : pxs_workers_g) {
         if (worker->hb_rpc_server_ != nullptr) {
             worker->scsi_->server_shutdown(nullptr);
@@ -1171,4 +1179,4 @@ std::vector<std::vector<int>>* nc_get_read_requests(int par_id) {
 
 std::vector<std::vector<int>>* nc_get_rmw_requests(int par_id) {
   return &nc_services[par_id]->rmw_requests;
-};    
+};      

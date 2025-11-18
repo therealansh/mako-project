@@ -163,6 +163,13 @@ main(int argc, char **argv)
   benchConfig.setIsReplicated(is_replicated);
   benchConfig.setPaxosConfigFile(paxos_config_file);
 
+  // Parse MAKO_ENABLE_KDV_LOGS environment variable
+  const char* kdv_env = getenv("MAKO_ENABLE_KDV_LOGS");
+  if (kdv_env != nullptr && (strcmp(kdv_env, "1") == 0 || strcmp(kdv_env, "true") == 0)) {
+    benchConfig.setEnableKDVLogs(true);
+    Notice("KDV logs enabled via MAKO_ENABLE_KDV_LOGS environment variable");
+  }
+
   // Parse local shards if specified
   if (!local_shards_str.empty() && benchConfig.getConfig() != nullptr) {
     auto local_shards = parse_local_shards(local_shards_str);

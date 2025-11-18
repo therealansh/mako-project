@@ -876,6 +876,11 @@ static void db_close() {
     std::this_thread::sleep_for(std::chrono::seconds(3));
   }
 
+  // Print KDV statistics before shutdown
+  if (benchConfig.getEnableKDVLogs()) {
+    mako::RocksDBPersistence::getInstance().printKDVStats();
+  }
+
   mako::stop_helper();
 
   // Stop multi-shard transports if running
