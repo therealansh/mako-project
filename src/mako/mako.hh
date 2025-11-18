@@ -7,7 +7,7 @@
 #include <utility>
 #include <string>
 #include <set>
-#include "rocksdb_persistence_fwd.h"
+#include "rocksdb_persistence.h"
 
 #include <getopt.h>
 #include <stdlib.h>
