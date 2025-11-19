@@ -14,9 +14,17 @@ namespace kdv {
 // Uses std::hash for simplicity; can be replaced with xxhash/CityHash for better performance
 inline uint64_t compute_payload_hash(const char* data, size_t size) {
     // Simple FNV-1a hash for fast fingerprinting
+    // Skip the first 8 bytes which contain volatile timestamps:
+    // - latest_commit_timestamp (4 bytes)
+    // - st_time (4 bytes)
+    // This allows us to hash the stable transaction payload for better key identification
+    const size_t skip_bytes = 8;
+    const char* hash_start = (size > skip_bytes) ? (data + skip_bytes) : data;
+    const size_t hash_size = (size > skip_bytes) ? (size - skip_bytes) : size;
+    
     uint64_t hash = 14695981039346656037ULL;
-    for (size_t i = 0; i < size; ++i) {
-        hash ^= static_cast<uint64_t>(static_cast<unsigned char>(data[i]));
+    for (size_t i = 0; i < hash_size; ++i) {
+        hash ^= static_cast<uint64_t>(static_cast<unsigned char>(hash_start[i]));
         hash *= 1099511628211ULL;
     }
     return hash;
