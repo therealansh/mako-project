@@ -21,7 +21,12 @@
 #include "benchmarks/benchmark_config.h"
 #include "kdv_format.h"
 #ifndef DISABLE_DISK
+#pragma push_macro("Debug")
+#ifdef Debug
+#undef Debug
+#endif
 #include "rocksdb_persistence.h"
+#pragma pop_macro("Debug")
 #endif
 
 #ifndef STO_PROFILE_COUNTERS
