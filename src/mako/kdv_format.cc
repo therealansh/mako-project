@@ -143,8 +143,11 @@ KDVStoreState::KDVStoreState()
 }
 
 KDVStoreState& KDVStoreState::getInstance() {
-    static KDVStoreState instance;
-    return instance;
+    // Use a leaky singleton to avoid shutdown-order issues
+    // The singleton is intentionally never freed to prevent destructor
+    // from running after other subsystems (threads, logging, etc.) are torn down
+    static KDVStoreState* instance = new KDVStoreState();
+    return *instance;
 }
 
 KDVPartitionState& KDVStoreState::getPartitionState(uint32_t partition_id) {
