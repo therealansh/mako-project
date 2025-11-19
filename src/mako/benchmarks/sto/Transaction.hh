@@ -2,7 +2,7 @@
 
 #include "config.h"
 #include "compiler.hh"
-#include "rocksdb_persistence_fwd.h"
+#include "mako/rocksdb_persistence_fwd.h"
 // #include "small_vector.hh"
 #include "TRcu.hh"
 #include <algorithm>
