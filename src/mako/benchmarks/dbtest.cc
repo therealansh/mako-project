@@ -89,7 +89,10 @@ static void parse_command_line_args(int argc,
       break;
 
     case '?':
-      exit(1);
+      // Unknown option - could be a benchmark-specific option
+      // Reset optind to allow benchmark to parse remaining args
+      optind--;
+      return;
 
     default:
       abort();
