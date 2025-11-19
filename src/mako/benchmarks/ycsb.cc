@@ -22,8 +22,15 @@
 using namespace std;
 using namespace util;
 
+// Global variables for YCSB benchmark
 static size_t nkeys;
 static size_t YCSBRecordSize = 100;
+static bool verbose = false;
+static size_t nthreads = 1;
+static double scale_factor = 1.0;
+static bool enable_parallel_loading = false;
+static bool pin_cpus = false;
+static uint64_t txn_flags = 0;
 
 // [R, W, RMW, Scan]
 // we're missing remove for now
@@ -498,6 +505,15 @@ private:
 void
 ycsb_do_test(abstract_db *db, int argc, char **argv)
 {
+  // Initialize global variables from BenchmarkConfig
+  auto& config = BenchmarkConfig::getInstance();
+  nthreads = config.getNthreads();
+  scale_factor = config.getScaleFactor();
+  txn_flags = config.getTxnFlags();
+  verbose = false;  // Can be set via command-line if needed
+  enable_parallel_loading = false;  // Can be set via command-line if needed
+  pin_cpus = false;  // Can be set via command-line if needed
+  
   nkeys = size_t(scale_factor * 1000.0);
   ALWAYS_ASSERT(nkeys > 0);
 
