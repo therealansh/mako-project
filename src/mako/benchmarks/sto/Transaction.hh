@@ -20,6 +20,9 @@
 #include "benchmarks/sto/sync_util.hh"
 #include "benchmarks/benchmark_config.h"
 #include "kdv_format.h"
+#ifndef DISABLE_DISK
+#include "rocksdb_persistence.h"
+#endif
 
 #ifndef STO_PROFILE_COUNTERS
 #define STO_PROFILE_COUNTERS 0

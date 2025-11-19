@@ -78,6 +78,33 @@ echo ""
 
 echo -e "${YELLOW}Step 5: Analyze results${NC}"
 echo ""
+
+baseline_logs=(results/kdv_experiments/baseline.log results/kdv_experiments/baseline_logs/*.log)
+kdv_logs=(results/kdv_experiments/kdv.log results/kdv_experiments/kdv_logs/*.log)
+
+baseline_network_bytes=$(grep -h "\[Paxos Network\] Final statistics: total bytes sent:" "${baseline_logs[@]}" 2>/dev/null | grep -oP 'total bytes sent: \K[0-9]+' | head -1 || echo "0")
+kdv_network_bytes=$(grep -h "\[Paxos Network\] Final statistics: total bytes sent:" "${kdv_logs[@]}" 2>/dev/null | grep -oP 'total bytes sent: \K[0-9]+' | head -1 || echo "0")
+
+echo "=== Network Compression Analysis ==="
+if [[ "$baseline_network_bytes" -gt 0 && "$kdv_network_bytes" -gt 0 ]]; then
+    baseline_mb=$(echo "scale=2; $baseline_network_bytes / 1024 / 1024" | bc)
+    kdv_mb=$(echo "scale=2; $kdv_network_bytes / 1024 / 1024" | bc)
+    compression_pct=$(echo "scale=2; (1 - $kdv_network_bytes / $baseline_network_bytes) * 100" | bc)
+    
+    echo "Baseline network bytes: $baseline_network_bytes ($baseline_mb MB)"
+    echo "KDV network bytes: $kdv_network_bytes ($kdv_mb MB)"
+    if (( $(echo "$compression_pct > 0" | bc -l) )); then
+        echo -e "${GREEN}Network compression: ${compression_pct}%${NC}"
+    else
+        echo -e "${YELLOW}Network compression: ${compression_pct}% (KDV increased network usage)${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠ Could not calculate network compression (missing Paxos network stats)${NC}"
+    echo "Baseline bytes: $baseline_network_bytes"
+    echo "KDV bytes: $kdv_network_bytes"
+fi
+echo ""
+
 echo "=== Disk Usage Comparison ==="
 echo "Baseline:"
 cat results/kdv_experiments/baseline_disk.txt 2>/dev/null || echo "No baseline disk data"
@@ -87,21 +114,20 @@ cat results/kdv_experiments/kdv_disk.txt 2>/dev/null || echo "No KDV disk data"
 echo ""
 
 echo "=== KDV Statistics ==="
-logs=(results/kdv_experiments/kdv.log results/kdv_experiments/kdv_logs/*.log)
-if ((${#logs[@]} > 0)); then
+if ((${#kdv_logs[@]} > 0)); then
     echo "Compression stats:"
-    grep -H "RocksDB KDV Compression Statistics" "${logs[@]}" 2>/dev/null || echo "No RocksDB KDV stats found"
-    grep -H "Total original bytes:" "${logs[@]}" 2>/dev/null || true
-    grep -H "Total encoded bytes:" "${logs[@]}" 2>/dev/null || true
-    grep -H "Compression ratio:" "${logs[@]}" 2>/dev/null || true
-    grep -H "Disk savings:" "${logs[@]}" 2>/dev/null || true
+    grep -H "RocksDB KDV Compression Statistics" "${kdv_logs[@]}" 2>/dev/null || echo "No RocksDB KDV stats found"
+    grep -H "Total original bytes:" "${kdv_logs[@]}" 2>/dev/null || true
+    grep -H "Total encoded bytes:" "${kdv_logs[@]}" 2>/dev/null || true
+    grep -H "Compression ratio:" "${kdv_logs[@]}" 2>/dev/null || true
+    grep -H "Disk savings:" "${kdv_logs[@]}" 2>/dev/null || true
     echo ""
     echo "Network stats:"
-    grep -H "\[Paxos Network\] Final" "${logs[@]}" 2>/dev/null || echo "No Paxos network stats found"
+    grep -H "\[Paxos Network\] Final" "${kdv_logs[@]}" 2>/dev/null || echo "No Paxos network stats found"
     echo ""
     echo "KDV encode/decode stats:"
-    grep -H "\[KDV Encode\]" "${logs[@]}" 2>/dev/null | tail -5 || echo "No KDV encode stats found"
-    grep -H "\[KDV Decode\]" "${logs[@]}" 2>/dev/null | tail -5 || echo "No KDV decode stats found"
+    grep -H "\[KDV Encode\]" "${kdv_logs[@]}" 2>/dev/null | tail -5 || echo "No KDV encode stats found"
+    grep -H "\[KDV Decode\]" "${kdv_logs[@]}" 2>/dev/null | tail -5 || echo "No KDV decode stats found"
 else
     echo "No log files found to analyze"
 fi
