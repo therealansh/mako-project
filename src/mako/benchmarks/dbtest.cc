@@ -17,6 +17,9 @@ static void parse_command_line_args(int argc,
                                     string& local_shards_str,
                                     string& bench)
 {
+  // Suppress getopt error messages for unknown options (benchmark-specific options)
+  opterr = 0;
+  
   while (1) {
     static struct option long_options[] =
     {
