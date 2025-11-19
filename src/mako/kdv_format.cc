@@ -5,48 +5,133 @@
 #include <sstream>
 #include <iostream>
 #include <chrono>
+#include <functional>
 
 namespace mako {
 namespace kdv {
 
-// KDVPartitionState implementation
-
-void KDVPartitionState::setBase(uint64_t seq, const std::string& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    base_ = value;
-    base_seq_ = seq;
-    chain_len_ = 0;
+// Fast hash function for computing key_hash from payload
+// Uses std::hash for simplicity; can be replaced with xxhash/CityHash for better performance
+inline uint64_t compute_payload_hash(const char* data, size_t size) {
+    // Simple FNV-1a hash for fast fingerprinting
+    uint64_t hash = 14695981039346656037ULL;
+    for (size_t i = 0; i < size; ++i) {
+        hash ^= static_cast<uint64_t>(static_cast<unsigned char>(data[i]));
+        hash *= 1099511628211ULL;
+    }
+    return hash;
 }
 
-bool KDVPartitionState::hasBase() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return !base_.empty();
+// KDVPartitionState implementation with per-key LRU cache
+
+KDVPartitionState::KDVPartitionState(size_t max_cache_size)
+    : max_cache_size_(max_cache_size), access_counter_(0), eviction_count_(0) {
 }
 
-const std::string& KDVPartitionState::getBase() const {
+void KDVPartitionState::setBase(uint64_t key_hash, uint64_t seq, const std::string& value) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return base_;
+    
+    // Check if we need to evict
+    if (key_states_.size() >= max_cache_size_ && key_states_.find(key_hash) == key_states_.end()) {
+        evictLRU();
+    }
+    
+    KDVKeyState& state = key_states_[key_hash];
+    state.base_ = value;
+    state.base_seq_ = seq;
+    state.chain_len_ = 0;
+    state.last_access_time_ = ++access_counter_;
 }
 
-uint64_t KDVPartitionState::getBaseSeq() const {
+bool KDVPartitionState::hasBase(uint64_t key_hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return base_seq_;
+    auto it = key_states_.find(key_hash);
+    return it != key_states_.end() && !it->second.base_.empty();
 }
 
-uint16_t KDVPartitionState::getChainLen() const {
+const std::string& KDVPartitionState::getBase(uint64_t key_hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return chain_len_;
+    auto it = key_states_.find(key_hash);
+    if (it == key_states_.end()) {
+        static const std::string empty;
+        return empty;
+    }
+    const_cast<KDVPartitionState*>(this)->updateAccessTime(key_hash);
+    return it->second.base_;
 }
 
-void KDVPartitionState::incrementChain() {
+uint64_t KDVPartitionState::getBaseSeq(uint64_t key_hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    chain_len_++;
+    auto it = key_states_.find(key_hash);
+    if (it == key_states_.end()) {
+        return 0;
+    }
+    const_cast<KDVPartitionState*>(this)->updateAccessTime(key_hash);
+    return it->second.base_seq_;
 }
 
-void KDVPartitionState::resetChain(uint64_t seq) {
+uint16_t KDVPartitionState::getChainLen(uint64_t key_hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    base_seq_ = seq;
-    chain_len_ = 0;
+    auto it = key_states_.find(key_hash);
+    if (it == key_states_.end()) {
+        return 0;
+    }
+    const_cast<KDVPartitionState*>(this)->updateAccessTime(key_hash);
+    return it->second.chain_len_;
+}
+
+void KDVPartitionState::incrementChain(uint64_t key_hash) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = key_states_.find(key_hash);
+    if (it != key_states_.end()) {
+        it->second.chain_len_++;
+        updateAccessTime(key_hash);
+    }
+}
+
+void KDVPartitionState::resetChain(uint64_t key_hash, uint64_t seq) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = key_states_.find(key_hash);
+    if (it != key_states_.end()) {
+        it->second.base_seq_ = seq;
+        it->second.chain_len_ = 0;
+        updateAccessTime(key_hash);
+    }
+}
+
+size_t KDVPartitionState::getCacheSize() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return key_states_.size();
+}
+
+size_t KDVPartitionState::getEvictionCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return eviction_count_;
+}
+
+void KDVPartitionState::evictLRU() {
+    // Find the entry with the smallest last_access_time_
+    uint64_t min_access_time = UINT64_MAX;
+    uint64_t lru_key = 0;
+    
+    for (const auto& pair : key_states_) {
+        if (pair.second.last_access_time_ < min_access_time) {
+            min_access_time = pair.second.last_access_time_;
+            lru_key = pair.first;
+        }
+    }
+    
+    if (min_access_time != UINT64_MAX) {
+        key_states_.erase(lru_key);
+        eviction_count_++;
+    }
+}
+
+void KDVPartitionState::updateAccessTime(uint64_t key_hash) {
+    auto it = key_states_.find(key_hash);
+    if (it != key_states_.end()) {
+        it->second.last_access_time_ = ++access_counter_;
+    }
 }
 
 // KDVStoreState implementation
@@ -169,42 +254,77 @@ std::string apply_delta(const std::string& base, const std::string& delta) {
     return result;
 }
 
-// Policy decision
+// Policy decision with detailed instrumentation
+
+struct WriteBaseReason {
+    bool no_base = false;
+    bool chain_too_long = false;
+    bool delta_too_large = false;
+    bool base_too_old = false;
+};
+
+static std::atomic<uint64_t> g_no_base_count{0};
+static std::atomic<uint64_t> g_chain_too_long_count{0};
+static std::atomic<uint64_t> g_delta_too_large_count{0};
+static std::atomic<uint64_t> g_base_too_old_count{0};
 
 bool should_write_base(const KDVPartitionState& partition_state,
-                      size_t delta_size, size_t original_size, uint64_t seq_num) {
+                      uint64_t key_hash, size_t delta_size, size_t original_size, 
+                      uint64_t seq_num, WriteBaseReason* reason = nullptr) {
     auto& store = KDVStoreState::getInstance();
     
     // No base exists yet
-    if (!partition_state.hasBase()) {
+    if (!partition_state.hasBase(key_hash)) {
+        if (reason) reason->no_base = true;
+        g_no_base_count++;
         return true;
     }
     
     // Chain too long
-    if (partition_state.getChainLen() >= store.getMaxChainLen()) {
+    if (partition_state.getChainLen(key_hash) >= store.getMaxChainLen()) {
+        if (reason) reason->chain_too_long = true;
+        g_chain_too_long_count++;
         return true;
     }
     
     // Delta not efficient (larger than threshold)
     if (original_size > 0 && 
         delta_size > static_cast<size_t>(store.getMaxDeltaSizeRatio() * original_size)) {
+        if (reason) reason->delta_too_large = true;
+        g_delta_too_large_count++;
         return true;
     }
     
     // Base too old
-    if (seq_num > partition_state.getBaseSeq() && 
-        seq_num - partition_state.getBaseSeq() > store.getMaxBaseAge()) {
+    if (seq_num > partition_state.getBaseSeq(key_hash) && 
+        seq_num - partition_state.getBaseSeq(key_hash) > store.getMaxBaseAge()) {
+        if (reason) reason->base_too_old = true;
+        g_base_too_old_count++;
         return true;
     }
     
     return false;  // Write delta
 }
 
+void print_write_base_stats() {
+    std::cout << "[KDV Policy Stats] no_base=" << g_no_base_count 
+              << ", chain_too_long=" << g_chain_too_long_count
+              << ", delta_too_large=" << g_delta_too_large_count
+              << ", base_too_old=" << g_base_too_old_count
+              << std::endl;
+}
+
 // Main encode/decode functions
 
 std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id, 
-                           uint64_t seq_num, const char* data, size_t size) {
+                           uint64_t seq_num, uint64_t key_hash,
+                           const char* data, size_t size) {
     auto start_time = std::chrono::high_resolution_clock::now();
+    
+    // If key_hash is 0, compute it from the payload
+    if (key_hash == 0) {
+        key_hash = compute_payload_hash(data, size);
+    }
     
     auto& store = KDVStoreState::getInstance();
     auto& partition_state = store.getPartitionState(partition_id);
@@ -213,20 +333,21 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     std::string result;
     
     KDVHeader header;
-    header.version = 1;
+    header.version = 2;
     header.original_size = static_cast<uint32_t>(size);
+    header.key_hash = key_hash;
     
     bool write_base = false;
     std::string delta;
     
-    if (partition_state.hasBase()) {
-        // Compute delta
-        delta = compute_delta(partition_state.getBase(), value);
+    if (partition_state.hasBase(key_hash)) {
+        // Compute delta against the base for this specific key
+        delta = compute_delta(partition_state.getBase(key_hash), value);
         
         // Decide whether to write base or delta
-        write_base = should_write_base(partition_state, delta.size(), size, seq_num);
+        write_base = should_write_base(partition_state, key_hash, delta.size(), size, seq_num);
     } else {
-        // First log for this partition, must write base
+        // First log for this key, must write base
         write_base = true;
     }
     
@@ -236,8 +357,8 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
         header.chain_len = 0;
         header.base_seq = seq_num;
         
-        // Update partition state
-        partition_state.setBase(seq_num, value);
+        // Update partition state for this key
+        partition_state.setBase(key_hash, seq_num, value);
         
         // Build result: header + original data
         result.resize(sizeof(KDVHeader) + size);
@@ -247,11 +368,11 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     } else {
         // Write as DELTA
         header.mode = static_cast<uint8_t>(KDVEncodeMode::DELTA);
-        header.chain_len = partition_state.getChainLen() + 1;
-        header.base_seq = partition_state.getBaseSeq();
+        header.chain_len = partition_state.getChainLen(key_hash) + 1;
+        header.base_seq = partition_state.getBaseSeq(key_hash);
         
-        // Increment chain length
-        partition_state.incrementChain();
+        // Increment chain length for this key
+        partition_state.incrementChain(key_hash);
         
         // Build result: header + delta
         result.resize(sizeof(KDVHeader) + delta.size());
@@ -266,8 +387,13 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     static std::atomic<uint64_t> encode_count{0};
     static std::atomic<uint64_t> base_count{0};
     static std::atomic<uint64_t> delta_count{0};
+    static std::atomic<uint64_t> total_original_bytes{0};
+    static std::atomic<uint64_t> total_encoded_bytes{0};
     
     encode_count++;
+    total_original_bytes += size;
+    total_encoded_bytes += result.size();
+    
     if (write_base) {
         base_count++;
     } else {
@@ -275,13 +401,21 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     }
     
     if (encode_count % 1000 == 0) {
-        double compression_ratio = size > 0 ? (double)result.size() / size : 1.0;
+        double compression_ratio = total_original_bytes > 0 ? 
+            (double)total_encoded_bytes / total_original_bytes : 1.0;
+        double bandwidth_reduction = total_original_bytes > 0 ?
+            (1.0 - compression_ratio) * 100.0 : 0.0;
+        
         std::cout << "[KDV Encode] count=" << encode_count 
                   << ", bases=" << base_count 
                   << ", deltas=" << delta_count
-                  << ", compression=" << compression_ratio
+                  << ", compression_ratio=" << compression_ratio
+                  << ", bandwidth_reduction=" << bandwidth_reduction << "%"
+                  << ", cache_size=" << partition_state.getCacheSize()
+                  << ", evictions=" << partition_state.getEvictionCount()
                   << ", time_us=" << (duration_ns / 1000.0)
                   << std::endl;
+        print_write_base_stats();
     }
     
     return result;
@@ -301,9 +435,18 @@ std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
         return "";
     }
     
-    if (header->version != 1) {
+    if (header->version != 1 && header->version != 2) {
         std::cerr << "[KDV] Error: Unsupported KDV version=" << (int)header->version << std::endl;
         return "";
+    }
+    
+    // Extract key_hash from header (v2) or use partition-based fallback (v1)
+    uint64_t key_hash = 0;
+    if (header->version == 2) {
+        key_hash = header->key_hash;
+    } else {
+        // Version 1: use partition_id as key_hash for backward compatibility
+        key_hash = partition_id;
     }
     
     auto& store = KDVStoreState::getInstance();
@@ -317,22 +460,24 @@ std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
         // BASE mode: payload is original data
         result.assign(payload, payload_size);
         
-        // Update partition state with new base
-        partition_state.setBase(seq_num, result);
+        // Update partition state with new base for this key
+        partition_state.setBase(key_hash, seq_num, result);
         
     } else if (header->mode == static_cast<uint8_t>(KDVEncodeMode::DELTA)) {
-        // DELTA mode: apply delta to base
-        if (!partition_state.hasBase()) {
-            std::cerr << "[KDV] Error: No base found for partition " << partition_id 
+        // DELTA mode: apply delta to base for this key
+        if (!partition_state.hasBase(key_hash)) {
+            std::cerr << "[KDV] Error: No base found for key_hash " << key_hash 
+                      << " in partition " << partition_id 
                       << " when decoding delta at seq " << seq_num << std::endl;
             return "";
         }
         
         std::string delta(payload, payload_size);
-        result = apply_delta(partition_state.getBase(), delta);
+        result = apply_delta(partition_state.getBase(key_hash), delta);
         
         if (result.empty()) {
-            std::cerr << "[KDV] Error: Failed to apply delta for partition " << partition_id
+            std::cerr << "[KDV] Error: Failed to apply delta for key_hash " << key_hash
+                      << " in partition " << partition_id
                       << " at seq " << seq_num << std::endl;
             return "";
         }
@@ -353,10 +498,20 @@ std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
     
     // Optional: Log decoding stats
     static std::atomic<uint64_t> decode_count{0};
+    static std::atomic<uint64_t> base_decode_count{0};
+    static std::atomic<uint64_t> delta_decode_count{0};
+    
     decode_count++;
+    if (header->mode == static_cast<uint8_t>(KDVEncodeMode::BASE)) {
+        base_decode_count++;
+    } else {
+        delta_decode_count++;
+    }
     
     if (decode_count % 1000 == 0) {
         std::cout << "[KDV Decode] count=" << decode_count
+                  << ", bases=" << base_decode_count
+                  << ", deltas=" << delta_decode_count
                   << ", time_us=" << (duration_ns / 1000.0)
                   << std::endl;
     }

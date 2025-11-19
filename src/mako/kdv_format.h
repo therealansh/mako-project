@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
+#include <list>
 #include <mutex>
 
 namespace mako {
@@ -30,24 +31,28 @@ enum class KDVEncodeMode : uint8_t {
 constexpr uint32_t KDV_MAGIC = 0x4B445630;
 
 /**
- * KDV Header Structure (20 bytes)
+ * KDV Header Structure
+ * 
+ * Version 1 (20 bytes): Original format without key_hash
+ * Version 2 (28 bytes): Adds key_hash for per-key delta compression
  * 
  * Stored at the beginning of each encoded log entry.
  * Provides metadata for decoding and chain management.
  */
 struct KDVHeader {
     uint32_t magic;            // Magic number (0x4B445630 = "KDV0")
-    uint8_t version;           // Format version (currently 1)
+    uint8_t version;           // Format version (1 or 2)
     uint8_t mode;              // KDVEncodeMode (BASE or DELTA)
     uint16_t chain_len;        // Number of deltas since last base
     uint64_t base_seq;         // Sequence number of base (0 if this is base)
     uint32_t original_size;    // Original uncompressed size
+    uint64_t key_hash;         // Hash of logical key (version 2 only)
     
     KDVHeader() 
-        : magic(KDV_MAGIC), version(1), mode(0), chain_len(0), base_seq(0), original_size(0) {}
+        : magic(KDV_MAGIC), version(2), mode(0), chain_len(0), base_seq(0), original_size(0), key_hash(0) {}
 } __attribute__((packed));
 
-static_assert(sizeof(KDVHeader) == 20, "KDVHeader must be 20 bytes");
+static_assert(sizeof(KDVHeader) == 28, "KDVHeader must be 28 bytes");
 
 /**
  * Delta Representation
@@ -68,28 +73,50 @@ struct DeltaBlock {
 } __attribute__((packed));
 
 /**
- * Per-Partition State for KDV Encoding
+ * Per-Key State for KDV Encoding
  * 
- * Tracks the last base value and chain length for delta encoding.
+ * Tracks the last base value and chain length for a specific key.
+ */
+struct KDVKeyState {
+    std::string base_;
+    uint64_t base_seq_;
+    uint16_t chain_len_;
+    uint64_t last_access_time_;  // For LRU eviction
+    
+    KDVKeyState() : base_seq_(0), chain_len_(0), last_access_time_(0) {}
+};
+
+/**
+ * Per-Partition State for KDV Encoding with LRU Cache
+ * 
+ * Tracks base values per key with LRU eviction policy.
  * Thread-safe for concurrent access.
  */
 class KDVPartitionState {
 public:
-    KDVPartitionState() : base_seq_(0), chain_len_(0) {}
+    KDVPartitionState(size_t max_cache_size = 10000);
     
-    void setBase(uint64_t seq, const std::string& value);
-    bool hasBase() const;
-    const std::string& getBase() const;
-    uint64_t getBaseSeq() const;
-    uint16_t getChainLen() const;
-    void incrementChain();
-    void resetChain(uint64_t seq);
+    void setBase(uint64_t key_hash, uint64_t seq, const std::string& value);
+    bool hasBase(uint64_t key_hash) const;
+    const std::string& getBase(uint64_t key_hash) const;
+    uint64_t getBaseSeq(uint64_t key_hash) const;
+    uint16_t getChainLen(uint64_t key_hash) const;
+    void incrementChain(uint64_t key_hash);
+    void resetChain(uint64_t key_hash, uint64_t seq);
+    
+    // Statistics
+    size_t getCacheSize() const;
+    size_t getEvictionCount() const;
     
 private:
+    void evictLRU();
+    void updateAccessTime(uint64_t key_hash);
+    
     mutable std::mutex mutex_;
-    std::string base_;
-    uint64_t base_seq_;
-    uint16_t chain_len_;
+    std::unordered_map<uint64_t, KDVKeyState> key_states_;
+    size_t max_cache_size_;
+    uint64_t access_counter_;
+    size_t eviction_count_;
 };
 
 /**
@@ -135,17 +162,20 @@ private:
  * @param shard_id Shard identifier
  * @param partition_id Partition identifier
  * @param seq_num Sequence number for this log
+ * @param key_hash Hash of the logical key being updated
  * @param data Pointer to log data
  * @param size Size of log data in bytes
  * @return Encoded log (header + compressed data)
  * 
  * Encoding logic:
- * 1. Check if we should write a base (chain too long, delta too large, etc.)
- * 2. If base: write header with mode=BASE + original data
- * 3. If delta: compute delta from last base, write header with mode=DELTA + delta
+ * 1. Look up per-key state using key_hash
+ * 2. Check if we should write a base (chain too long, delta too large, etc.)
+ * 3. If base: write header with mode=BASE + original data
+ * 4. If delta: compute delta from last base, write header with mode=DELTA + delta
  */
 std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id, 
-                           uint64_t seq_num, const char* data, size_t size);
+                           uint64_t seq_num, uint64_t key_hash,
+                           const char* data, size_t size);
 
 /**
  * Decode a KDV-encoded log entry
@@ -158,9 +188,11 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
  * @return Decoded original log data
  * 
  * Decoding logic:
- * 1. Read KDVHeader
- * 2. If mode=BASE: update partition state, return data after header
- * 3. If mode=DELTA: apply delta to base from partition state, return reconstructed data
+ * 1. Read KDVHeader (extracts key_hash from header for v2)
+ * 2. If mode=BASE: update per-key state, return data after header
+ * 3. If mode=DELTA: apply delta to base from per-key state, return reconstructed data
+ * 
+ * Note: key_hash is read from the header (v2) or falls back to partition-based state (v1)
  */
 std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
                            uint64_t seq_num, const char* data, size_t size);

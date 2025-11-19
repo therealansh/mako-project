@@ -150,7 +150,8 @@ class StringAllocator{
             uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
             uint32_t partition_id = TThread::getPartitionID();
             uint64_t seq = paxos_seq_num.fetch_add(1, std::memory_order_relaxed);
-            std::string encoded = mako::kdv::kdv_encode_log(shard_id, partition_id, seq, 
+            // Pass 0 for key_hash to trigger automatic computation from payload
+            std::string encoded = mako::kdv::kdv_encode_log(shard_id, partition_id, seq, 0,
                                                              (const char*)queueLog, pos);
             // Copy encoded data back to queueLog buffer (assuming it fits)
             if (encoded.size() <= max_bytes_size) {

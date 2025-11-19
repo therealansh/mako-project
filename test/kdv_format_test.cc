@@ -42,7 +42,7 @@ void test_encode_decode_identity() {
     std::string original = "Hello, World! This is a test log entry.";
     
     // Encode
-    std::string encoded = kdv_encode_log(0, 0, 1, original.data(), original.size());
+    std::string encoded = kdv_encode_log(0, 0, 1, 0, original.data(), original.size());
     
     // Decode
     std::string decoded = kdv_decode_log(0, 0, 1, encoded.data(), encoded.size());
@@ -67,13 +67,16 @@ void test_small_update() {
         value[i] = 'B';
     }
     
+    // Use a consistent key_hash for both encodes (simulating updates to the same logical key)
+    uint64_t key_hash = 12345;
+    
     // Encode base (should be BASE mode)
-    std::string encoded1 = kdv_encode_log(0, 0, 1, base.data(), base.size());
+    std::string encoded1 = kdv_encode_log(0, 0, 1, key_hash, base.data(), base.size());
     std::string decoded1 = kdv_decode_log(0, 0, 1, encoded1.data(), encoded1.size());
     assert_equal(decoded1, base, "First decode should match base");
     
-    // Encode value (should be DELTA mode)
-    std::string encoded2 = kdv_encode_log(0, 0, 2, value.data(), value.size());
+    // Encode value (should be DELTA mode) - use same key_hash
+    std::string encoded2 = kdv_encode_log(0, 0, 2, key_hash, value.data(), value.size());
     std::string decoded2 = kdv_decode_log(0, 0, 2, encoded2.data(), encoded2.size());
     assert_equal(decoded2, value, "Second decode should match value");
     
@@ -100,13 +103,16 @@ void test_large_update() {
     std::string base(1024, 'A');
     std::string value(1024, 'B');  // Completely different
     
+    // Use a consistent key_hash for both encodes
+    uint64_t key_hash = 67890;
+    
     // Encode base
-    std::string encoded1 = kdv_encode_log(0, 0, 1, base.data(), base.size());
+    std::string encoded1 = kdv_encode_log(0, 0, 1, key_hash, base.data(), base.size());
     std::string decoded1 = kdv_decode_log(0, 0, 1, encoded1.data(), encoded1.size());
     assert_equal(decoded1, base, "First decode should match base");
     
     // Encode value (should be BASE mode due to large delta)
-    std::string encoded2 = kdv_encode_log(0, 0, 2, value.data(), value.size());
+    std::string encoded2 = kdv_encode_log(0, 0, 2, key_hash, value.data(), value.size());
     std::string decoded2 = kdv_decode_log(0, 0, 2, encoded2.data(), encoded2.size());
     assert_equal(decoded2, value, "Second decode should match value");
     
@@ -126,8 +132,11 @@ void test_chain_behavior() {
     
     std::string base(1024, 'A');
     
+    // Use a consistent key_hash for all encodes
+    uint64_t key_hash = 11111;
+    
     // Encode base
-    std::string encoded = kdv_encode_log(0, 0, 1, base.data(), base.size());
+    std::string encoded = kdv_encode_log(0, 0, 1, key_hash, base.data(), base.size());
     std::string decoded = kdv_decode_log(0, 0, 1, encoded.data(), encoded.size());
     assert_equal(decoded, base, "Base should decode correctly");
     
@@ -137,7 +146,7 @@ void test_chain_behavior() {
         // Change one byte
         value[100 + i] = 'B';
         
-        encoded = kdv_encode_log(0, 0, 2 + i, value.data(), value.size());
+        encoded = kdv_encode_log(0, 0, 2 + i, key_hash, value.data(), value.size());
         decoded = kdv_decode_log(0, 0, 2 + i, encoded.data(), encoded.size());
         assert_equal(decoded, value, "Each update should decode correctly");
         
@@ -169,9 +178,9 @@ void test_multiple_partitions() {
     std::string data2 = "Partition 2 data";
     
     // Encode for different partitions
-    std::string enc0 = kdv_encode_log(0, 0, 1, data0.data(), data0.size());
-    std::string enc1 = kdv_encode_log(0, 1, 1, data1.data(), data1.size());
-    std::string enc2 = kdv_encode_log(0, 2, 1, data2.data(), data2.size());
+    std::string enc0 = kdv_encode_log(0, 0, 1, 0, data0.data(), data0.size());
+    std::string enc1 = kdv_encode_log(0, 1, 1, 0, data1.data(), data1.size());
+    std::string enc2 = kdv_encode_log(0, 2, 1, 0, data2.data(), data2.size());
     
     // Decode
     std::string dec0 = kdv_decode_log(0, 0, 1, enc0.data(), enc0.size());
@@ -184,13 +193,13 @@ void test_multiple_partitions() {
     
     // Update partition 0 with delta
     std::string data0_v2 = "Partition 0 data updated";
-    std::string enc0_v2 = kdv_encode_log(0, 0, 2, data0_v2.data(), data0_v2.size());
+    std::string enc0_v2 = kdv_encode_log(0, 0, 2, 0, data0_v2.data(), data0_v2.size());
     std::string dec0_v2 = kdv_decode_log(0, 0, 2, enc0_v2.data(), enc0_v2.size());
     assert_equal(dec0_v2, data0_v2, "Partition 0 update should decode correctly");
     
     // Verify partition 1 is unaffected
     std::string data1_v2 = "Partition 1 data also updated";
-    std::string enc1_v2 = kdv_encode_log(0, 1, 2, data1_v2.data(), data1_v2.size());
+    std::string enc1_v2 = kdv_encode_log(0, 1, 2, 0, data1_v2.data(), data1_v2.size());
     std::string dec1_v2 = kdv_decode_log(0, 1, 2, enc1_v2.data(), enc1_v2.size());
     assert_equal(dec1_v2, data1_v2, "Partition 1 update should decode correctly");
     
@@ -205,11 +214,14 @@ void test_random_data() {
     
     std::mt19937 rng(42);  // Fixed seed for reproducibility
     
+    // Use a consistent key_hash for all encodes
+    uint64_t key_hash = 99999;
+    
     // Generate random base
     std::string base = random_string(2048, rng);
     
     // Encode base
-    std::string encoded = kdv_encode_log(0, 0, 1, base.data(), base.size());
+    std::string encoded = kdv_encode_log(0, 0, 1, key_hash, base.data(), base.size());
     std::string decoded = kdv_decode_log(0, 0, 1, encoded.data(), encoded.size());
     assert_equal(decoded, base, "Random base should decode correctly");
     
@@ -229,7 +241,7 @@ void test_random_data() {
         }
         
         // Encode and decode
-        encoded = kdv_encode_log(0, 0, 2 + i, value.data(), value.size());
+        encoded = kdv_encode_log(0, 0, 2 + i, key_hash, value.data(), value.size());
         decoded = kdv_decode_log(0, 0, 2 + i, encoded.data(), encoded.size());
         
         if (decoded != value) {
@@ -251,19 +263,19 @@ void test_edge_cases() {
     
     // Empty string
     std::string empty = "";
-    std::string enc_empty = kdv_encode_log(0, 0, 1, empty.data(), empty.size());
+    std::string enc_empty = kdv_encode_log(0, 0, 1, 0, empty.data(), empty.size());
     std::string dec_empty = kdv_decode_log(0, 0, 1, enc_empty.data(), enc_empty.size());
     assert_equal(dec_empty, empty, "Empty string should encode/decode");
     
     // Single byte
     std::string single = "X";
-    std::string enc_single = kdv_encode_log(0, 1, 1, single.data(), single.size());
+    std::string enc_single = kdv_encode_log(0, 1, 1, 0, single.data(), single.size());
     std::string dec_single = kdv_decode_log(0, 1, 1, enc_single.data(), enc_single.size());
     assert_equal(dec_single, single, "Single byte should encode/decode");
     
     // Very large string (10KB)
     std::string large(10240, 'Z');
-    std::string enc_large = kdv_encode_log(0, 2, 1, large.data(), large.size());
+    std::string enc_large = kdv_encode_log(0, 2, 1, 0, large.data(), large.size());
     std::string dec_large = kdv_decode_log(0, 2, 1, enc_large.data(), enc_large.size());
     assert_equal(dec_large, large, "Large string should encode/decode");
     

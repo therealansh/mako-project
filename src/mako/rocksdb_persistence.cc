@@ -271,7 +271,8 @@ std::future<bool> RocksDBPersistence::persistAsync(const char* data, size_t size
     
     // Conditionally encode with KDV if enabled
     if (BenchmarkConfig::getInstance().getEnableKDVLogs()) {
-        std::string encoded = mako::kdv::kdv_encode_log(shard_id, partition_id, seq_num, data, size);
+        // Pass 0 for key_hash to trigger automatic computation from payload
+        std::string encoded = mako::kdv::kdv_encode_log(shard_id, partition_id, seq_num, 0, data, size);
         req->value = std::move(encoded);
         
         // Track compression statistics
