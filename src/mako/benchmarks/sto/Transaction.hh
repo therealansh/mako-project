@@ -144,21 +144,22 @@ class StringAllocator{
         pos += sizeof(uint32_t);
         //Warning("Paxos log cleanup!max_bytes_size:%d",max_bytes_size);
         
-        // Conditionally encode with KDV for geo-replication if enabled
+        // Conditionally encode with per-record KDV for geo-replication if enabled
         static std::atomic<uint64_t> paxos_seq_num{0};
         if (BenchmarkConfig::getInstance().getEnableKDVLogs()) {
             uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
             uint32_t partition_id = TThread::getPartitionID();
             uint64_t seq = paxos_seq_num.fetch_add(1, std::memory_order_relaxed);
-            // Pass 0 for key_hash to trigger automatic computation from payload
-            std::string encoded = mako::kdv::kdv_encode_log(shard_id, partition_id, seq, 0,
-                                                             (const char*)queueLog, pos);
-            // Copy encoded data back to queueLog buffer (assuming it fits)
+
+            std::string encoded = mako::kdv::kdv_encode_log_recordwise(shard_id,
+                                                                        partition_id,
+                                                                        seq,
+                                                                        (const char*)queueLog,
+                                                                        pos);
             if (encoded.size() <= max_bytes_size) {
                 memcpy(queueLog, encoded.data(), encoded.size());
                 add_log_to_nc((char *)queueLog, encoded.size(), partition_id, batch_size);
             } else {
-                // Encoded data too large, send original
                 add_log_to_nc((char *)queueLog, pos, partition_id, batch_size);
             }
         } else {

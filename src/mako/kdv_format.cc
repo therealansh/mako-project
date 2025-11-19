@@ -10,21 +10,35 @@
 namespace mako {
 namespace kdv {
 
-// Fast hash function for computing key_hash from payload
-// Uses std::hash for simplicity; can be replaced with xxhash/CityHash for better performance
 inline uint64_t compute_payload_hash(const char* data, size_t size) {
-    // Simple FNV-1a hash for fast fingerprinting
+    // Simple FNV-1a hash for fast fingerprinting.
     // Skip the first 8 bytes which contain volatile timestamps:
     // - latest_commit_timestamp (4 bytes)
     // - st_time (4 bytes)
-    // This allows us to hash the stable transaction payload for better key identification
+    // This allows us to hash the stable transaction payload for better key identification.
     const size_t skip_bytes = 8;
     const char* hash_start = (size > skip_bytes) ? (data + skip_bytes) : data;
     const size_t hash_size = (size > skip_bytes) ? (size - skip_bytes) : size;
-    
+
     uint64_t hash = 14695981039346656037ULL;
     for (size_t i = 0; i < hash_size; ++i) {
         hash ^= static_cast<uint64_t>(static_cast<unsigned char>(hash_start[i]));
+        hash *= 1099511628211ULL;
+    }
+    return hash;
+}
+
+// Hash for individual logical records within a log (table_id + key bytes).
+inline uint64_t compute_record_hash(uint16_t table_id, const char* key_data, size_t key_len) {
+    uint64_t hash = 14695981039346656037ULL;
+    const unsigned char* buf = reinterpret_cast<const unsigned char*>(&table_id);
+    for (size_t i = 0; i < sizeof(table_id); ++i) {
+        hash ^= static_cast<uint64_t>(buf[i]);
+        hash *= 1099511628211ULL;
+    }
+    const unsigned char* key_buf = reinterpret_cast<const unsigned char*>(key_data);
+    for (size_t i = 0; i < key_len; ++i) {
+        hash ^= static_cast<uint64_t>(key_buf[i]);
         hash *= 1099511628211ULL;
     }
     return hash;
@@ -145,9 +159,9 @@ void KDVPartitionState::updateAccessTime(uint64_t key_hash) {
 // KDVStoreState implementation
 
 KDVStoreState::KDVStoreState() 
-    : max_chain_len_(16),
-      max_delta_size_ratio_(0.7),
-      max_base_age_(1000) {
+    : max_chain_len_(64),
+      max_delta_size_ratio_(0.9),
+      max_base_age_(10000) {
 }
 
 KDVStoreState& KDVStoreState::getInstance() {
@@ -281,7 +295,7 @@ static std::atomic<uint64_t> g_base_too_old_count{0};
 
 bool should_write_base(const KDVPartitionState& partition_state,
                       uint64_t key_hash, size_t delta_size, size_t original_size, 
-                      uint64_t seq_num, WriteBaseReason* reason = nullptr) {
+                      uint64_t seq_num, WriteBaseReason* reason) {
     auto& store = KDVStoreState::getInstance();
     
     // No base exists yet
@@ -432,93 +446,464 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     return result;
 }
 
+// Helper structures for version 3 record-wise encoding.
+struct ParsedRecord {
+    std::string key;
+    uint16_t table_id;
+    std::string value;
+};
+
+struct ParsedSegment {
+    uint32_t commit_ts;
+    uint16_t kv_count;
+    uint32_t len_of_kv;
+    std::vector<ParsedRecord> records;
+    uint32_t trailer_ts;
+    uint32_t trailer_st_time;
+};
+
+static bool parse_transaction_stream(const char* data, size_t size,
+                                     std::vector<ParsedSegment>& segments) {
+    segments.clear();
+
+    if (size == 0) {
+        return false;
+    }
+
+    const char* ptr = data;
+    const char* end = data + size;
+
+    while (ptr < end) {
+        if (end - ptr < static_cast<ptrdiff_t>(sizeof(uint32_t) + sizeof(uint16_t) +
+                                               sizeof(uint32_t) + 2 * sizeof(uint32_t))) {
+            return false;
+        }
+
+        ParsedSegment seg;
+        std::memcpy(&seg.commit_ts, ptr, sizeof(uint32_t));
+        ptr += sizeof(uint32_t);
+
+        std::memcpy(&seg.kv_count, ptr, sizeof(uint16_t));
+        ptr += sizeof(uint16_t);
+
+        std::memcpy(&seg.len_of_kv, ptr, sizeof(uint32_t));
+        ptr += sizeof(uint32_t);
+
+        const char* kv_start = ptr;
+        const char* kv_end = kv_start + seg.len_of_kv;
+        if (kv_end + 2 * sizeof(uint32_t) > end) {
+            return false;
+        }
+
+        seg.records.clear();
+        seg.records.reserve(seg.kv_count);
+
+        uint16_t seen = 0;
+        while (ptr < kv_end && seen < seg.kv_count) {
+            if (ptr + sizeof(uint16_t) > kv_end) {
+                return false;
+            }
+            uint16_t key_len = 0;
+            std::memcpy(&key_len, ptr, sizeof(uint16_t));
+            ptr += sizeof(uint16_t);
+
+            if (ptr + key_len > kv_end) {
+                return false;
+            }
+            std::string key(ptr, key_len);
+            ptr += key_len;
+
+            if (ptr + sizeof(uint16_t) > kv_end) {
+                return false;
+            }
+            uint16_t val_len = 0;
+            std::memcpy(&val_len, ptr, sizeof(uint16_t));
+            ptr += sizeof(uint16_t);
+
+            if (ptr + val_len > kv_end) {
+                return false;
+            }
+            std::string value(ptr, val_len);
+            ptr += val_len;
+
+            if (ptr + sizeof(uint16_t) > kv_end) {
+                return false;
+            }
+            uint16_t table_id = 0;
+            std::memcpy(&table_id, ptr, sizeof(uint16_t));
+            ptr += sizeof(uint16_t);
+
+            ParsedRecord rec;
+            rec.key = std::move(key);
+            rec.table_id = table_id;
+            rec.value = std::move(value);
+            seg.records.emplace_back(std::move(rec));
+
+            ++seen;
+        }
+
+        if (seen != seg.kv_count || ptr != kv_end) {
+            return false;
+        }
+
+        std::memcpy(&seg.trailer_ts, kv_end, sizeof(uint32_t));
+        std::memcpy(&seg.trailer_st_time, kv_end + sizeof(uint32_t), sizeof(uint32_t));
+
+        segments.emplace_back(std::move(seg));
+
+        ptr = kv_end + 2 * sizeof(uint32_t);
+    }
+
+    return ptr == end;
+}
+
+std::string kdv_encode_log_recordwise(uint32_t shard_id, uint32_t partition_id,
+                                      uint64_t seq_num, const char* data, size_t size) {
+    std::vector<ParsedSegment> segments;
+    if (!parse_transaction_stream(data, size, segments)) {
+        return kdv_encode_log(shard_id, partition_id, seq_num, 0, data, size);
+    }
+
+    if (segments.empty()) {
+        return kdv_encode_log(shard_id, partition_id, seq_num, 0, data, size);
+    }
+
+    auto& store = KDVStoreState::getInstance();
+    auto& partition_state = store.getPartitionState(partition_id);
+
+    std::string payload;
+    payload.reserve(size);
+
+    uint16_t segment_count = static_cast<uint16_t>(segments.size());
+    payload.append(reinterpret_cast<const char*>(&segment_count), sizeof(uint16_t));
+
+    bool any_delta = false;
+
+    for (const auto& seg : segments) {
+        payload.append(reinterpret_cast<const char*>(&seg.commit_ts), sizeof(uint32_t));
+        uint16_t kv_count = static_cast<uint16_t>(seg.records.size());
+        payload.append(reinterpret_cast<const char*>(&kv_count), sizeof(uint16_t));
+
+        for (const auto& rec : seg.records) {
+            uint16_t key_len = static_cast<uint16_t>(rec.key.size());
+            uint16_t table_id = rec.table_id;
+
+            payload.append(reinterpret_cast<const char*>(&key_len), sizeof(uint16_t));
+            payload.append(rec.key.data(), rec.key.size());
+            payload.append(reinterpret_cast<const char*>(&table_id), sizeof(uint16_t));
+
+            uint64_t record_hash = compute_record_hash(table_id, rec.key.data(), rec.key.size());
+
+            bool write_base = false;
+            std::string delta;
+
+            if (partition_state.hasBase(record_hash)) {
+                delta = compute_delta(partition_state.getBase(record_hash), rec.value);
+                WriteBaseReason reason;
+                write_base = should_write_base(partition_state,
+                                               record_hash,
+                                               delta.size(),
+                                               rec.value.size(),
+                                               seq_num,
+                                               &reason);
+            } else {
+                write_base = true;
+            }
+
+            uint8_t record_mode = write_base
+                ? static_cast<uint8_t>(KDVEncodeMode::BASE)
+                : static_cast<uint8_t>(KDVEncodeMode::DELTA);
+            payload.push_back(static_cast<char>(record_mode));
+
+            std::string encoded_value;
+            if (write_base) {
+                encoded_value = rec.value;
+                partition_state.setBase(record_hash, seq_num, rec.value);
+            } else {
+                encoded_value = std::move(delta);
+                partition_state.incrementChain(record_hash);
+                any_delta = true;
+            }
+
+            uint32_t enc_len = static_cast<uint32_t>(encoded_value.size());
+            payload.append(reinterpret_cast<const char*>(&enc_len), sizeof(uint32_t));
+            if (!encoded_value.empty()) {
+                payload.append(encoded_value.data(), encoded_value.size());
+            }
+        }
+
+        payload.append(reinterpret_cast<const char*>(&seg.trailer_ts), sizeof(uint32_t));
+        payload.append(reinterpret_cast<const char*>(&seg.trailer_st_time), sizeof(uint32_t));
+    }
+
+    // Build final buffer: KDVHeader (v3) + payload
+    std::string result;
+    result.resize(sizeof(KDVHeader));
+
+    KDVHeader header;
+    header.version = 3;
+    header.mode = any_delta
+        ? static_cast<uint8_t>(KDVEncodeMode::DELTA)
+        : static_cast<uint8_t>(KDVEncodeMode::BASE);
+    header.chain_len = 0;
+    header.base_seq = 0;
+    header.original_size = static_cast<uint32_t>(size);
+    header.key_hash = static_cast<uint64_t>(partition_id);
+
+    std::memcpy(&result[0], &header, sizeof(KDVHeader));
+    result.append(payload);
+
+    return result;
+}
+
+std::string kdv_decode_log_recordwise(uint32_t shard_id, uint32_t partition_id,
+                                      uint64_t seq_num, const char* data, size_t size) {
+    if (size < sizeof(KDVHeader) + sizeof(uint16_t) +
+               sizeof(uint32_t) + sizeof(uint16_t) + 2 * sizeof(uint32_t)) {
+        return "";
+    }
+
+    const KDVHeader* header = reinterpret_cast<const KDVHeader*>(data);
+    const char* ptr = data + sizeof(KDVHeader);
+    const char* end = data + size;
+
+    uint16_t segment_count = 0;
+    std::memcpy(&segment_count, ptr, sizeof(uint16_t));
+    ptr += sizeof(uint16_t);
+
+    std::vector<ParsedSegment> segments;
+    segments.reserve(segment_count);
+
+    auto& store = KDVStoreState::getInstance();
+    auto& partition_state = store.getPartitionState(partition_id);
+
+    for (uint16_t s = 0; s < segment_count; ++s) {
+        if (ptr + sizeof(uint32_t) + sizeof(uint16_t) > end) {
+            return "";
+        }
+
+        ParsedSegment seg;
+        std::memcpy(&seg.commit_ts, ptr, sizeof(uint32_t));
+        ptr += sizeof(uint32_t);
+
+        std::memcpy(&seg.kv_count, ptr, sizeof(uint16_t));
+        ptr += sizeof(uint16_t);
+
+        seg.records.clear();
+        seg.records.reserve(seg.kv_count);
+
+        for (uint16_t i = 0; i < seg.kv_count; ++i) {
+            if (ptr + sizeof(uint16_t) > end) {
+                return "";
+            }
+            uint16_t key_len = 0;
+            std::memcpy(&key_len, ptr, sizeof(uint16_t));
+            ptr += sizeof(uint16_t);
+
+            if (ptr + key_len > end) {
+                return "";
+            }
+            std::string key(ptr, key_len);
+            ptr += key_len;
+
+            if (ptr + sizeof(uint16_t) > end) {
+                return "";
+            }
+            uint16_t table_id = 0;
+            std::memcpy(&table_id, ptr, sizeof(uint16_t));
+            ptr += sizeof(uint16_t);
+
+            if (ptr + sizeof(uint8_t) + sizeof(uint32_t) > end) {
+                return "";
+            }
+            uint8_t record_mode = static_cast<uint8_t>(*ptr);
+            ptr += sizeof(uint8_t);
+
+            uint32_t enc_len = 0;
+            std::memcpy(&enc_len, ptr, sizeof(uint32_t));
+            ptr += sizeof(uint32_t);
+
+            if (ptr + enc_len > end) {
+                return "";
+            }
+            std::string enc_value(ptr, enc_len);
+            ptr += enc_len;
+
+            uint64_t record_hash = compute_record_hash(table_id, key.data(), key.size());
+
+            std::string value;
+            if (record_mode == static_cast<uint8_t>(KDVEncodeMode::BASE)) {
+                value = enc_value;
+                partition_state.setBase(record_hash, seq_num, value);
+            } else if (record_mode == static_cast<uint8_t>(KDVEncodeMode::DELTA)) {
+                if (!partition_state.hasBase(record_hash)) {
+                    std::cerr << "[KDV] Error: No base for record when decoding delta (partition "
+                              << partition_id << ", table_id=" << table_id << ")" << std::endl;
+                    return "";
+                }
+                value = apply_delta(partition_state.getBase(record_hash), enc_value);
+                if (value.empty()) {
+                    std::cerr << "[KDV] Error: Failed to apply record-level delta (partition "
+                              << partition_id << ", table_id=" << table_id << ")" << std::endl;
+                    return "";
+                }
+            } else {
+                std::cerr << "[KDV] Error: Unknown record mode=" << (int)record_mode << std::endl;
+                return "";
+            }
+
+            ParsedRecord rec;
+            rec.key = std::move(key);
+            rec.table_id = table_id;
+            rec.value = std::move(value);
+            seg.records.emplace_back(std::move(rec));
+        }
+
+        if (ptr + 2 * sizeof(uint32_t) > end) {
+            return "";
+        }
+        std::memcpy(&seg.trailer_ts, ptr, sizeof(uint32_t));
+        ptr += sizeof(uint32_t);
+        std::memcpy(&seg.trailer_st_time, ptr, sizeof(uint32_t));
+        ptr += sizeof(uint32_t);
+
+        segments.emplace_back(std::move(seg));
+    }
+
+    if (ptr != end) {
+        std::cerr << "[KDV] Warning: Extra bytes at end of v3 payload" << std::endl;
+    }
+
+    // Reconstruct original transaction log (possibly multiple segments).
+    std::string result;
+    result.reserve(header->original_size);
+
+    for (const auto& seg : segments) {
+        result.append(reinterpret_cast<const char*>(&seg.commit_ts), sizeof(uint32_t));
+
+        uint16_t kv_count = static_cast<uint16_t>(seg.records.size());
+        result.append(reinterpret_cast<const char*>(&kv_count), sizeof(uint16_t));
+
+        size_t len_of_kv_offset = result.size();
+        uint32_t len_of_kv = 0;
+        result.append(reinterpret_cast<const char*>(&len_of_kv), sizeof(uint32_t));
+
+        size_t kv_region_start = result.size();
+        for (const auto& rec : seg.records) {
+            uint16_t key_len = static_cast<uint16_t>(rec.key.size());
+            uint16_t val_len = static_cast<uint16_t>(rec.value.size());
+            uint16_t table_id = rec.table_id;
+
+            result.append(reinterpret_cast<const char*>(&key_len), sizeof(uint16_t));
+            result.append(rec.key.data(), rec.key.size());
+
+            result.append(reinterpret_cast<const char*>(&val_len), sizeof(uint16_t));
+            if (!rec.value.empty()) {
+                result.append(rec.value.data(), rec.value.size());
+            }
+
+            result.append(reinterpret_cast<const char*>(&table_id), sizeof(uint16_t));
+        }
+        size_t kv_region_end = result.size();
+        len_of_kv = static_cast<uint32_t>(kv_region_end - kv_region_start);
+        std::memcpy(&result[len_of_kv_offset], &len_of_kv, sizeof(uint32_t));
+
+        result.append(reinterpret_cast<const char*>(&seg.trailer_ts), sizeof(uint32_t));
+        result.append(reinterpret_cast<const char*>(&seg.trailer_st_time), sizeof(uint32_t));
+    }
+
+    if (result.size() != header->original_size) {
+        std::cerr << "[KDV] Warning: v3 decoded size mismatch, expected="
+                  << header->original_size << ", actual=" << result.size() << std::endl;
+    }
+
+    return result;
+}
+
 std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
                            uint64_t seq_num, const char* data, size_t size) {
     auto start_time = std::chrono::high_resolution_clock::now();
-    
+
     if (size < sizeof(KDVHeader)) {
         return "";
     }
-    
+
     const KDVHeader* header = reinterpret_cast<const KDVHeader*>(data);
-    
+
     if (header->magic != KDV_MAGIC) {
         return "";
     }
-    
-    if (header->version != 1 && header->version != 2) {
-        std::cerr << "[KDV] Error: Unsupported KDV version=" << (int)header->version << std::endl;
-        return "";
-    }
-    
-    // Extract key_hash from header (v2) or use partition-based fallback (v1)
-    uint64_t key_hash = 0;
-    if (header->version == 2) {
-        key_hash = header->key_hash;
-    } else {
-        // Version 1: use partition_id as key_hash for backward compatibility
-        key_hash = partition_id;
-    }
-    
-    auto& store = KDVStoreState::getInstance();
-    auto& partition_state = store.getPartitionState(partition_id);
-    
+
     std::string result;
-    const char* payload = data + sizeof(KDVHeader);
-    size_t payload_size = size - sizeof(KDVHeader);
-    
-    if (header->mode == static_cast<uint8_t>(KDVEncodeMode::BASE)) {
-        // BASE mode: payload is original data
-        result.assign(payload, payload_size);
-        
-        // Update partition state with new base for this key
-        partition_state.setBase(key_hash, seq_num, result);
-        
-    } else if (header->mode == static_cast<uint8_t>(KDVEncodeMode::DELTA)) {
-        // DELTA mode: apply delta to base for this key
-        if (!partition_state.hasBase(key_hash)) {
-            std::cerr << "[KDV] Error: No base found for key_hash " << key_hash 
-                      << " in partition " << partition_id 
-                      << " when decoding delta at seq " << seq_num << std::endl;
-            return "";
-        }
-        
-        std::string delta(payload, payload_size);
-        result = apply_delta(partition_state.getBase(key_hash), delta);
-        
-        if (result.empty()) {
-            std::cerr << "[KDV] Error: Failed to apply delta for key_hash " << key_hash
-                      << " in partition " << partition_id
-                      << " at seq " << seq_num << std::endl;
-            return "";
-        }
-        
+
+    if (header->version == 3) {
+        result = kdv_decode_log_recordwise(shard_id, partition_id, seq_num, data, size);
     } else {
-        std::cerr << "[KDV] Error: Unknown KDV mode=" << (int)header->mode << std::endl;
-        return "";
+        if (header->version != 1 && header->version != 2) {
+            std::cerr << "[KDV] Error: Unsupported KDV version=" << (int)header->version << std::endl;
+            return "";
+        }
+
+        // Extract key_hash from header (v2) or use partition-based fallback (v1)
+        uint64_t key_hash = 0;
+        if (header->version == 2) {
+            key_hash = header->key_hash;
+        } else {
+            // Version 1: use partition_id as key_hash for backward compatibility
+            key_hash = partition_id;
+        }
+
+        auto& store = KDVStoreState::getInstance();
+        auto& partition_state = store.getPartitionState(partition_id);
+
+        const char* payload = data + sizeof(KDVHeader);
+        size_t payload_size = size - sizeof(KDVHeader);
+
+        if (header->mode == static_cast<uint8_t>(KDVEncodeMode::BASE)) {
+            result.assign(payload, payload_size);
+            partition_state.setBase(key_hash, seq_num, result);
+        } else if (header->mode == static_cast<uint8_t>(KDVEncodeMode::DELTA)) {
+            if (!partition_state.hasBase(key_hash)) {
+                std::cerr << "[KDV] Error: No base found for key_hash " << key_hash
+                          << " in partition " << partition_id
+                          << " when decoding delta at seq " << seq_num << std::endl;
+                return "";
+            }
+
+            std::string delta(payload, payload_size);
+            result = apply_delta(partition_state.getBase(key_hash), delta);
+
+            if (result.empty()) {
+                std::cerr << "[KDV] Error: Failed to apply delta for key_hash " << key_hash
+                          << " in partition " << partition_id
+                          << " at seq " << seq_num << std::endl;
+                return "";
+            }
+        } else {
+            std::cerr << "[KDV] Error: Unknown KDV mode=" << (int)header->mode << std::endl;
+            return "";
+        }
+
+        if (result.size() != header->original_size) {
+            std::cerr << "[KDV] Warning: Decoded size mismatch, expected=" << header->original_size
+                      << ", actual=" << result.size() << std::endl;
+        }
     }
-    
-    // Validate reconstructed size matches header
-    if (result.size() != header->original_size) {
-        std::cerr << "[KDV] Warning: Decoded size mismatch, expected=" << header->original_size
-                  << ", actual=" << result.size() << std::endl;
-    }
-    
+
     auto end_time = std::chrono::high_resolution_clock::now();
     auto duration_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
-    
-    // Optional: Log decoding stats
+
     static std::atomic<uint64_t> decode_count{0};
     static std::atomic<uint64_t> base_decode_count{0};
     static std::atomic<uint64_t> delta_decode_count{0};
-    
+
     decode_count++;
     if (header->mode == static_cast<uint8_t>(KDVEncodeMode::BASE)) {
         base_decode_count++;
     } else {
         delta_decode_count++;
     }
-    
+
     if (decode_count % 1000 == 0) {
         std::cout << "[KDV Decode] count=" << decode_count
                   << ", bases=" << base_decode_count
@@ -526,7 +911,7 @@ std::string kdv_decode_log(uint32_t shard_id, uint32_t partition_id,
                   << ", time_us=" << (duration_ns / 1000.0)
                   << std::endl;
     }
-    
+
     return result;
 }
 

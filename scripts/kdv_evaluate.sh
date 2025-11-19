@@ -76,6 +76,25 @@ cp -f test_1shard_replication.sh_*.log results/kdv_experiments/kdv_logs/ 2>/dev/
 echo -e "${GREEN}✓ KDV test complete${NC}"
 echo ""
 
+echo -e "${YELLOW}Step 4b: RocksDB KDV compaction (offline)${NC}"
+if [ -x ./build/kdv_compaction_tool ]; then
+    echo "Running KDV compaction tool on RocksDB data..."
+    set +e
+    ./build/kdv_compaction_tool 2>&1 | tee results/kdv_experiments/kdv_compaction.log
+    compaction_rc=$?
+    set -e
+    if [ "$compaction_rc" -eq 0 ]; then
+        echo "Measuring disk usage after compaction..."
+        measure_disk results/kdv_experiments/kdv_disk_compacted.txt
+        echo -e "${GREEN}✓ KDV compaction complete${NC}"
+    else
+        echo -e "${YELLOW}⚠ KDV compaction tool failed (see results/kdv_experiments/kdv_compaction.log), skipping post-compaction measurement${NC}"
+    fi
+else
+    echo -e "${YELLOW}⚠ kdv_compaction_tool not found (build ./build/kdv_compaction_tool to enable RocksDB KDV compaction)${NC}"
+fi
+echo ""
+
 echo -e "${YELLOW}Step 5: Analyze results${NC}"
 echo ""
 
@@ -111,6 +130,11 @@ cat results/kdv_experiments/baseline_disk.txt 2>/dev/null || echo "No baseline d
 echo ""
 echo "KDV:"
 cat results/kdv_experiments/kdv_disk.txt 2>/dev/null || echo "No KDV disk data"
+if [ -f results/kdv_experiments/kdv_disk_compacted.txt ]; then
+    echo ""
+    echo "KDV (after KDV compaction):"
+    cat results/kdv_experiments/kdv_disk_compacted.txt 2>/dev/null || echo "No KDV compaction disk data"
+fi
 echo ""
 
 echo "=== KDV Statistics ==="

@@ -230,11 +230,16 @@ std::string apply_delta(const std::string& base, const std::string& delta);
 
 /**
  * Check if we should write a base instead of delta
+ *
+ * (Version 2 – whole-value KDV policy)
+ *
+ * Check if we should write a base instead of delta
  * 
  * @param partition_state Current partition state
  * @param delta_size Size of computed delta
  * @param original_size Size of original value
  * @param seq_num Current sequence number
+ * @param key_hash Logical key identifier within partition
  * @return true if should write base, false if should write delta
  * 
  * Conditions for writing base:
@@ -244,7 +249,33 @@ std::string apply_delta(const std::string& base, const std::string& delta);
  * 4. Sequence distance from base > max_base_age
  */
 bool should_write_base(const KDVPartitionState& partition_state,
-                      size_t delta_size, size_t original_size, uint64_t seq_num);
+                      uint64_t key_hash, size_t delta_size,
+                      size_t original_size, uint64_t seq_num,
+                      struct WriteBaseReason* reason = nullptr);
+
+/**
+ * Encode a transaction log with per-record KDV compression (version 3).
+ *
+ * The input `data` is the original log blob produced by Transaction::serialize_util().
+ * The returned string contains a KDVHeader (version=3) followed by a compact,
+ * record-wise encoded payload. kdv_decode_log() understands version 3 and will
+ * reconstruct the original log bytes.
+ *
+ * This API is intended for use by Paxos replication and RocksDB persistence,
+ * and is not used by the existing unit tests that exercise the whole-value
+ * KDV behavior.
+ */
+std::string kdv_encode_log_recordwise(uint32_t shard_id, uint32_t partition_id,
+                                      uint64_t seq_num, const char* data, size_t size);
+
+/**
+ * Decode a version 3 per-record KDV-encoded log.
+ *
+ * Normally callers should use kdv_decode_log(), which will dispatch based
+ * on the header version. This helper is exposed for completeness and tests.
+ */
+std::string kdv_decode_log_recordwise(uint32_t shard_id, uint32_t partition_id,
+                                      uint64_t seq_num, const char* data, size_t size);
 
 } // namespace kdv
 } // namespace mako
