@@ -23,12 +23,17 @@ using namespace std;
 using namespace util;
 
 static size_t nkeys;
-static const size_t YCSBRecordSize = 100;
+static size_t YCSBRecordSize = 100;
 
 // [R, W, RMW, Scan]
 // we're missing remove for now
 // the default is a modification of YCSB "A" we made (80/20 R/W)
 static unsigned g_txn_workload_mix[] = { 80, 20, 0, 0 };
+
+// Partial update configuration
+static size_t g_update_bytes = 0;  // 0 means full update
+enum UpdateMode { PREFIX, MIDDLE, SUFFIX };
+static UpdateMode g_update_mode = MIDDLE;
 
 class ycsb_worker : public bench_worker {
 public:
@@ -103,7 +108,36 @@ public:
       const uint64_t key = r.next() % nkeys;
       ALWAYS_ASSERT(tbl->get(txn, u64_varkey(key).str(obj_key0), obj_v));
       computation_n += obj_v.size();
-      tbl->put(txn, obj_key0, str().assign(YCSBRecordSize, 'c'));
+      
+      // Apply partial update if configured
+      string new_value;
+      if (g_update_bytes > 0 && g_update_bytes < YCSBRecordSize) {
+        // Partial update: modify only g_update_bytes
+        new_value = obj_v;
+        size_t update_offset = 0;
+        
+        switch (g_update_mode) {
+          case PREFIX:
+            update_offset = 0;
+            break;
+          case MIDDLE:
+            update_offset = (YCSBRecordSize - g_update_bytes) / 2;
+            break;
+          case SUFFIX:
+            update_offset = YCSBRecordSize - g_update_bytes;
+            break;
+        }
+        
+        // Modify the specified bytes
+        for (size_t i = 0; i < g_update_bytes && (update_offset + i) < new_value.size(); i++) {
+          new_value[update_offset + i] = 'c';
+        }
+        tbl->put(txn, obj_key0, new_value);
+      } else {
+        // Full update (default behavior)
+        tbl->put(txn, obj_key0, str().assign(YCSBRecordSize, 'c'));
+      }
+      
       //measure_txn_counters(txn, "txn_rmw");
       if (likely(db->commit_txn(txn)))
         return txn_result(true, 0);
@@ -471,11 +505,14 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
   optind = 1;
   while (1) {
     static struct option long_options[] = {
-      {"workload-mix" , required_argument , 0 , 'w'},
+      {"workload-mix"  , required_argument , 0 , 'w'},
+      {"record-size"   , required_argument , 0 , 'r'},
+      {"update-bytes"  , required_argument , 0 , 'u'},
+      {"update-mode"   , required_argument , 0 , 'm'},
       {0, 0, 0, 0}
     };
     int option_index = 0;
-    int c = getopt_long(argc, argv, "w:", long_options, &option_index);
+    int c = getopt_long(argc, argv, "w:r:u:m:", long_options, &option_index);
     if (c == -1)
       break;
     switch (c) {
@@ -500,6 +537,31 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
       }
       break;
 
+    case 'r':
+      YCSBRecordSize = strtoul(optarg, nullptr, 10);
+      ALWAYS_ASSERT(YCSBRecordSize > 0);
+      break;
+
+    case 'u':
+      g_update_bytes = strtoul(optarg, nullptr, 10);
+      break;
+
+    case 'm':
+      {
+        string mode(optarg);
+        if (mode == "prefix") {
+          g_update_mode = PREFIX;
+        } else if (mode == "middle") {
+          g_update_mode = MIDDLE;
+        } else if (mode == "suffix") {
+          g_update_mode = SUFFIX;
+        } else {
+          cerr << "Invalid update mode: " << mode << " (valid: prefix, middle, suffix)" << endl;
+          exit(1);
+        }
+      }
+      break;
+
     case '?':
       /* getopt_long already printed an error message. */
       exit(1);
@@ -514,6 +576,15 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
     cerr << "  workload_mix: "
          << format_list(g_txn_workload_mix, g_txn_workload_mix + ARRAY_NELEMS(g_txn_workload_mix))
          << endl;
+    cerr << "  record_size: " << YCSBRecordSize << endl;
+    cerr << "  update_bytes: " << g_update_bytes << endl;
+    cerr << "  update_mode: ";
+    switch (g_update_mode) {
+      case PREFIX: cerr << "prefix"; break;
+      case MIDDLE: cerr << "middle"; break;
+      case SUFFIX: cerr << "suffix"; break;
+    }
+    cerr << endl;
   }
 
   ycsb_bench_runner r(db);

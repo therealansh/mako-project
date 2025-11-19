@@ -105,13 +105,30 @@ run_ycsb_experiment() {
     local exp_dir="$OUTPUT_DIR/${exp_name}"
     mkdir -p "$exp_dir"
     
+    local update_bytes=0
+    local update_mode="middle"
+    case "$update_pattern" in
+        small)
+            update_bytes=16
+            update_mode="middle"
+            ;;
+        medium)
+            update_bytes=$((record_size / 2))
+            update_mode="middle"
+            ;;
+        large)
+            update_bytes=$((record_size * 9 / 10))
+            update_mode="middle"
+            ;;
+    esac
+    
     log "----------------------------------------"
     log "Running experiment: $exp_name"
     log "  Workload mix: $workload_mix"
     log "  Record size: $record_size bytes"
     log "  Number of keys: $num_keys"
     log "  KDV enabled: $enable_kdv"
-    log "  Update pattern: $update_pattern"
+    log "  Update pattern: $update_pattern (${update_bytes} bytes)"
     log "----------------------------------------"
     
     cleanup
@@ -131,10 +148,10 @@ run_ycsb_experiment() {
     timeout $((DURATION + 30)) ./build/dbtest \
         --bench ycsb \
         --num-threads 4 \
-        --scale-factor $num_keys \
-        --runtime $DURATION \
-        --workload-mix "$workload_mix" \
-        --record-size $record_size \
+        -w "$workload_mix" \
+        -r $record_size \
+        -u $update_bytes \
+        -m $update_mode \
         2>&1 | tee "$output_file" || true
     
     log "Extracting metrics..."
@@ -196,32 +213,32 @@ EOF
 
 
 EXPERIMENTS=(
-    "read_heavy_95_5_baseline:95,5,0,0:1024:100000:small"
-    "read_heavy_95_5_kdv:95,5,0,0:1024:100000:small"
+    "read_heavy_95_5_baseline:95,0,5,0:1024:100000:small"
+    "read_heavy_95_5_kdv:95,0,5,0:1024:100000:small"
     
-    "balanced_50_50_baseline:50,50,0,0:1024:100000:small"
-    "balanced_50_50_kdv:50,50,0,0:1024:100000:small"
+    "balanced_50_50_baseline:50,0,50,0:1024:100000:small"
+    "balanced_50_50_kdv:50,0,50,0:1024:100000:small"
     
-    "write_heavy_20_80_baseline:20,80,0,0:1024:100000:small"
-    "write_heavy_20_80_kdv:20,80,0,0:1024:100000:small"
+    "write_heavy_20_80_baseline:20,0,80,0:1024:100000:small"
+    "write_heavy_20_80_kdv:20,0,80,0:1024:100000:small"
     
-    "update_small_baseline:50,50,0,0:1024:100000:small"
-    "update_small_kdv:50,50,0,0:1024:100000:small"
+    "update_small_baseline:50,0,50,0:1024:100000:small"
+    "update_small_kdv:50,0,50,0:1024:100000:small"
     
-    "update_medium_baseline:50,50,0,0:1024:100000:medium"
-    "update_medium_kdv:50,50,0,0:1024:100000:medium"
+    "update_medium_baseline:50,0,50,0:1024:100000:medium"
+    "update_medium_kdv:50,0,50,0:1024:100000:medium"
     
-    "update_large_baseline:50,50,0,0:1024:100000:large"
-    "update_large_kdv:50,50,0,0:1024:100000:large"
+    "update_large_baseline:50,0,50,0:1024:100000:large"
+    "update_large_kdv:50,0,50,0:1024:100000:large"
     
-    "record_100b_baseline:50,50,0,0:100:100000:small"
-    "record_100b_kdv:50,50,0,0:100:100000:small"
+    "record_100b_baseline:50,0,50,0:100:100000:small"
+    "record_100b_kdv:50,0,50,0:100:100000:small"
     
-    "record_1kb_baseline:50,50,0,0:1024:100000:small"
-    "record_1kb_kdv:50,50,0,0:1024:100000:small"
+    "record_1kb_baseline:50,0,50,0:1024:100000:small"
+    "record_1kb_kdv:50,0,50,0:1024:100000:small"
     
-    "record_4kb_baseline:50,50,0,0:4096:100000:small"
-    "record_4kb_kdv:50,50,0,0:4096:100000:small"
+    "record_4kb_baseline:50,0,50,0:4096:100000:small"
+    "record_4kb_kdv:50,0,50,0:4096:100000:small"
 )
 
 for exp_config in "${EXPERIMENTS[@]}"; do
