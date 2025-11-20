@@ -384,8 +384,9 @@ public:
     : bench_runner(db)
   {
     // Use the new open_index(name, shard_index) API instead of deprecated open_index(name, value_size_hint)
+    // Cast to int to ensure we call the right overload
     auto& benchConfig = BenchmarkConfig::getInstance();
-    open_tables["USERTABLE"] = db->open_index("USERTABLE", benchConfig.getShardIndex());
+    open_tables["USERTABLE"] = db->open_index("USERTABLE", static_cast<int>(benchConfig.getShardIndex()));
   }
 
 protected:
