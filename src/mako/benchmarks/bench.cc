@@ -414,12 +414,17 @@ bench_runner::run()
   if (f_mode == 0) {
     std::cout << "--------------Finish loading data and wait for others completing load phase ------------" << std::endl;
     auto& cfg = BenchmarkConfig::getInstance();
-    mako::NFSSync::set_key("load_phase_"+std::to_string(cfg.getShardIndex()), "DONE", cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
+    
+    // Only synchronize across shards if we have a valid config with multiple shards
+    // Single-node runs without config don't need NFSSync coordination
+    if (cfg.getConfig() != nullptr && cfg.getConfig()->nshards > 1) {
+      mako::NFSSync::set_key("load_phase_"+std::to_string(cfg.getShardIndex()), "DONE", cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
 
-    // wait for all other shards to complete
-    for (int i=0; i<cfg.getConfig()->nshards; i++) {
-      if (i!=cfg.getShardIndex()) {
-        mako::NFSSync::wait_for_key("load_phase_"+std::to_string(i), cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
+      // wait for all other shards to complete
+      for (int i=0; i<cfg.getConfig()->nshards; i++) {
+        if (i!=cfg.getShardIndex()) {
+          mako::NFSSync::wait_for_key("load_phase_"+std::to_string(i), cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
+        }
       }
     }
 
