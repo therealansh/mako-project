@@ -71,13 +71,13 @@ run_experiment() {
     local update_config=$3
     local kdv_enabled=$4
     
-    echo "========================================="
-    echo "Running experiment:"
-    echo "  Workload: $workload"
-    echo "  Record size: $record_size bytes"
-    echo "  Update config: $update_config"
-    echo "  KDV enabled: $kdv_enabled"
-    echo "========================================="
+    echo "=========================================" >&2
+    echo "Running experiment:" >&2
+    echo "  Workload: $workload" >&2
+    echo "  Record size: $record_size bytes" >&2
+    echo "  Update config: $update_config" >&2
+    echo "  KDV enabled: $kdv_enabled" >&2
+    echo "=========================================" >&2
     
     local update_bytes=""
     local update_mode="middle"
@@ -105,18 +105,20 @@ run_experiment() {
 #!/bin/bash
 cd "$PROJECT_ROOT"
 
+echo "Starting 4 replicas (localhost, learner, p2, p1)..." >&2
 nohup bash bash/shard.sh 1 0 $THREADS localhost 0 1 ycsb -w $workload -r $record_size -u $update_bytes -m $update_mode > test_1shard_replication_ycsb.sh_shard0-localhost-$THREADS.log 2>&1 &
 nohup bash bash/shard.sh 1 0 $THREADS learner 0 1 ycsb -w $workload -r $record_size -u $update_bytes -m $update_mode > test_1shard_replication_ycsb.sh_shard0-learner-$THREADS.log 2>&1 &
 nohup bash bash/shard.sh 1 0 $THREADS p2 0 1 ycsb -w $workload -r $record_size -u $update_bytes -m $update_mode > test_1shard_replication_ycsb.sh_shard0-p2-$THREADS.log 2>&1 &
 sleep 1
 nohup bash bash/shard.sh 1 0 $THREADS p1 0 1 ycsb -w $workload -r $record_size -u $update_bytes -m $update_mode > test_1shard_replication_ycsb.sh_shard0-p1-$THREADS.log 2>&1 &
 
-echo "Running experiment for $RUNTIME seconds..."
+echo "Running experiment for $RUNTIME seconds..." >&2
 sleep $RUNTIME
 
-echo "Stopping processes..."
+echo "Stopping processes..." >&2
 pkill -9 dbtest || true
 sleep 2
+echo "Experiment complete, extracting metrics..." >&2
 EOF
     
     chmod +x "$temp_script"
