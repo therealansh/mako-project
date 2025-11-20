@@ -519,6 +519,7 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
 
   // parse options
   optind = 1;
+  opterr = 0;  // Suppress getopt error messages for unknown options
   while (1) {
     static struct option long_options[] = {
       {"workload-mix"  , required_argument , 0 , 'w'},
@@ -579,8 +580,9 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
       break;
 
     case '?':
-      /* getopt_long already printed an error message. */
-      exit(1);
+      // Unknown option - could be a dbtest-specific option
+      // Just ignore it and continue parsing
+      break;
 
     default:
       abort();
