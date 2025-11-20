@@ -252,7 +252,8 @@ main(int argc, char **argv)
     ShardContext* first_shard = benchConfig.getShardContext(
         benchConfig.getConfig()->local_shard_indices[0]);
 
-    if (first_shard && benchConfig.getLeaderConfig()) {
+    // Run workers if not replicated (single-node mode) or if this is the leader
+    if (first_shard && (!benchConfig.getIsReplicated() || benchConfig.getLeaderConfig())) {
       Notice("Running workers on first shard (shard %d) - full multi-shard support pending",
              first_shard->shard_index);
       run_workers(first_shard->db, bench, argc, argv);
@@ -260,8 +261,8 @@ main(int argc, char **argv)
   } else {
     // Single-shard mode: keep existing behavior
     abstract_db * db = initWithDB(); // Some init is required for followers/learners
-    // Run worker threads on the leader
-    if (benchConfig.getLeaderConfig()) {
+    // Run worker threads if not replicated (single-node mode) or if this is the leader
+    if (!benchConfig.getIsReplicated() || benchConfig.getLeaderConfig()) {
       run_workers(db, bench, argc, argv);
     }
   }
