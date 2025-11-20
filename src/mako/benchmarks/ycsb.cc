@@ -383,7 +383,9 @@ public:
   ycsb_bench_runner(abstract_db *db)
     : bench_runner(db)
   {
-    open_tables["USERTABLE"] = db->open_index("USERTABLE", YCSBRecordSize);
+    // Use the new open_index(name, shard_index) API instead of deprecated open_index(name, value_size_hint)
+    auto& benchConfig = BenchmarkConfig::getInstance();
+    open_tables["USERTABLE"] = db->open_index("USERTABLE", benchConfig.getShardIndex());
   }
 
 protected:
