@@ -1006,7 +1006,9 @@ public:
 #endif
     TThread::set_shard_index(BenchmarkConfig::getInstance().getShardIndex());
     TThread::set_nshards(BenchmarkConfig::getInstance().getNshards());
-    TThread::set_warehouses(BenchmarkConfig::getInstance().getConfig()->warehouses);
+    // Set warehouses with nullptr check for non-TPC-C benchmarks (e.g., YCSB)
+    auto* config = BenchmarkConfig::getInstance().getConfig();
+    TThread::set_warehouses(config ? config->warehouses : BenchmarkConfig::getInstance().getNthreads());
     TThread::readset_shard_bits = 0;
     TThread::writeset_shard_bits = 0;
     TThread::transget_without_throw = false;
@@ -1025,13 +1027,18 @@ public:
       size_t old = __sync_fetch_and_add(&partition_id, 1);
       TThread::set_pid (old);
 
-      TThread::sclient = new mako::ShardClient(BenchmarkConfig::getInstance().getConfig()->configFile,
-                                                 BenchmarkConfig::getInstance().getCluster(),
-                                                 BenchmarkConfig::getInstance().getShardIndex(),
-                                                 old);
+      // Only create ShardClient if config is available (for replicated/multi-shard mode)
+      if (config && BenchmarkConfig::getInstance().getIsReplicated()) {
+        TThread::sclient = new mako::ShardClient(config->configFile,
+                                                   BenchmarkConfig::getInstance().getCluster(),
+                                                   BenchmarkConfig::getInstance().getShardIndex(),
+                                                   old);
+      }
       //Notice("ParID[worker-id] pid:%d,id:%d,config:%s,loader:%d, ismultiversion:%d,helper_thread?:%d",TThread::getPartitionID(),TThread::id(),BenchmarkConfig::getInstance().getConfig()->configFile.c_str(),loader,TThread::is_multiversion(),source==1);
     } else {
-      TThread::set_pid(TThread::id()%BenchmarkConfig::getInstance().getConfig()->warehouses);
+      // Set partition ID with nullptr check for non-TPC-C benchmarks
+      int warehouses = config ? config->warehouses : BenchmarkConfig::getInstance().getNthreads();
+      TThread::set_pid(TThread::id() % warehouses);
       //Notice("ParID[load-id] pid:%d,id:%d,config:%s,loader:%d, ismultiversion:%d,helper_thread?:%d",TThread::getPartitionID(),TThread::id(),BenchmarkConfig::getInstance().getConfig()->configFile.c_str(),loader,TThread::is_multiversion(),source==1);
     }
     
