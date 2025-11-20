@@ -312,7 +312,9 @@ bench_worker::run()
   // int s;
   // s = pthread_getcpuclockid(pthread_self(), &cid);
   // pclock((char*)("[CPU_TIME] Database worker thread CPU time lock, id: " + std::to_string(TThread::id()) + ": ").c_str(), cid);
-  TThread::sclient->statistics();
+  if (TThread::sclient) {
+    TThread::sclient->statistics();
+  }
   sleep(1); // ensure all worker threads finish execution
 }
 
@@ -325,8 +327,11 @@ void
 bench_runner::stop() { // invoke inside run function; stop all ShardClient instances
   Warning("stop all erpc clients. set stop=false");
   auto& benchConfig = BenchmarkConfig::getInstance();
-  for (int par_id=0;par_id<benchConfig.getNthreads();par_id++){
-   shardClientAll[par_id]->stop();
+  for (int par_id = 0; par_id < benchConfig.getNthreads(); par_id++) {
+    auto it = shardClientAll.find(par_id);
+    if (it != shardClientAll.end() && it->second) {
+      it->second->stop();
+    }
   }
 }
 
