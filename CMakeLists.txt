@@ -430,6 +430,7 @@ set(MAKO_SRCFILES
   "${W}/counter.cc"
   "${W}/memory.cc"
   "${W}/rocksdb_persistence.cc"
+  "${W}/kdv_format.cc"
   "${W}/rcu.cc"
   "${W}/stats_server.cc"
   "${W}/thread.cc"
@@ -729,6 +730,8 @@ add_apps(continuousTransactions examples/continuousTransactions.cc)
 add_apps(simplePaxos examples/simplePaxos.cc)
 add_apps(test_rocksdb_persistence examples/test_rocksdb_persistence.cc)
 add_apps(rocksdb_replay_app src/mako/benchmarks/rocksdb_replay_app.cc)
+# TODO: Uncomment when kdv_compaction_tool.cc is implemented
+# add_apps(kdv_compaction_tool src/mako/benchmarks/kdv_compaction_tool.cc)
 add_apps(test_callback_demo examples/test_callback_demo.cc)
 add_apps(test_ordered_callbacks examples/test_ordered_callbacks.cc)
 add_apps(test_partitioned_queues examples/test_partitioned_queues.cc)
@@ -953,6 +956,28 @@ if(BUILD_TESTS)
     target_link_libraries(test_and_event ${TEST_LINK_LIBS} ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
     add_test(NAME test_and_event COMMAND test_and_event)
 
+    # KDV Format Tests (standalone, no GTest dependency)
+    add_executable(kdv_format_test test/kdv_format_test.cc src/mako/kdv_format.cc)
+    target_include_directories(kdv_format_test PRIVATE src src/mako)
+    target_compile_options(kdv_format_test PRIVATE -std=c++17 -O2)
+    target_link_libraries(kdv_format_test pthread)
+    add_test(NAME kdv_format_test COMMAND kdv_format_test)
+
+    # TODO: Uncomment when kdv_recordwise_test.cc is implemented
+    # # KDV Recordwise Roundtrip Test
+    # add_executable(kdv_recordwise_test test/kdv_recordwise_test.cc src/mako/kdv_format.cc)
+    # target_include_directories(kdv_recordwise_test PRIVATE src src/mako)
+    # target_compile_options(kdv_recordwise_test PRIVATE -std=c++17 -O2)
+    # target_link_libraries(kdv_recordwise_test pthread)
+    # add_test(NAME kdv_recordwise_test COMMAND kdv_recordwise_test)
+
+    # TODO: Uncomment when kdv_synthetic_bench.cc is implemented
+    # # KDV Synthetic Benchmark (library-level compression evaluation)
+    # add_executable(kdv_synthetic_bench src/mako/benchmarks/kdv_synthetic_bench.cc src/mako/kdv_format.cc)
+    # target_include_directories(kdv_synthetic_bench PRIVATE src src/mako)
+    # target_compile_options(kdv_synthetic_bench PRIVATE -std=c++17 -O2)
+    # target_link_libraries(kdv_synthetic_bench pthread)
+
     # Integration tests from CI
     add_test(NAME simpleTransaction COMMAND simpleTransaction)
 
@@ -1004,4 +1029,3 @@ if(BUILD_TESTS)
     message(STATUS "Run tests with: make run_tests")
     message(STATUS "Or individually: make test && ctest")
 endif()
-

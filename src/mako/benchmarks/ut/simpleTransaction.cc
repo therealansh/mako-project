@@ -263,6 +263,14 @@ int main() {
     config = new transport::Configuration("./config/local-shards2-warehouses1.yml");
     shardIndex = 0;
 
+    // Parse MAKO_ENABLE_KDV_LOGS environment variable
+    auto& benchConfig = BenchmarkConfig::getInstance();
+    const char* kdv_env = getenv("MAKO_ENABLE_KDV_LOGS");
+    if (kdv_env != nullptr && (strcmp(kdv_env, "1") == 0 || strcmp(kdv_env, "true") == 0)) {
+        benchConfig.setEnableKDVLogs(true);
+        std::cout << "[KDV] KDV logs enabled via MAKO_ENABLE_KDV_LOGS environment variable" << std::endl;
+    }
+
     runner(db);
     return 0;
 }

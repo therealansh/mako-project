@@ -312,7 +312,9 @@ bench_worker::run()
   // int s;
   // s = pthread_getcpuclockid(pthread_self(), &cid);
   // pclock((char*)("[CPU_TIME] Database worker thread CPU time lock, id: " + std::to_string(TThread::id()) + ": ").c_str(), cid);
-  TThread::sclient->statistics();
+  if (TThread::sclient) {
+    TThread::sclient->statistics();
+  }
   sleep(1); // ensure all worker threads finish execution
 }
 
@@ -325,8 +327,11 @@ void
 bench_runner::stop() { // invoke inside run function; stop all ShardClient instances
   Warning("stop all erpc clients. set stop=false");
   auto& benchConfig = BenchmarkConfig::getInstance();
-  for (int par_id=0;par_id<benchConfig.getNthreads();par_id++){
-   shardClientAll[par_id]->stop();
+  for (int par_id = 0; par_id < benchConfig.getNthreads(); par_id++) {
+    auto it = shardClientAll.find(par_id);
+    if (it != shardClientAll.end() && it->second) {
+      it->second->stop();
+    }
   }
 }
 
@@ -414,12 +419,17 @@ bench_runner::run()
   if (f_mode == 0) {
     std::cout << "--------------Finish loading data and wait for others completing load phase ------------" << std::endl;
     auto& cfg = BenchmarkConfig::getInstance();
-    mako::NFSSync::set_key("load_phase_"+std::to_string(cfg.getShardIndex()), "DONE", cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
+    
+    // Only synchronize across shards if we have a valid config with multiple shards
+    // Single-node runs without config don't need NFSSync coordination
+    if (cfg.getConfig() != nullptr && cfg.getConfig()->nshards > 1) {
+      mako::NFSSync::set_key("load_phase_"+std::to_string(cfg.getShardIndex()), "DONE", cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
 
-    // wait for all other shards to complete
-    for (int i=0; i<cfg.getConfig()->nshards; i++) {
-      if (i!=cfg.getShardIndex()) {
-        mako::NFSSync::wait_for_key("load_phase_"+std::to_string(i), cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
+      // wait for all other shards to complete
+      for (int i=0; i<cfg.getConfig()->nshards; i++) {
+        if (i!=cfg.getShardIndex()) {
+          mako::NFSSync::wait_for_key("load_phase_"+std::to_string(i), cfg.getConfig()->shard(0, cfg.getClusterRole()).host.c_str(), cfg.getConfig()->mports[cfg.getClusterRole()]);
+        }
       }
     }
 

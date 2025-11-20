@@ -7,7 +7,7 @@
 #include <utility>
 #include <string>
 #include <set>
-#include "rocksdb_persistence_fwd.h"
+#include "rocksdb_persistence.h"
 
 #include <getopt.h>
 #include <stdlib.h>
@@ -26,6 +26,7 @@
 #include "benchmarks/common2.h"
 #include "benchmarks/benchmark_config.h"
 #include "benchmarks/rpc_setup.h"
+#include "kdv_format.h"
 
 #include "deptran/s_main.h"
 
@@ -289,7 +290,25 @@ static void register_paxos_follower_callback(TSharedThreadPoolMbta& replicated_d
 
         if (sync_util::sync_logger::safety_check(commit_info.timestamp, w)) { // pass safety check
           benchConfig.incrementReplayBatch();
-          treplay_in_same_thread_opt_mbta_v2(par_id, (char*)log, len, db, benchConfig.getNthreads());
+          
+          // Conditionally decode KDV if enabled
+          static std::atomic<uint64_t> paxos_decode_seq{0};
+          if (benchConfig.getEnableKDVLogs()) {
+            uint32_t shard_id = benchConfig.getShardIndex();
+            uint64_t seq = paxos_decode_seq.fetch_add(1, std::memory_order_relaxed);
+            std::string decoded = mako::kdv::kdv_decode_log(shard_id, par_id, seq, 
+                                                             (const char*)log, len);
+            if (!decoded.empty()) {
+              treplay_in_same_thread_opt_mbta_v2(par_id, (char*)decoded.data(), decoded.size(), 
+                                                  db, benchConfig.getNthreads());
+            } else {
+              // Decoding failed, try original
+              treplay_in_same_thread_opt_mbta_v2(par_id, (char*)log, len, db, benchConfig.getNthreads());
+            }
+          } else {
+            treplay_in_same_thread_opt_mbta_v2(par_id, (char*)log, len, db, benchConfig.getNthreads());
+          }
+          
           //Warning("replay[YES] par_id:%d,st:%u,slot_id:%d,un_replay_logs_:%d", par_id, commit_info.timestamp, slot_id,un_replay_logs_.size());
           status = mako::PaxosStatus::STATUS_REPLAY_DONE;
         } else {
@@ -855,6 +874,11 @@ static void db_close() {
     // shuts down Paxos before end signal propagates.
     Notice("Leader sent end signal, waiting 3 seconds for propagation...");
     std::this_thread::sleep_for(std::chrono::seconds(3));
+  }
+
+  // Print KDV statistics before shutdown
+  if (benchConfig.getEnableKDVLogs()) {
+    mako::RocksDBPersistence::getInstance().printKDVStats();
   }
 
   mako::stop_helper();

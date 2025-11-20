@@ -20,6 +20,7 @@
 #include "mako.hh"
 #include "mbta_wrapper.hh"
 #include "deptran/s_main.h"
+#include "kdv_format.h"
 
 using namespace mako;
 
@@ -92,8 +93,10 @@ void replayWorker(int worker_id, const std::vector<LoadedLog>& logs,
 }
 
 bool loadAllData(const std::string& db_path, size_t num_partitions,
-                 std::vector<std::vector<LoadedLog>>& thread_logs) {
+                 std::vector<std::vector<LoadedLog>>& thread_logs, bool enable_kdv_decode,
+                 uint32_t shard_id) {
     size_t total = 0;
+    size_t kdv_decoded_count = 0;
 
     for (size_t p = 0; p < num_partitions; ++p) {
         rocksdb::DB* db;
@@ -104,26 +107,54 @@ bool loadAllData(const std::string& db_path, size_t num_partitions,
             continue;
 
         rocksdb::Iterator* iter = db->NewIterator(rocksdb::ReadOptions());
+        uint64_t seq_num = 0;
         for (iter->SeekToFirst(); iter->Valid(); iter->Next()) {
             if (iter->key().ToString() == "meta") continue;
 
             LoadedLog log;
-            log.value = iter->value().ToString();
+            std::string raw_value = iter->value().ToString();
+            
+            // Conditionally decode KDV if enabled
+            if (enable_kdv_decode) {
+                log.value = mako::kdv::kdv_decode_log(shard_id, p, seq_num, 
+                                                       raw_value.data(), raw_value.size());
+                if (!log.value.empty()) {
+                    kdv_decoded_count++;
+                }
+            } else {
+                log.value = raw_value;
+            }
+            
             log.partition_id = p;
             thread_logs[total % thread_logs.size()].push_back(std::move(log));
             total++;
+            seq_num++;
         }
 
         delete iter;
         delete db;
     }
 
-    printf("Loaded %zu records from %zu partitions\n", total, num_partitions);
+    printf("Loaded %zu records from %zu partitions", total, num_partitions);
+    if (enable_kdv_decode) {
+        printf(" (KDV decoded: %zu)", kdv_decoded_count);
+    }
+    printf("\n");
     return total > 0;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     printf("=== RocksDB Replay Application ===\n");
+
+    // Parse command-line arguments
+    bool enable_kdv_decode = false;
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--enable-kdv-logs" || arg == "--enable-kdv") {
+            enable_kdv_decode = true;
+            printf("KDV decoding: ENABLED\n");
+        }
+    }
 
     std::string db_path = findRocksDBPath();
     if (db_path.empty()) {
@@ -187,7 +218,7 @@ int main() {
     db_wrapper->preallocate_open_index();
 
     std::vector<std::vector<LoadedLog>> thread_logs(num_partitions);
-    if (!loadAllData(db_path, num_partitions, thread_logs)) {
+    if (!loadAllData(db_path, num_partitions, thread_logs, enable_kdv_decode, shard_id)) {
         fprintf(stderr, "No data to replay\n");
         return 1;
     }

@@ -2,7 +2,6 @@
 
 #include "config.h"
 #include "compiler.hh"
-#include "rocksdb_persistence_fwd.h"
 // #include "small_vector.hh"
 #include "TRcu.hh"
 #include <algorithm>
@@ -20,6 +19,15 @@
 #include "benchmarks/sto/Interface.hh"
 #include "benchmarks/sto/sync_util.hh"
 #include "benchmarks/benchmark_config.h"
+#include "kdv_format.h"
+#ifndef DISABLE_DISK
+#pragma push_macro("Debug")
+#ifdef Debug
+#undef Debug
+#endif
+#include "rocksdb_persistence.h"
+#pragma pop_macro("Debug")
+#endif
 
 #ifndef STO_PROFILE_COUNTERS
 #define STO_PROFILE_COUNTERS 0
@@ -135,10 +143,32 @@ class StringAllocator{
         memcpy (queueLog + pos, &st_time, sizeof(uint32_t));
         pos += sizeof(uint32_t);
         //Warning("Paxos log cleanup!max_bytes_size:%d",max_bytes_size);
-        add_log_to_nc((char *)queueLog, pos, TThread::getPartitionID (), batch_size);
+        
+        // Conditionally encode with per-record KDV for geo-replication if enabled
+        static std::atomic<uint64_t> paxos_seq_num{0};
+        if (BenchmarkConfig::getInstance().getEnableKDVLogs()) {
+            uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
+            uint32_t partition_id = TThread::getPartitionID();
+            uint64_t seq = paxos_seq_num.fetch_add(1, std::memory_order_relaxed);
+
+            std::string encoded = mako::kdv::kdv_encode_log_recordwise(shard_id,
+                                                                        partition_id,
+                                                                        seq,
+                                                                        (const char*)queueLog,
+                                                                        pos);
+            if (encoded.size() <= max_bytes_size) {
+                memcpy(queueLog, encoded.data(), encoded.size());
+                add_log_to_nc((char *)queueLog, encoded.size(), partition_id, batch_size);
+            } else {
+                add_log_to_nc((char *)queueLog, pos, partition_id, batch_size);
+            }
+        } else {
+            add_log_to_nc((char *)queueLog, pos, TThread::getPartitionID (), batch_size);
+        }
 
 #ifndef DISABLE_DISK
         // Asynchronously persist to RocksDB
+        // KDV encoding is handled internally by persistAsync if enabled
         auto& persistence = mako::RocksDBPersistence::getInstance();
         uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
         static std::atomic<uint64_t> persist_success_count{0};

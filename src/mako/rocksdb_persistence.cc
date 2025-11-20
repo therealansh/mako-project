@@ -6,6 +6,8 @@
 #include <ctime>
 #include <rocksdb/write_batch.h>
 #include "../deptran/s_main.h"
+#include "kdv_format.h"
+#include "benchmarks/benchmark_config.h"
 
 namespace mako {
 
@@ -266,8 +268,24 @@ std::future<bool> RocksDBPersistence::persistAsync(const char* data, size_t size
 
     uint64_t seq_num = getNextSequenceNumber(partition_id);
     req->key = generateKey(shard_id, partition_id, epoch, seq_num);
-    req->value.reserve(size);
-    req->value.assign(data, size);
+    
+    // Conditionally encode with KDV if enabled
+    if (BenchmarkConfig::getInstance().getEnableKDVLogs()) {
+        std::string encoded = mako::kdv::kdv_encode_log_recordwise(shard_id,
+                                                                   partition_id,
+                                                                   seq_num,
+                                                                   data,
+                                                                   size);
+        req->value = std::move(encoded);
+        
+        // Track compression statistics
+        total_original_bytes_.fetch_add(size, std::memory_order_relaxed);
+        total_encoded_bytes_.fetch_add(req->value.size(), std::memory_order_relaxed);
+    } else {
+        req->value.reserve(size);
+        req->value.assign(data, size);
+    }
+    
     req->partition_id = partition_id;
     req->sequence_number = seq_num;
     req->require_ordering = true;
@@ -613,6 +631,28 @@ bool RocksDBPersistence::parseMetadata(const std::string& db_path, uint32_t& epo
         fprintf(stderr, "Failed to parse metadata values\n");
         return false;
     }
+}
+
+void RocksDBPersistence::printKDVStats() const {
+    uint64_t original = total_original_bytes_.load(std::memory_order_relaxed);
+    uint64_t encoded = total_encoded_bytes_.load(std::memory_order_relaxed);
+    
+    if (original == 0) {
+        fprintf(stderr, "[RocksDB KDV Stats] No KDV-encoded data persisted\n");
+        return;
+    }
+    
+    double compression_ratio = 100.0 * (1.0 - (double)encoded / (double)original);
+    double size_ratio = (double)encoded / (double)original;
+    
+    fprintf(stderr, "\n=== RocksDB KDV Compression Statistics ===\n");
+    fprintf(stderr, "Total original bytes:  %lu (%.2f MB)\n", original, original / (1024.0 * 1024.0));
+    fprintf(stderr, "Total encoded bytes:   %lu (%.2f MB)\n", encoded, encoded / (1024.0 * 1024.0));
+    fprintf(stderr, "Compression ratio:     %.2f%%\n", compression_ratio);
+    fprintf(stderr, "Size ratio:            %.4f\n", size_ratio);
+    fprintf(stderr, "Disk savings:          %lu bytes (%.2f MB)\n", 
+            original - encoded, (original - encoded) / (1024.0 * 1024.0));
+    fprintf(stderr, "==========================================\n\n");
 }
 
 } // namespace mako

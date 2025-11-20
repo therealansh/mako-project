@@ -66,7 +66,8 @@ class BenchmarkConfig {
           bench_name_("tpcc"), // default to tpcc
           end_received_(0),
           end_received_leader_(0),
-          replay_batch_(0) {}
+          replay_batch_(0),
+          enable_kdv_logs_(false) {}
       
       // Member variables from dbtest.cc
       size_t nthreads_;
@@ -97,6 +98,7 @@ class BenchmarkConfig {
       string paxos_proc_name_;
       std::vector<std::string> paxos_config_file_;
       std::string bench_name_;
+      bool enable_kdv_logs_;
       
       // Atomic variables for Paxos termination tracking
       std::atomic<int> end_received_;
@@ -157,6 +159,7 @@ class BenchmarkConfig {
       int getLeaderConfig() const { return paxos_proc_name_==mako::LOCALHOST_CENTER; }
       const std::vector<std::string>& getPaxosConfigFile() const { return paxos_config_file_; }
       const std::string& getBenchName() const { return bench_name_; }
+      bool getEnableKDVLogs() const { return enable_kdv_logs_; }
       
       // Runtime TPCC wiring getters
       std::vector<FastTransport*>& getServerTransports() { return server_transports_; }
@@ -197,6 +200,7 @@ class BenchmarkConfig {
       void setPaxosProcName(std::string paxos_proc_name) { paxos_proc_name_ = paxos_proc_name; setCluster(paxos_proc_name); setClusterRole(mako::convertCluster(paxos_proc_name));}
       void setPaxosConfigFile(const std::vector<std::string>& paxos_config_file) { paxos_config_file_ = paxos_config_file; }
       void setBenchName(const std::string& bench_name) { bench_name_ = bench_name; }
+      void setEnableKDVLogs(bool enable) { enable_kdv_logs_ = enable; }
       
       // Getters and setters for Paxos termination tracking
       int getEndReceived() const { return end_received_.load(); }
