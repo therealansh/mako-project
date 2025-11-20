@@ -55,11 +55,9 @@ extract_metrics() {
     fi
     
     local rocksdb_size="N/A"
-    if [ -d "/tmp/mako_rocksdb_shard0_leader_pid"* ]; then
-        local rocksdb_dir=$(ls -d /tmp/mako_rocksdb_shard0_leader_pid* 2>/dev/null | head -1)
-        if [ -n "$rocksdb_dir" ]; then
-            rocksdb_size=$(du -sb "$rocksdb_dir" 2>/dev/null | awk '{print $1}' || echo "N/A")
-        fi
+    local rocksdb_dir=$(ls -dt /tmp/mako_rocksdb_shard0_leader_pid* 2>/dev/null | head -1)
+    if [ -n "$rocksdb_dir" ]; then
+        rocksdb_size=$(du -sb "$rocksdb_dir" 2>/dev/null | awk '{print $1}' || echo "N/A")
     fi
     
     echo "$throughput,$latency,$paxos_bytes,$original_bytes,$encoded_bytes,$compression_ratio,$rocksdb_size"
@@ -126,11 +124,20 @@ EOF
     
     local log_file="$PROJECT_ROOT/test_1shard_replication_ycsb.sh_shard0-localhost-$THREADS.log"
     if [ ! -f "$log_file" ]; then
-        echo "ERROR: Log file not found: $log_file"
+        echo "ERROR: Log file not found: $log_file" >&2
         return 1
     fi
     
     local metrics=$(extract_metrics "$log_file" "$kdv_enabled")
+    
+    IFS=',' read -r throughput latency paxos_bytes original_bytes encoded_bytes compression_ratio rocksdb_size <<< "$metrics"
+    
+    echo "→ Results: Throughput=${throughput} ops/sec, Paxos=${paxos_bytes} bytes" >&2
+    if [ "$kdv_enabled" = "true" ]; then
+        echo "  KDV: compression=${compression_ratio}%, original=${original_bytes}, encoded=${encoded_bytes}" >&2
+    fi
+    echo "  RocksDB size=${rocksdb_size} bytes" >&2
+    
     echo "$workload,$record_size,$update_bytes,$kdv_enabled,$metrics"
 }
 
@@ -147,15 +154,13 @@ main() {
                 echo "========================================="
                 echo "Baseline run (KDV disabled)"
                 echo "========================================="
-                result=$(run_experiment "$workload" "$record_size" "$update_config" "false")
-                echo "$result" >> "$OUTPUT_CSV"
+                run_experiment "$workload" "$record_size" "$update_config" "false" | tee -a "$OUTPUT_CSV"
                 
                 echo ""
                 echo "========================================="
                 echo "KDV run (KDV enabled)"
                 echo "========================================="
-                result=$(run_experiment "$workload" "$record_size" "$update_config" "true")
-                echo "$result" >> "$OUTPUT_CSV"
+                run_experiment "$workload" "$record_size" "$update_config" "true" | tee -a "$OUTPUT_CSV"
                 
                 sleep 2
             done
