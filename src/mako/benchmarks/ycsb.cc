@@ -65,7 +65,11 @@ public:
     scoped_str_arena s_arena(arena);
     try {
       const uint64_t k = r.next() % nkeys;
-      ALWAYS_ASSERT(tbl->get(txn, u64_varkey(k).str(obj_key0), obj_v));
+      if (!tbl->get(txn, u64_varkey(k).str(obj_key0), obj_v)) {
+        // Key not found - abort transaction
+        db->abort_txn(txn);
+        return txn_result(false, 0);
+      }
       computation_n += obj_v.size();
       //measure_txn_counters(txn, "txn_read");
       if (likely(db->commit_txn(txn)))
@@ -113,7 +117,11 @@ public:
     scoped_str_arena s_arena(arena);
     try {
       const uint64_t key = r.next() % nkeys;
-      ALWAYS_ASSERT(tbl->get(txn, u64_varkey(key).str(obj_key0), obj_v));
+      if (!tbl->get(txn, u64_varkey(key).str(obj_key0), obj_v)) {
+        // Key not found - abort transaction
+        db->abort_txn(txn);
+        return txn_result(false, 0);
+      }
       computation_n += obj_v.size();
       
       // Apply partial update if configured
