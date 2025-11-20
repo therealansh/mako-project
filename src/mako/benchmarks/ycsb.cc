@@ -529,10 +529,11 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
       {"record-size"   , required_argument , 0 , 'r'},
       {"update-bytes"  , required_argument , 0 , 'u'},
       {"update-mode"   , required_argument , 0 , 'm'},
+      {"num-keys"      , required_argument , 0 , 'k'},
       {0, 0, 0, 0}
     };
     int option_index = 0;
-    int c = getopt_long(argc, argv, "w:r:u:m:", long_options, &option_index);
+    int c = getopt_long(argc, argv, "w:r:u:m:k:", long_options, &option_index);
     if (c == -1)
       break;
     switch (c) {
@@ -580,6 +581,11 @@ ycsb_do_test(abstract_db *db, int argc, char **argv)
           exit(1);
         }
       }
+      break;
+
+    case 'k':
+      nkeys = strtoul(optarg, nullptr, 10);
+      ALWAYS_ASSERT(nkeys > 0);
       break;
 
     case '?':
