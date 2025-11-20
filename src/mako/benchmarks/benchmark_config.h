@@ -63,6 +63,7 @@ class BenchmarkConfig {
           backoff_aborted_transaction_(0),
           use_hashtable_(0),
           is_micro_(0), // if run micro-based workload
+          bench_name_("tpcc"), // default to tpcc
           end_received_(0),
           end_received_leader_(0),
           replay_batch_(0) {}
@@ -95,6 +96,7 @@ class BenchmarkConfig {
       int is_replicated_;
       string paxos_proc_name_;
       std::vector<std::string> paxos_config_file_;
+      std::string bench_name_;
       
       // Atomic variables for Paxos termination tracking
       std::atomic<int> end_received_;
@@ -154,6 +156,7 @@ class BenchmarkConfig {
       std::string getPaxosProcName() const { return paxos_proc_name_; }
       int getLeaderConfig() const { return paxos_proc_name_==mako::LOCALHOST_CENTER; }
       const std::vector<std::string>& getPaxosConfigFile() const { return paxos_config_file_; }
+      const std::string& getBenchName() const { return bench_name_; }
       
       // Runtime TPCC wiring getters
       std::vector<FastTransport*>& getServerTransports() { return server_transports_; }
@@ -193,6 +196,7 @@ class BenchmarkConfig {
       void setIsReplicated(int replicated) { is_replicated_ = replicated; }
       void setPaxosProcName(std::string paxos_proc_name) { paxos_proc_name_ = paxos_proc_name; setCluster(paxos_proc_name); setClusterRole(mako::convertCluster(paxos_proc_name));}
       void setPaxosConfigFile(const std::vector<std::string>& paxos_config_file) { paxos_config_file_ = paxos_config_file; }
+      void setBenchName(const std::string& bench_name) { bench_name_ = bench_name; }
       
       // Getters and setters for Paxos termination tracking
       int getEndReceived() const { return end_received_.load(); }

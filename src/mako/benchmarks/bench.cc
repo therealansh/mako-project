@@ -646,23 +646,27 @@ bench_runner::run()
     cerr << "avg_per_core_abort_rate: " << avg_per_core_abort_rate << " aborts/sec/core" << endl;
     //cerr << "txn breakdown: " << format_list(agg_txn_counts.begin(), agg_txn_counts.end()) << endl;
 
-    string txn_w1[] = {"NewOrder", "Payment", "Delivery", "OrderStatus", "StockLevel"};
-    string txn_ratio[] = {"NewOrder", "Payment"};
-    for (int i=0;i<sizeof(txn_w1)/sizeof(txn_w1[0]); i++) {
-      if (agg_txn_counts.find(txn_w1[i]+"_Local")!=agg_txn_counts.end()) {
-        cerr << "  " << txn_w1[i] << "_local_commit_latency: " << agg_txn_counts[txn_w1[i]+"_Local_NANO"] / (agg_txn_counts[txn_w1[i]+"_Local"] + 0.0) / 1000000.0 << " ms" << endl;
-        cerr << "  " << txn_w1[i] << "_local_abort_latency: " << agg_txn_counts[txn_w1[i]+"_Local_NANO_abort"] / (agg_txn_counts[txn_w1[i]+"_Local_abort"] + 0.0) / 1000000.0 << " ms" << endl;
-        cerr << "  " << txn_w1[i] << "_local_abort_ratio: " << agg_txn_counts[txn_w1[i]+"_Local_abort"] / (agg_txn_counts[txn_w1[i]+"_Local"] + agg_txn_counts[txn_w1[i]+"_Local_abort"] + 0.0) << endl;
+    // TPCC-specific transaction breakdown statistics
+    auto& cfg = BenchmarkConfig::getInstance();
+    if (cfg.getBenchName() == "tpcc") {
+      string txn_w1[] = {"NewOrder", "Payment", "Delivery", "OrderStatus", "StockLevel"};
+      string txn_ratio[] = {"NewOrder", "Payment"};
+      for (int i=0;i<sizeof(txn_w1)/sizeof(txn_w1[0]); i++) {
+        if (agg_txn_counts.find(txn_w1[i]+"_Local")!=agg_txn_counts.end()) {
+          cerr << "  " << txn_w1[i] << "_local_commit_latency: " << agg_txn_counts[txn_w1[i]+"_Local_NANO"] / (agg_txn_counts[txn_w1[i]+"_Local"] + 0.0) / 1000000.0 << " ms" << endl;
+          cerr << "  " << txn_w1[i] << "_local_abort_latency: " << agg_txn_counts[txn_w1[i]+"_Local_NANO_abort"] / (agg_txn_counts[txn_w1[i]+"_Local_abort"] + 0.0) / 1000000.0 << " ms" << endl;
+          cerr << "  " << txn_w1[i] << "_local_abort_ratio: " << agg_txn_counts[txn_w1[i]+"_Local_abort"] / (agg_txn_counts[txn_w1[i]+"_Local"] + agg_txn_counts[txn_w1[i]+"_Local_abort"] + 0.0) << endl;
+        }
       }
-    }
 
-    for (int i=0;i<sizeof(txn_ratio)/sizeof(txn_ratio[0]); i++) {
-      if (agg_txn_counts.find(txn_ratio[i]+"_Local")!=agg_txn_counts.end() 
-          && agg_txn_counts.find(txn_ratio[i]+"_Remote")!=agg_txn_counts.end()) {
-        cerr << "  " << txn_ratio[i] << "_remote_ratio: " << 100*(agg_txn_counts[txn_ratio[i]+"_Remote"]+agg_txn_counts[txn_ratio[i]+"_Remote_abort"]) / (agg_txn_counts[txn_ratio[i]+"_Local"]+agg_txn_counts[txn_ratio[i]+"_Local_abort"]+agg_txn_counts[txn_ratio[i]+"_Remote"]+agg_txn_counts[txn_ratio[i]+"_Remote_abort"] + 0.0) << " %"<< endl;
-        cerr << "  " << txn_ratio[i] << "_remote_abort_ratio: " << 100*agg_txn_counts[txn_ratio[i]+"_Remote_abort"] / (agg_txn_counts[txn_ratio[i]+"_Remote_abort"] + agg_txn_counts[txn_ratio[i]+"_Remote"] + 0.0) << " %" << endl;
-        cerr << "  " << txn_w1[i] << "_remote_commit_latency: " << agg_txn_counts[txn_w1[i]+"_Remote_NANO"] / (agg_txn_counts[txn_w1[i]+"_Remote"] + 0.0) / 1000000.0 << " ms" << endl;
-        cerr << "  " << txn_w1[i] << "_remote_abort_latency: " << agg_txn_counts[txn_w1[i]+"_Remote_NANO_abort"] / (agg_txn_counts[txn_w1[i]+"_Remote_abort"] + 0.0) / 1000000.0 << " ms" << endl;
+      for (int i=0;i<sizeof(txn_ratio)/sizeof(txn_ratio[0]); i++) {
+        if (agg_txn_counts.find(txn_ratio[i]+"_Local")!=agg_txn_counts.end() 
+            && agg_txn_counts.find(txn_ratio[i]+"_Remote")!=agg_txn_counts.end()) {
+          cerr << "  " << txn_ratio[i] << "_remote_ratio: " << 100*(agg_txn_counts[txn_ratio[i]+"_Remote"]+agg_txn_counts[txn_ratio[i]+"_Remote_abort"]) / (agg_txn_counts[txn_ratio[i]+"_Local"]+agg_txn_counts[txn_ratio[i]+"_Local_abort"]+agg_txn_counts[txn_ratio[i]+"_Remote"]+agg_txn_counts[txn_ratio[i]+"_Remote_abort"] + 0.0) << " %"<< endl;
+          cerr << "  " << txn_ratio[i] << "_remote_abort_ratio: " << 100*agg_txn_counts[txn_ratio[i]+"_Remote_abort"] / (agg_txn_counts[txn_ratio[i]+"_Remote_abort"] + agg_txn_counts[txn_ratio[i]+"_Remote"] + 0.0) << " %" << endl;
+          cerr << "  " << txn_w1[i] << "_remote_commit_latency: " << agg_txn_counts[txn_w1[i]+"_Remote_NANO"] / (agg_txn_counts[txn_w1[i]+"_Remote"] + 0.0) / 1000000.0 << " ms" << endl;
+          cerr << "  " << txn_w1[i] << "_remote_abort_latency: " << agg_txn_counts[txn_w1[i]+"_Remote_NANO_abort"] / (agg_txn_counts[txn_w1[i]+"_Remote_abort"] + 0.0) / 1000000.0 << " ms" << endl;
+        }
       }
     }
 

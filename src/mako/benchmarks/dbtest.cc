@@ -11,11 +11,13 @@ static void parse_command_line_args(int argc,
                                     int &is_replicated,
                                     string& site_name,
                                     vector<string>& paxos_config_file,
-                                    string& local_shards_str)
+                                    string& local_shards_str,
+                                    string& bench_name)
 {
   while (1) {
     static struct option long_options[] =
     {
+      {"bench"                      , required_argument , 0                          , 'b'} ,
       {"num-threads"                , required_argument , 0                          , 't'} ,
       {"shard-index"                , required_argument , 0                          , 'g'} ,
       {"shard-config"               , required_argument , 0                          , 'q'} ,
@@ -28,7 +30,7 @@ static void parse_command_line_args(int argc,
       {0, 0, 0, 0}
     };
     int option_index = 0;
-    int c = getopt_long(argc, argv, "t:g:q:F:P:N:L:", long_options, &option_index);
+    int c = getopt_long(argc, argv, "b:t:g:q:F:P:N:L:", long_options, &option_index);
     if (c == -1)
       break;
 
@@ -37,6 +39,10 @@ static void parse_command_line_args(int argc,
       if (long_options[option_index].flag != 0)
         break;
       abort();
+      break;
+
+    case 'b':
+      bench_name = string(optarg);
       break;
 
     case 't': {
@@ -135,8 +141,14 @@ static void handle_new_config_format(const string& site_name)
 static void run_workers(abstract_db* db)
 {
   auto& benchConfig = BenchmarkConfig::getInstance();
-  bench_runner *r = start_workers_tpcc(benchConfig.getLeaderConfig(), db, benchConfig.getNthreads());
-  start_workers_tpcc(benchConfig.getLeaderConfig(), db, benchConfig.getNthreads(), false, 1, r);
+  
+  if (benchConfig.getBenchName() == "ycsb") {
+    ycsb_do_test(db, 0, nullptr);
+  } else {
+    bench_runner *r = start_workers_tpcc(benchConfig.getLeaderConfig(), db, benchConfig.getNthreads());
+    start_workers_tpcc(benchConfig.getLeaderConfig(), db, benchConfig.getNthreads(), false, 1, r);
+  }
+  
   delete db;
 }
 
@@ -149,10 +161,11 @@ main(int argc, char **argv)
   vector<string> paxos_config_file{};
   string site_name = "";  // For new config format
   string local_shards_str = "";  // For multi-shard mode: comma-separated list
+  string bench_name = "tpcc";  // Default benchmark is tpcc
 
   auto& benchConfig = BenchmarkConfig::getInstance();
   // Parse command line arguments
-  parse_command_line_args(argc, argv, is_micro, is_replicated, site_name, paxos_config_file, local_shards_str);
+  parse_command_line_args(argc, argv, is_micro, is_replicated, site_name, paxos_config_file, local_shards_str, bench_name);
 
   // Handle new configuration format if site name is provided
   if (!site_name.empty() && benchConfig.getConfig() != nullptr) {
@@ -162,6 +175,7 @@ main(int argc, char **argv)
   benchConfig.setIsMicro(is_micro);
   benchConfig.setIsReplicated(is_replicated);
   benchConfig.setPaxosConfigFile(paxos_config_file);
+  benchConfig.setBenchName(bench_name);
 
   // Parse local shards if specified
   if (!local_shards_str.empty() && benchConfig.getConfig() != nullptr) {
