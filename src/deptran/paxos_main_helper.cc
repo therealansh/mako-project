@@ -988,10 +988,11 @@ void pre_shutdown_step(){
     
     // Print final Paxos network statistics for KDV evaluation
     uint64_t total_bytes = total_network_bytes_sent.load(std::memory_order_relaxed);
-    if (total_bytes > 0) {
-        Log_info("[Paxos Network] Final statistics: total bytes sent: %lu (%.2f MB)", 
-                 total_bytes, total_bytes / (1024.0 * 1024.0));
-    }
+    // Always log a final line, even if the total is zero, so that
+    // evaluation scripts can reliably parse a numeric value instead
+    // of treating it as missing.
+    Log_info("[Paxos Network] Final statistics: total bytes sent: %lu (%.2f MB)", 
+             total_bytes, total_bytes / (1024.0 * 1024.0));
     
     for (auto& worker : pxs_workers_g) {
         if (worker->hb_rpc_server_ != nullptr) {

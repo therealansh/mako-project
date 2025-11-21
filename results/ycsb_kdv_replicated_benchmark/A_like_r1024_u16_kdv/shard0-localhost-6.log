@@ -1,0 +1,552 @@
+=========================================
+Configuration:
+=========================================
+  Number of shards:  1
+  Shard index:       0
+  Number of threads: 6
+  Cluster:           localhost
+  Micro benchmark:   disabled
+  Replicated mode:   enabled
+=========================================
+20251021-05:24.38-751494(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.38-752320(us) 354163 * main            (dbtest.cc:208):    KDV logs enabled via MAKO_ENABLE_KDV_LOGS environment variable
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:81] 2025-11-21 05:24:38.758 | PWD : /home/anshtyagi.linux/mako_ansh/mako-project
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:276] 2025-11-21 05:24:38.758 | starting process 354163
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/config.cc:290] 2025-11-21 05:24:38.759 | LoadYML: config/1leader_2followers/paxos6_shardidx0.yml
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/config.cc:290] 2025-11-21 05:24:38.761 | LoadYML: config/occ_paxos.yml
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:285] 2025-11-21 05:24:38.761 | server_infos, number of sites: 6, proc_name: localhost
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 05:24:38.802 | parition id of each Paxos group is 5, site-name: s106, site-id: 20
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 05:24:38.862 | parition id of each Paxos group is 4, site-name: s105, site-id: 16
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 05:24:38.903 | parition id of each Paxos group is 3, site-name: s104, site-id: 12
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 05:24:38.945 | parition id of each Paxos group is 2, site-name: s103, site-id: 8
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 05:24:38.986 | parition id of each Paxos group is 1, site-name: s102, site-id: 4
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 05:24:39.027 | parition id of each Paxos group is 0, site-name: s101, site-id: 0
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:297] 2025-11-21 05:24:39.027 | running machine-id: 0
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 05:24:39.027 | launching site: 0, bind address 0.0.0.0:7001
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 05:24:39.028 | launching site: 4, bind address 0.0.0.0:7002
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 05:24:39.028 | launching site: 8, bind address 0.0.0.0:7003
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 05:24:39.029 | launching site: c, bind address 0.0.0.0:7004
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 05:24:39.031 | launching site: 10, bind address 0.0.0.0:7005
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 05:24:39.031 | [service]loc_id: 0, name: s101, proc: localhost, id: 0
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:106] 2025-11-21 05:24:39.032 | waiting for server setup threads.
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 05:24:39.032 | launching site: 14, bind address 0.0.0.0:7006
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 05:24:39.034 | [service]loc_id: 0, name: s102, proc: localhost, id: 4
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 05:24:39.035 | [service]loc_id: 0, name: s103, proc: localhost, id: 8
+starting server at 0.0.0.0:7001
+starting server at 0.0.0.0:7002
+starting server at 0.0.0.0:7003
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 05:24:39.036 | Server s101 ready at 0.0.0.0:7001
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 05:24:39.036 | Server s102 ready at 0.0.0.0:7002
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 05:24:39.036 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 05:24:39.037 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 05:24:39.037 | Server s103 ready at 0.0.0.0:7003
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 05:24:39.037 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.037 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.037 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.037 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 05:24:39.037 | [service]loc_id: 0, name: s104, proc: localhost, id: 12
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.037 | connect to site: 127.0.0.1:7101 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.037 | connect to site: 127.0.0.1:7101 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.037 | connect to site: 127.0.0.1:7101 (attempt 0)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 05:24:39.038 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 05:24:39.038 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+starting server at 0.0.0.0:7004
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 05:24:39.039 | Server s104 ready at 0.0.0.0:7004
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 05:24:39.039 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 05:24:39.039 | [service]loc_id: 0, name: s106, proc: localhost, id: 20
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 05:24:39.038 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.039 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.040 | connect to site: 127.0.0.1:7101 (attempt 0)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 05:24:39.040 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+starting server at 0.0.0.0:7006
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 05:24:39.042 | Server s106 ready at 0.0.0.0:7006
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 05:24:39.042 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 05:24:39.043 | [service]loc_id: 0, name: s105, proc: localhost, id: 16
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.043 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.043 | connect to site: 127.0.0.1:7101 (attempt 0)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 05:24:39.043 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+starting server at 0.0.0.0:7005
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 05:24:39.044 | Server s105 ready at 0.0.0.0:7005
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 05:24:39.044 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.045 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:39.045 | connect to site: 127.0.0.1:7101 (attempt 0)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 05:24:39.045 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.038 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.038 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.039 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.039 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.039 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.039 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.040 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.040 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.040 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.040 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.041 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.041 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.041 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.041 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.041 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.042 | connect to site: 127.0.0.1:7005 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.042 | connect to site: 127.0.0.1:7105 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.042 | connect to site: 127.0.0.1:7205 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.042 | connect to site: 127.0.0.1:7305 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.043 | connect to site: 127.0.0.1:7006 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.043 | connect to site: 127.0.0.1:7106 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.043 | connect to site: 127.0.0.1:7206 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.043 | connect to site: 127.0.0.1:7306 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 05:24:40.044 | site 8 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.044 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.044 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.044 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.045 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.046 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.048 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7005 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7105 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7205 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.054 | connect to site: 127.0.0.1:7305 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.054 | connect to site: 127.0.0.1:7006 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.054 | connect to site: 127.0.0.1:7106 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.055 | connect to site: 127.0.0.1:7206 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.055 | connect to site: 127.0.0.1:7306 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 05:24:40.055 | site 0 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.057 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.057 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.058 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.058 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.058 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.058 | connect to site: 127.0.0.1:7005 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.058 | connect to site: 127.0.0.1:7105 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.059 | connect to site: 127.0.0.1:7205 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.059 | connect to site: 127.0.0.1:7305 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.059 | connect to site: 127.0.0.1:7006 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.059 | connect to site: 127.0.0.1:7106 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.059 | connect to site: 127.0.0.1:7206 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.060 | connect to site: 127.0.0.1:7306 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 05:24:40.060 | site 12 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.049 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.060 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.047 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7005 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7005 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7105 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7105 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7205 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7205 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.061 | connect to site: 127.0.0.1:7305 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.062 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.062 | connect to site: 127.0.0.1:7006 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.062 | connect to site: 127.0.0.1:7305 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.082 | connect to site: 127.0.0.1:7106 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.082 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.082 | connect to site: 127.0.0.1:7206 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.082 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.083 | connect to site: 127.0.0.1:7306 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.083 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.083 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 05:24:40.083 | site 4 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.083 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.083 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.084 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.084 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.084 | connect to site: 127.0.0.1:7005 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/dLeader initializing RocksDB at path: /tmp/mako_rocksdb_shard0_leader_pid354163 with 6 partitions and 6 worker threads
+[RocksDB] Partition 0: opened database at /tmp/mako_rocksdb_shard0_leader_pid354163_partition0
+[RocksDB] Partition 1: opened database at /tmp/mako_rocksdb_shard0_leader_pid354163_partition1
+[RocksDB] Partition 2: opened database at /tmp/mako_rocksdb_shard0_leader_pid354163_partition2
+[RocksDB] Partition 3: opened database at /tmp/mako_rocksdb_shard0_leader_pid354163_partition3
+[RocksDB] Partition 4: opened database at /tmp/mako_rocksdb_shard0_leader_pid354163_partition4
+[RocksDB] Partition 5: opened database at /tmp/mako_rocksdb_shard0_leader_pid354163_partition5
+[RocksDB] Initialized with 6 partitions and 6 worker threads
+[RocksDB] Metadata written: epoch:1,shard_id:0,num_shards:1,num_partitions:6,num_workers:6,timestamp:1763702683
+[RocksDB] Metadata written: epoch:0,shard_id:0,num_shards:1,num_partitions:6,num_workers:6,timestamp:1763702683
+[RocksDB] Epoch changed from 1 to 0, metadata updated
+eptran/communicator.cc:174] 2025-11-21 05:24:40.084 | connect to site: 127.0.0.1:7105 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.085 | connect to site: 127.0.0.1:7205 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.085 | connect to site: 127.0.0.1:7305 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.085 | connect to site: 127.0.0.1:7006 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.085 | connect to site: 127.0.0.1:7106 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.089 | connect to site: 127.0.0.1:7006 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.089 | connect to site: 127.0.0.1:7106 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.089 | connect to site: 127.0.0.1:7206 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.089 | connect to site: 127.0.0.1:7306 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 05:24:40.090 | site 16 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.091 | connect to site: 127.0.0.1:7206 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 05:24:40.092 | connect to site: 127.0.0.1:7306 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 05:24:40.092 | site 20 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:110] 2025-11-21 05:24:40.093 | done waiting for server setup threads.
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 05:24:40.093 | heartbeat setup for s101 on 0.0.0.0:17001
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 05:24:40.094 | heartbeat setup for s102 on 0.0.0.0:17002
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 05:24:40.095 | heartbeat setup for s103 on 0.0.0.0:17003
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 05:24:40.096 | heartbeat setup for s104 on 0.0.0.0:17004
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 05:24:40.097 | heartbeat setup for s105 on 0.0.0.0:17005
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 05:24:40.100 | heartbeat setup for s106 on 0.0.0.0:17006
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:117] 2025-11-21 05:24:40.100 | server workers' communicators setup
+allocator::Initialize()
+  hugepgsize: 2097152
+  use MADV_WILLNEED: 1
+  mmap() region [0x7fdb409e6000, 0x7fdb813e6000)
+cpu0 owns [0x7fdb40a00000, 0x7fdb4b600000)
+cpu1 owns [0x7fdb4b600000, 0x7fdb56200000)
+cpu2 owns [0x7fdb56200000, 0x7fdb60e00000)
+cpu3 owns [0x7fdb60e00000, 0x7fdb6ba00000)
+cpu4 owns [0x7fdb6ba00000, 0x7fdb76600000)
+cpu5 owns [0x7fdb76600000, 0x7fdb81200000)
+Database Benchmark:
+  pid: 354163
+settings:
+  num-cpus    : 8
+  num-threads : 6
+  shardIndex  : 0
+  paxos_proc_name  : localhost
+  nshards     : 1
+  is_micro    : 0
+  is_replicated : 1
+  var-encode  : yes
+  allocator   : jemalloc
+system properties:
+  tuple_prefetch          : no
+  btree_node_prefetch     : yes
+new table is createded with name: USERTABLE, table-id: 1, on shard-server id:0
+20251021-05:24.43-316235(us) 354163 ! run             (bench.cc:351):     # of loaders size:1
+[RocksDB Pending] partition=0, pending=1 (total_pending=1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:430] 2025-11-21 05:24:43.818 | [Paxos Network] Sent 0 logs, total bytes: 40858384
+timed region dataloading took 2755.81 ms
+DB size: 855.562 MB
+[0, 0, 0] txns persisted in loading phase
+20251021-05:24.46-72830(us) 354163 ! run             (bench.cc:404):     # of nthreads:6
+starting benchmark...
+--------------Finish loading data and wait for others completing load phase ------------
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+20251021-05:24.46-98240(us) 354163 * No JEMALLOC_NO_RENAME
+ParseOldFormat  (configuration.cc:66): Using old configuration formatNo JEMALLOC_NO_RENAME
+
+20251021-05:24.46-103405(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-104498(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-104980(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-106491(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-109184(us) 354163 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31001 (listening on 0.0.0.0:31001)
+20251021-05:24.46-109810(us) 354163 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31001
+20251021-05:24.46-110105(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-111002(us) 354163 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31002 (listening on 0.0.0.0:31002)
+20251021-05:24.46-111214(us) 354163 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31002
+20251021-05:24.46-111439(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-114048(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-114473(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-116446(us) 354163 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31000 (listening on 0.0.0.0:31000)
+20251021-05:24.46-116636(us) 354163 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31000
+20251021-05:24.46-116762(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+No JEMALLOC_NO_RENAME
+20251021-05:24.46-118470(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-119763(us) 354163 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31004 (listening on 0.0.0.0:31004)
+20251021-05:24.46-119979(us) 354163 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31004
+20251021-05:24.46-121969(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-123150(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-124798(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-128156(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-129952(us) 354163 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31005 (listening on 0.0.0.0:31005)
+20251021-05:24.46-130166(us) 354163 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31005
+20251021-05:24.46-131348(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-138795(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-146738(us) 354163 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31003 (listening on 0.0.0.0:31003)
+20251021-05:24.46-147502(us) 354163 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31003
+20251021-05:24.46-151535(us) 354163 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-05:24.46-155991(us) 354163 ! run             (bench.cc:460):     start the running time, runTime:30
+20251021-05:24.46-156189(us) 354163 ! run             (bench.cc:472):     runtime time left:30000 ms, bool:1
+[RocksDB Pending] partition=2, pending=0 (total_pending=2)
+[RocksDB Pending] partition=5, pending=0 (total_pending=3)
+[RocksDB Pending] partition=4, pending=1 (total_pending=4)
+[RocksDB Pending] partition=1, pending=0 (total_pending=6)
+[RocksDB Pending] partition=3, pending=1 (total_pending=8)
+20251021-05:24.47-285697(us) 354163 ! run             (bench.cc:472):     runtime time left:29000 ms, bool:1
+20251021-05:24.48-391317(us) 354163 ! run             (bench.cc:472):     runtime time left:28000 ms, bool:1
+20251021-05:24.49-500269(us) 354163 ! run             (bench.cc:472):     runtime time left:27000 ms, bool:1
+we can start a advancer
+start the advancer thread...
+[RocksDB Helper] par_id=3, success=100, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=2)
+20251021-05:24.50-596516(us) 354163 ! run             (bench.cc:472):     runtime time left:26000 ms, bool:1
+[RocksDB Helper] par_id=0, success=100, failed=0
+[RocksDB Pending] partition=0, pending=0 (total_pending=2)
+[RocksDB Helper] par_id=2, success=100, failed=0
+[RocksDB Pending] partition=2, pending=0 (total_pending=1)
+20251021-05:24.51-667950(us) 354163 ! run             (bench.cc:472):     runtime time left:25000 ms, bool:1
+[RocksDB Helper] par_id=1, success=100, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=5, success=100, failed=0
+[RocksDB Pending] partition=5, pending=0 (total_pending=2)
+[RocksDB Helper] par_id=4, success=100, failed=0
+[RocksDB Pending] partition=4, pending=1 (total_pending=2)
+20251021-05:24.52-782320(us) 354163 ! run             (bench.cc:472):     runtime time left:24000 ms, bool:1
+20251021-05:24.53-914837(us) 354163 ! run             (bench.cc:472):     runtime time left:23000 ms, bool:1
+[RocksDB Helper] par_id=3, success=200, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=1)
+[RocksDB Helper] par_id=0, success=200, failed=0
+[RocksDB Pending] partition=0, pending=0 (total_pending=0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:430] 2025-11-21 05:24:54.166 | [Paxos Network] Sent 1000 logs, total bytes: 486041408
+[KDV Encode] count=1001, bases=1001, deltas=0, compression_ratio=1.00006, bandwidth_reduction=-0.00551745%, cache_size=157, evictions=0, time_us=21107.8
+[KDV Policy Stats] no_base=0, chain_too_long=0, delta_too_large=0, base_too_old=0
+20251021-05:24.55-35215(us) 354163 ! run             (bench.cc:472):     runtime time left:22000 ms, bool:1
+[RocksDB Helper] par_id=2, success=200, failed=0
+[RocksDB Pending] partition=2, pending=0 (total_pending=0)
+20251021-05:24.56-136011(us) 354163 ! run             (bench.cc:472):     runtime time left:21000 ms, bool:1
+[RocksDB Helper] par_id=5, success=200, failed=0
+[RocksDB Pending] partition=5, pending=0 (total_pending=1)
+[RocksDB Helper] par_id=4, success=200, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=2)
+[RocksDB Helper] par_id=1, success=200, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=1)
+20251021-05:24.57-230968(us) 354163 ! run             (bench.cc:472):     runtime time left:20000 ms, bool:1
+[RocksDB Helper] par_id=0, success=300, failed=0
+[RocksDB Pending] partition=0, pending=0 (total_pending=1)
+20251021-05:24.58-334166(us) 354163 ! run             (bench.cc:472):     runtime time left:19000 ms, bool:1
+[RocksDB Helper] par_id=3, success=300, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=2, success=300, failed=0
+[RocksDB Pending] partition=2, pending=0 (total_pending=0)
+20251021-05:24.59-449900(us) 354163 ! run             (bench.cc:472):     runtime time left:18000 ms, bool:1
+20251021-05:25.00-539902(us) 354163 ! run             (bench.cc:472):     runtime time left:17000 ms, bool:1
+[RocksDB Helper] par_id=4, success=300, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:430] 2025-11-21 05:25:00.948 | [Paxos Network] Sent 2000 logs, total bytes: 841476848
+[KDV Encode] count=2000, bases=2000, deltas=0, compression_ratio=1.00006, bandwidth_reduction=-0.00648957%, cache_size=303, evictions=0, time_us=6139.94
+[KDV Policy Stats] no_base=0, chain_too_long=0, delta_too_large=0, base_too_old=0
+[RocksDB Helper] par_id=3, success=400, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=1, success=300, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=1)
+[RocksDB Helper] par_id=5, success=300, failed=0
+20251021-05:25.01-618605(us) 354163 ! run             (bench.cc:472):     runtime time left:16000 ms, bool:1
+[RocksDB Pending] partition=5, pending=0 (total_pending=4)
+20251021-05:25.02-735579(us) 354163 ! run             (bench.cc:472):     runtime time left:15000 ms, bool:1
+[RocksDB Helper] par_id=2, success=400, failed=0
+[RocksDB Pending] partition=2, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=1, success=400, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=1)
+[RocksDB Pending] partition=0, pending=1 (total_pending=1)
+[RocksDB Helper] par_id=0, success=400, failed=0
+20251021-05:25.03-855950(us) 354163 ! run             (bench.cc:472):     runtime time left:14000 ms, bool:1
+[RocksDB Helper] par_id=4, success=400, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=3, success=500, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=0)
+20251021-05:25.04-962334(us) 354163 ! run             (bench.cc:472):     runtime time left:13000 ms, bool:1
+20251021-05:25.06-70313(us) 354163 ! run             (bench.cc:472):     runtime time left:12000 ms, bool:1
+[RocksDB Helper] par_id=5, success=400, failed=0
+[RocksDB Pending] partition=5, pending=1 (total_pending=2)
+[RocksDB Helper] par_id=1, success=500, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=4, success=500, failed=0
+[RocksDB Helper] par_id=2, success=500, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=1)
+20251021-05:25.07-162709(us) 354163 ! run             (bench.cc:472):     runtime time left:11000 ms, bool:1
+[RocksDB Pending] partition=2, pending=0 (total_pending=0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:430] 2025-11-21 05:25:07.221 | [Paxos Network] Sent 3000 logs, total bytes: 1164944388
+[KDV Encode] count=3000, bases=3000, deltas=0, compression_ratio=1.00007, bandwidth_reduction=-0.00708104%, cache_size=512, evictions=0, time_us=18924.8
+[KDV Policy Stats] no_base=0, chain_too_long=0, delta_too_large=0, base_too_old=0
+[RocksDB Helper] par_id=3, success=600, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=0)
+20251021-05:25.08-271872(us) 354163 ! run             (bench.cc:472):     runtime time left:10000 ms, bool:1
+[RocksDB Helper] par_id=0, success=500, failed=0
+[RocksDB Pending] partition=0, pending=0 (total_pending=0)
+20251021-05:25.09-377573(us) 354163 ! run             (bench.cc:472):     runtime time left:9000 ms, bool:1
+[RocksDB Helper] par_id=3, success=700, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=1)
+20251021-05:25.10-454692(us) 354163 ! run             (bench.cc:472):     runtime time left:8000 ms, bool:1
+[RocksDB Helper] par_id=5, success=500, failed=0
+[RocksDB Pending] partition=5, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=1, success=600, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=2)
+[RocksDB Helper] par_id=4, success=600, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=2, success=600, failed=0
+[RocksDB Pending] partition=2, pending=0 (total_pending=0)
+20251021-05:25.11-573693(us) 354163 ! run             (bench.cc:472):     runtime time left:7000 ms, bool:1
+[RocksDB Pending] partition=0, pending=1 (total_pending=3)
+[RocksDB Helper] par_id=0, success=600, failed=0
+20251021-05:25.12-701738(us) 354163 ! run             (bench.cc:472):     runtime time left:6000 ms, bool:1
+20251021-05:25.13-813475(us) 354163 ! run             (bench.cc:472):     runtime time left:5000 ms, bool:1
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:430] 2025-11-21 05:25:13.848 | [Paxos Network] Sent 4000 logs, total bytes: 1456451748
+[KDV Encode] count=4000, bases=4000, deltas=0, compression_ratio=1.00008, bandwidth_reduction=-0.00757964%, cache_size=667, evictions=0, time_us=4911.95
+[KDV Policy Stats] no_base=0, chain_too_long=0, delta_too_large=0, base_too_old=0
+[RocksDB Helper] par_id=4, success=700, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=1)
+[RocksDB Helper] par_id=0, success=700, failed=0
+[RocksDB Pending] partition=0, pending=0 (total_pending=1)
+20251021-05:25.14-940999(us) 354163 ! run             (bench.cc:472):     runtime time left:4000 ms, bool:1
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:15.116 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:15.116 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:15.116 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:15.116 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:15.116 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:15.116 | Shutdown Server Control Service
+[RocksDB Helper] par_id=5, success=600, failed=0
+[RocksDB Pending] partition=5, pending=0 (total_pending=1)
+[RocksDB Helper] par_id=3, success=800, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=2, success=700, failed=0
+[RocksDB Pending] partition=2, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=1, success=700, failed=0
+[RocksDB Pending] partition=1, pending=0 (total_pending=1)
+20251021-05:25.16-70918(us) 354163 ! run             (bench.cc:472):     runtime time left:3000 ms, bool:1
+20251021-05:25.17-203864(us) 354163 ! run             (bench.cc:472):     runtime time left:2000 ms, bool:1
+[RocksDB Helper] par_id=4, success=800, failed=0
+[RocksDB Pending] partition=4, pending=0 (total_pending=1)
+20251021-05:25.18-321172(us) 354163 ! run             (bench.cc:472):     runtime time left:1000 ms, bool:1
+[RocksDB Helper] par_id=0, success=800, failed=0
+[RocksDB Pending] partition=0, pending=0 (total_pending=0)
+[RocksDB Helper] par_id=3, success=900, failed=0
+[RocksDB Pending] partition=3, pending=0 (total_pending=1)
+[RocksDB Helper] par_id=5, success=700, failed=0
+20251021-05:25.19-458782(us) 354163 ! run             (bench.cc:482):     runtime_plus:0
+20251021-05:25.19-459147(us) 354163 jump out the while loop
+! stop            (bench.cc:328):     stop all erpc clients. set stop=false
+jump out the while loop
+20251021-05:25.19-459390(us) 354163 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-459523(us) 354163 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-459614(us) 354163 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-459699(us) 354163 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-459784(us) 354163 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-459866(us) 354163 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+jump out the while loop
+jump out the while loop
+jump out the while loop
+20251021-05:25.19-459953(us) 354163 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-461134(us) 354163 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-461953(us) 354163 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-462459(us) 354163 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+20251021-05:25.19-463166(us) 354163 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+jump out the while loop
+20251021-05:25.19-466445(us) 354163 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+[RocksDB Pending] partition=5, pending=0 (total_pending=0)
+--- n_commits per partition ---
+ par_id: 0, n_commits: 669683
+ par_id: 1, n_commits: 635041
+ par_id: 2, n_commits: 636026
+ par_id: 3, n_commits: 560215
+ par_id: 4, n_commits: 738739
+ par_id: 5, n_commits: 670090
+--- benchmark statistics ---
+runtime: 33.3375 sec
+memory delta: 10452.6 MB
+n_commits: 3909794
+latency_numer_us: 167594739
+latency_numer_us_remote: 0
+memory delta rate: 313.537 MB/sec
+logical memory delta: 0 MB
+logical memory delta rate: 0 MB/sec
+agg_nosync_throughput: 117282 ops/sec
+avg_nosync_per_core_throughput: 19547.1 ops/sec/core
+agg_throughput: 117279 ops/sec
+avg_per_core_throughput: 19546.5 ops/sec/core
+agg_persist_throughput: 117279 ops/sec
+avg_per_core_persist_throughput: 19546.5 ops/sec/core
+avg_latency: 0.0428654 ms
+avg_persist_latency: 0 ms
+agg_abort_rate: 8.81889 aborts/sec
+avg_per_core_abort_rate: 1.46982 aborts/sec/core
+--- system counters (for benchmark) ---
+--- perf counters (if enabled, for benchmark) ---
+--- allocator stats ---
+[allocator] ncpus=6
+[allocator] cpu=0 fully_faulted?=0 remaining=180355072 bytes
+[allocator] cpu=1 fully_faulted?=0 remaining=180355072 bytes
+[allocator] cpu=2 fully_faulted?=0 remaining=180355072 bytes
+[allocator] cpu=3 fully_faulted?=0 remaining=180355072 bytes
+[allocator] cpu=4 fully_faulted?=0 remaining=180355072 bytes
+[allocator] cpu=5 fully_faulted?=0 remaining=180355072 bytes
+---------------------------------------
+--- system counters for n_comits ---
+20251021-05:25.20-498704(us) 354163 ! send_end_signal (mako.hh:848):      ######--------------###### send endLlogs #####---------------######
+20251021-05:25.20-499189(us) 354163 * db_close        (mako.hh:875):      Leader sent end signal, waiting 3 seconds for propagation...
+20251021-05:25.20-552546(us) 354163 ! operator()      (mako.hh:409):      Recieved a zero length log
+20251021-05:25.20-553272(us) 354163 ! operator()      (mako.hh:409):      Recieved a zero length log
+20251021-05:25.20-559328(us) 354163 ! operator()      (mako.hh:409):      Recieved a zero length log
+20251021-05:25.20-560694(us) 354163 ! operator()      (mako.hh:409):      Recieved a zero length log
+20251021-05:25.20-561935(us) 354163 ! operator()      (mako.hh:409):      Recieved a zero length log
+20251021-05:25.20-565984(us) 354163 ! operator()      (mako.hh:409):      Recieved a zero length log
+
+=== RocksDB KDV Compression Statistics ===
+Total original bytes:  1690523316 (1612.21 MB)
+Total encoded bytes:   1690660348 (1612.34 MB)
+Compression ratio:     -0.01%
+Size ratio:            1.0001
+Disk savings:          18446744073709414584 bytes (17592186044415.87 MB)
+==========================================
+
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:134] 2025-11-21 05:25:20.552 | Recieved a zero length log
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:134] 2025-11-21 05:25:20.552 | Recieved a zero length log
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:134] 2025-11-21 05:25:20.559 | Recieved a zero length log
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:134] 2025-11-21 05:25:20.560 | Recieved a zero length log
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:134] 2025-11-21 05:25:20.561 | Recieved a zero length log
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:134] 2025-11-21 05:25:20.565 | Recieved a zero length log
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.611 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.611 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.612 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.612 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.618 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.618 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:460] 2025-11-21 05:25:21.640 | received an error message
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:987] 2025-11-21 05:25:25.501 | shutdown Server Control Service after task finish total submit 0
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:994] 2025-11-21 05:25:25.501 | [Paxos Network] Final statistics: total bytes sent: 1690523524 (1612.21 MB)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:25.501 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:25.501 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:25.501 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:25.502 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:25.502 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/benchmark_control_rpc.cc:43] 2025-11-21 05:25:25.502 | Shutdown Server Control Service
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:311] 2025-11-21 05:25:25.528 | all server workers have shut down.

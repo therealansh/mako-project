@@ -16,12 +16,10 @@ let up=trd+3
 mkdir -p results
 path=$(pwd)/src/mako
 
-# Build the command with optional flags
-CMD="./build/dbtest --bench $bench --num-threads $trd --shard-index $shard --shard-config $path/config/local-shards$nshard-warehouses$trd.yml -F config/1leader_2followers/paxos$trd\_shardidx$shard.yml -F config/occ_paxos.yml -P $cluster"
-
-if [ -n "$EXTRA_ARGS" ]; then
-    CMD="$CMD $EXTRA_ARGS"
-fi
+# Build the base command. We invoke the top-level ./dbtest binary,
+# which is what the CMake/Makefile build produces and which we keep
+# up-to-date when rebuilding the project.
+CMD="./dbtest --bench $bench --num-threads $trd --shard-index $shard --shard-config $path/config/local-shards$nshard-warehouses$trd.yml -F config/1leader_2followers/paxos$trd\_shardidx$shard.yml -F config/occ_paxos.yml -P $cluster"
 
 # Add --is-micro flag if enabled (value is 1)
 if [ "$is_micro" == "1" ]; then
@@ -31,6 +29,13 @@ fi
 # Add --is-replicated flag if enabled (value is 1)
 if [ "$is_replicated" == "1" ]; then
     CMD="$CMD --is-replicated"
+fi
+
+# Append any benchmark-specific extra args (e.g., YCSB -w/-r/-u/-m)
+# after all core dbtest flags so that dbtest can parse its own options
+# before handing remaining args to the benchmark.
+if [ -n "$EXTRA_ARGS" ]; then
+    CMD="$CMD $EXTRA_ARGS"
 fi
 
 # Print configuration

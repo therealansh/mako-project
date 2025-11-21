@@ -1,0 +1,218 @@
+20251020-03:03.22-527932(us) 173164 * main            (dbtest.cc:201):    KDV logs enabled via MAKO_ENABLE_KDV_LOGS environment variable
+allocator::Initialize()
+  hugepgsize: 2097152
+  use MADV_WILLNEED: 1
+  mmap() region [0x7f20d3f7f000, 0x7f211417f000)
+cpu0 owns [0x7f20d4000000, 0x7f20e4000000)
+cpu1 owns [0x7f20e4000000, 0x7f20f4000000)
+cpu2 owns [0x7f20f4000000, 0x7f2104000000)
+cpu3 owns [0x7f2104000000, 0x7f2114000000)
+Database Benchmark:
+  pid: 173164
+settings:
+  num-cpus    : 8
+  num-threads : 4
+  shardIndex  : 0
+  paxos_proc_name  : 
+  nshards     : 1
+  is_micro    : 0
+  is_replicated : 0
+  var-encode  : yes
+  allocator   : jemalloc
+system properties:
+  tuple_prefetch          : no
+  btree_node_prefetch     : yes
+new table is createded with name: USERTABLE, table-id: 1, on shard-server id:0
+20251020-03:03.22-535837(us) 173164 ! run             (bench.cc:351):     # of loaders size:1
+timed region dataloading took 40.851 ms
+DB size: 4 MB
+[0, 0, 0] txns persisted in loading phase
+20251020-03:03.22-576932(us) 173164 ! run             (bench.cc:404):     # of nthreads:4
+starting benchmark...
+--------------Finish loading data and wait for others completing load phase ------------
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+20251020-03:03.22-592201(us) 173164 ! run             (bench.cc:460):     start the running time, runTime:30
+20251020-03:03.22-592428(us) 173164 ! run             (bench.cc:472):     runtime time left:30000 ms, bool:1
+20251020-03:03.23-705100(us) 173164 ! run             (bench.cc:472):     runtime time left:29000 ms, bool:1
+20251020-03:03.24-823025(us) 173164 ! run             (bench.cc:472):     runtime time left:28000 ms, bool:1
+20251020-03:03.25-932525(us) 173164 ! run             (bench.cc:472):     runtime time left:27000 ms, bool:1
+20251020-03:03.27-47292(us) 173164 ! run             (bench.cc:472):     runtime time left:26000 ms, bool:1
+20251020-03:03.28-161237(us) 173164 ! run             (bench.cc:472):     runtime time left:25000 ms, bool:1
+20251020-03:03.29-283191(us) 173164 ! run             (bench.cc:472):     runtime time left:24000 ms, bool:1
+20251020-03:03.30-401546(us) 173164 ! run             (bench.cc:472):     runtime time left:23000 ms, bool:1
+20251020-03:03.31-522800(us) 173164 ! run             (bench.cc:472):     runtime time left:22000 ms, bool:1
+20251020-03:03.32-637547(us) 173164 ! run             (bench.cc:472):     runtime time left:21000 ms, bool:1
+20251020-03:03.33-754104(us) 173164 ! run             (bench.cc:472):     runtime time left:20000 ms, bool:1
+20251020-03:03.34-876257(us) 173164 ! run             (bench.cc:472):     runtime time left:19000 ms, bool:1
+20251020-03:03.35-986738(us) 173164 ! run             (bench.cc:472):     runtime time left:18000 ms, bool:1
+20251020-03:03.37-110655(us) 173164 ! run             (bench.cc:472):     runtime time left:17000 ms, bool:1
+20251020-03:03.38-222510(us) 173164 ! run             (bench.cc:472):     runtime time left:16000 ms, bool:1
+20251020-03:03.39-338611(us) 173164 ! run             (bench.cc:472):     runtime time left:15000 ms, bool:1
+20251020-03:03.40-456218(us) 173164 ! run             (bench.cc:472):     runtime time left:14000 ms, bool:1
+20251020-03:03.41-570081(us) 173164 ! run             (bench.cc:472):     runtime time left:13000 ms, bool:1
+20251020-03:03.42-688092(us) 173164 ! run             (bench.cc:472):     runtime time left:12000 ms, bool:1
+20251020-03:03.43-805159(us) 173164 ! run             (bench.cc:472):     runtime time left:11000 ms, bool:1
+20251020-03:03.44-924627(us) 173164 ! run             (bench.cc:472):     runtime time left:10000 ms, bool:1
+20251020-03:03.46-34022(us) 173164 ! run             (bench.cc:472):     runtime time left:9000 ms, bool:1
+20251020-03:03.47-147256(us) 173164 ! run             (bench.cc:472):     runtime time left:8000 ms, bool:1
+20251020-03:03.48-258313(us) 173164 ! run             (bench.cc:472):     runtime time left:7000 ms, bool:1
+20251020-03:03.49-377645(us) 173164 ! run             (bench.cc:472):     runtime time left:6000 ms, bool:1
+20251020-03:03.50-500429(us) 173164 ! run             (bench.cc:472):     runtime time left:5000 ms, bool:1
+20251020-03:03.51-612392(us) 173164 ! run             (bench.cc:472):     runtime time left:4000 ms, bool:1
+20251020-03:03.52-730597(us) 173164 ! run             (bench.cc:472):     runtime time left:3000 ms, bool:1
+20251020-03:03.53-842954(us) 173164 ! run             (bench.cc:472):     runtime time left:2000 ms, bool:1
+20251020-03:03.54-965121(us) 173164 ! run             (bench.cc:472):     runtime time left:1000 ms, bool:1
+20251020-03:03.56-83640(us) 173164 ! run             (bench.cc:482):     runtime_plus:0
+20251020-03:03.56-83908(us) 173164 jump out the while loopjump out the while loop
+! stop            (bench.cc:328):     stop all erpc clients. set stop=false
+jump out the while loop
+jump out the while loop
+
+--- n_commits per partition ---
+ par_id: 0, n_commits: 3066033
+ par_id: 1, n_commits: 3062104
+ par_id: 2, n_commits: 3102923
+ par_id: 3, n_commits: 3106190
+--- benchmark statistics ---
+runtime: 33.494 sec
+memory delta: 9.89453 MB
+n_commits: 12337250
+latency_numer_us: 39436443
+latency_numer_us_remote: 0
+memory delta rate: 0.295412 MB/sec
+logical memory delta: 0 MB
+logical memory delta rate: 0 MB/sec
+agg_nosync_throughput: 368347 ops/sec
+avg_nosync_per_core_throughput: 92086.6 ops/sec/core
+agg_throughput: 368343 ops/sec
+avg_per_core_throughput: 92085.6 ops/sec/core
+agg_persist_throughput: 368343 ops/sec
+avg_per_core_persist_throughput: 92085.6 ops/sec/core
+avg_latency: 0.00319653 ms
+avg_persist_latency: 0 ms
+agg_abort_rate: 119284 aborts/sec
+avg_per_core_abort_rate: 29821.1 aborts/sec/core
+--- system counters (for benchmark) ---
+--- perf counters (if enabled, for benchmark) ---
+--- allocator stats ---
+[allocator] ncpus=4
+[allocator] cpu=0 fully_faulted?=0 remaining=268435456 bytes
+[allocator] cpu=1 fully_faulted?=0 remaining=268435456 bytes
+[allocator] cpu=2 fully_faulted?=0 remaining=268435456 bytes
+[allocator] cpu=3 fully_faulted?=0 remaining=268435456 bytes
+---------------------------------------
+--- system counters for n_comits ---
+[RocksDB KDV Stats] No KDV-encoded data persisted
+20251020-03:03.58-88683(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:1s
+
+20251020-03:03.59-90024(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:2s
+
+20251020-03:04.00-92568(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:3s
+
+20251020-03:04.01-94739(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:4s
+
+20251020-03:04.02-97024(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:5s
+
+20251020-03:04.03-98063(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:6s
+
+20251020-03:04.04-99708(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:7s
+
+20251020-03:04.05-101569(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:8s
+
+20251020-03:04.06-104027(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:9s
+
+20251020-03:04.07-106951(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:10s
+
+20251020-03:04.08-108497(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:11s
+
+20251020-03:04.09-109241(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:12s
+
+20251020-03:04.10-111935(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:13s
+
+20251020-03:04.11-115226(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:14s
+
+20251020-03:04.12-117225(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:15s
+
+20251020-03:04.13-119035(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:16s
+
+20251020-03:04.14-121363(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:17s
+
+20251020-03:04.15-124225(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:18s
+
+20251020-03:04.16-126821(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:19s
+
+20251020-03:04.17-129267(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:20s
+
+20251020-03:04.18-129982(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:21s
+
+20251020-03:04.19-131462(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:22s
+
+20251020-03:04.20-133639(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:23s
+
+20251020-03:04.21-136237(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:24s
+
+20251020-03:04.22-138412(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:25s
+
+20251020-03:04.23-140037(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:26s
+
+20251020-03:04.24-142558(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:27s
+
+20251020-03:04.25-145940(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:28s
+
+20251020-03:04.26-148591(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:29s
+
+20251020-03:04.27-152376(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:30s
+
+20251020-03:04.28-154173(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:31s
+
+20251020-03:04.29-155510(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:32s
+
+20251020-03:04.30-158277(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:33s
+
+20251020-03:04.31-161019(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:34s
+
+20251020-03:04.32-164035(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:35s
+
+20251020-03:04.33-166381(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:36s
+
+20251020-03:04.34-167593(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:37s
+
+20251020-03:04.35-170438(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:38s
+
+20251020-03:04.36-172958(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:39s
+
+20251020-03:04.37-175470(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:40s
+
+20251020-03:04.38-177008(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:41s
+
+20251020-03:04.39-179425(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:42s
+
+20251020-03:04.40-183015(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:43s
+
+20251020-03:04.41-185423(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:44s
+
+20251020-03:04.42-188142(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:45s
+
+20251020-03:04.43-190248(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:46s
+
+20251020-03:04.44-191804(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:47s
+
+20251020-03:04.45-194131(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:48s
+
+20251020-03:04.46-196670(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:49s
+
+20251020-03:04.47-199671(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:50s
+
+20251020-03:04.48-202697(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:51s
+
+20251020-03:04.49-204544(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:52s
+
+20251020-03:04.50-206766(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:53s
+
+20251020-03:04.51-210526(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:54s
+
+20251020-03:04.52-212754(us) 173164 * wait_for_termination (mako.hh:556):      follower is waiting for being ended: 0/4, noops_cnt:0, replay_batch:0, wait_time:55s
+

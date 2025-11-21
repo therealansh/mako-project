@@ -27,7 +27,7 @@ UPDATE_CONFIGS=(
 )
 
 cleanup() {
-    echo "Cleaning up processes and RocksDB directories..."
+    echo "Cleaning up processes and RocksDB directories..." >&2
     pkill -9 dbtest || true
     sleep 2
     rm -rf /tmp/mako_rocksdb_shard* || true
@@ -37,31 +37,61 @@ cleanup() {
 extract_metrics() {
     local log_file=$1
     local kdv_enabled=$2
-    
-    local throughput=$(grep "agg_throughput:" "$log_file" | tail -1 | awk '{print $2}')
-    
-    local latency=$(grep "avg_latency:" "$log_file" | tail -1 | awk '{print $2}' || echo "N/A")
-    
-    local paxos_bytes=$(grep "\[Paxos Network\] Final statistics: total bytes sent:" "$log_file" | tail -1 | awk '{print $7}')
-    
+
+    # Throughput (ops/sec)
+    local throughput
+    throughput=$(grep -oP 'agg_throughput:\s+\K[0-9.]+' "$log_file" 2>/dev/null | tail -1 || true)
+    if [ -z "$throughput" ]; then
+        throughput="N/A"
+    fi
+
+    # Average latency (ms)
+    local latency
+    latency=$(grep -oP 'avg_latency:\s+\K[0-9.]+' "$log_file" 2>/dev/null | tail -1 || true)
+    if [ -z "$latency" ]; then
+        latency="N/A"
+    fi
+
+    # Paxos network bytes
+    local paxos_bytes
+    paxos_bytes=$(grep -oP '\[Paxos Network\] Final statistics: total bytes sent:\s+\K[0-9]+' "$log_file" 2>/dev/null | tail -1 || true)
+    if [ -z "$paxos_bytes" ]; then
+        paxos_bytes="N/A"
+    fi
+
+    # KDV-specific stats (only when enabled and data exists)
     local original_bytes="N/A"
     local encoded_bytes="N/A"
     local compression_ratio="N/A"
-    
+
     if [ "$kdv_enabled" = "true" ]; then
-        original_bytes=$(grep "Total original bytes:" "$log_file" | tail -1 | awk '{print $4}')
-        encoded_bytes=$(grep "Total encoded bytes:" "$log_file" | tail -1 | awk '{print $4}')
-        compression_ratio=$(grep "Compression ratio:" "$log_file" | tail -1 | awk '{print $3}' | tr -d '%')
-    fi
-    
-    local rocksdb_size="N/A"
-    if [ -d "/tmp/mako_rocksdb_shard0_leader_pid"* ]; then
-        local rocksdb_dir=$(ls -d /tmp/mako_rocksdb_shard0_leader_pid* 2>/dev/null | head -1)
-        if [ -n "$rocksdb_dir" ]; then
-            rocksdb_size=$(du -sb "$rocksdb_dir" 2>/dev/null | awk '{print $1}' || echo "N/A")
+        local tmp
+
+        tmp=$(grep -oP 'Total original bytes:\s+\K[0-9]+' "$log_file" 2>/dev/null | tail -1 || true)
+        if [ -n "$tmp" ]; then
+            original_bytes="$tmp"
+        fi
+
+        tmp=$(grep -oP 'Total encoded bytes:\s+\K[0-9]+' "$log_file" 2>/dev/null | tail -1 || true)
+        if [ -n "$tmp" ]; then
+            encoded_bytes="$tmp"
+        fi
+
+        tmp=$(grep -oP 'Compression ratio:\s+\K[-0-9.]+' "$log_file" 2>/dev/null | tail -1 || true)
+        if [ -n "$tmp" ]; then
+            # Stored as percentage value without the '%' sign
+            compression_ratio="$tmp"
         fi
     fi
-    
+
+    # RocksDB total disk usage across shard directories (leader + partitions)
+    local rocksdb_size="N/A"
+    local rocksdb_bytes
+    rocksdb_bytes=$(du -sb /tmp/mako_rocksdb_shard* 2>/dev/null | awk '{sum+=$1} END {print sum}' || true)
+    if [ -n "$rocksdb_bytes" ] && [ "$rocksdb_bytes" != "0" ]; then
+        rocksdb_size="$rocksdb_bytes"
+    fi
+
     echo "$throughput,$latency,$paxos_bytes,$original_bytes,$encoded_bytes,$compression_ratio,$rocksdb_size"
 }
 
@@ -111,34 +141,56 @@ nohup bash bash/shard.sh 1 0 $THREADS learner 0 1 ycsb -w $workload -r $record_s
 nohup bash bash/shard.sh 1 0 $THREADS p2 0 1 ycsb -w $workload -r $record_size -u $update_bytes -m $update_mode > test_1shard_replication_ycsb.sh_shard0-p2-$THREADS.log 2>&1 &
 sleep 1
 nohup bash bash/shard.sh 1 0 $THREADS p1 0 1 ycsb -w $workload -r $record_size -u $update_bytes -m $update_mode > test_1shard_replication_ycsb.sh_shard0-p1-$THREADS.log 2>&1 &
+SHARD0_PID=\$!
 
 echo "Running experiment for $RUNTIME seconds..." >&2
 sleep $RUNTIME
 
-echo "Stopping processes..." >&2
-pkill -9 dbtest || true
-sleep 2
+echo "Stopping leader (p1)..." >&2
+kill "\$SHARD0_PID" 2>/dev/null || true
+wait "\$SHARD0_PID" 2>/dev/null || true
+
 echo "Experiment complete, extracting metrics..." >&2
 EOF
     
     chmod +x "$temp_script"
     bash "$temp_script"
-    
+
     local log_file="$PROJECT_ROOT/test_1shard_replication_ycsb.sh_shard0-localhost-$THREADS.log"
     if [ ! -f "$log_file" ]; then
-        echo "ERROR: Log file not found: $log_file"
+        echo "ERROR: Log file not found: $log_file" >&2
         return 1
     fi
-    
-    local metrics=$(extract_metrics "$log_file" "$kdv_enabled")
-    echo "$workload,$record_size,$update_bytes,$kdv_enabled,$metrics"
+
+    # Give the benchmark a bit of time to flush final stats into the log
+    local waited=0
+    local max_wait=30
+    while [ $waited -lt $max_wait ]; do
+        if grep -q "agg_throughput:" "$log_file" 2>/dev/null; then
+            break
+        fi
+        sleep 1
+        waited=$((waited + 1))
+    done
+
+    local metrics
+    metrics=$(extract_metrics "$log_file" "$kdv_enabled")
+
+    # Split workload mix into separate columns for a clean CSV
+    local read_pct write_pct rmw_pct scan_pct
+    IFS=',' read -r read_pct write_pct rmw_pct scan_pct <<< "$workload"
+
+    echo "$read_pct,$write_pct,$rmw_pct,$scan_pct,$record_size,$update_bytes,$kdv_enabled,$metrics"
 }
 
 main() {
     echo "Starting YCSB KDV Replicated Evaluation"
     echo "Output will be saved to: $OUTPUT_CSV"
-    
-    echo "workload_mix,record_size,update_bytes,kdv_enabled,throughput,latency,paxos_bytes,original_bytes,encoded_bytes,compression_ratio,rocksdb_size" > "$OUTPUT_CSV"
+
+    # CSV header: Split workload mix into explicit columns for readability
+    local header="read_pct,write_pct,rmw_pct,scan_pct,record_size,update_bytes,kdv_enabled,throughput,latency,paxos_bytes,original_bytes,encoded_bytes,compression_ratio,rocksdb_size"
+    echo "$header" > "$OUTPUT_CSV"
+    echo "CSV columns: $header"
     
     for workload in "${WORKLOAD_MIXES[@]}"; do
         for record_size in "${RECORD_SIZES[@]}"; do
@@ -148,6 +200,7 @@ main() {
                 echo "Baseline run (KDV disabled)"
                 echo "========================================="
                 result=$(run_experiment "$workload" "$record_size" "$update_config" "false")
+                echo "Baseline result: $result"
                 echo "$result" >> "$OUTPUT_CSV"
                 
                 echo ""
@@ -155,6 +208,7 @@ main() {
                 echo "KDV run (KDV enabled)"
                 echo "========================================="
                 result=$(run_experiment "$workload" "$record_size" "$update_config" "true")
+                echo "KDV result:      $result"
                 echo "$result" >> "$OUTPUT_CSV"
                 
                 sleep 2

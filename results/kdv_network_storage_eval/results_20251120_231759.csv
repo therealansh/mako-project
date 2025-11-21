@@ -1,0 +1,29 @@
+experiment,mode,read_pct,rmw_pct,scan_pct,record_size,update_bytes,num_keys,throughput,network_bytes,original_bytes,encoded_bytes,compression_ratio_pct,rocksdb_bytes,description
+
+small_updates_heavy,baseline,10,0,90,1024,16,10000,N/A,10176904,N/A,N/A,N/A,217225562,"Heavy updates with 16-byte changes (1.5% of record)"
+
+small_updates_heavy,kdv,10,0,90,1024,16,10000,N/A,10176924,N/A,N/A,N/A,83860081,"Heavy updates with 16-byte changes (1.5% of record)"
+
+medium_updates_moderate,baseline,30,0,70,1024,256,10000,N/A,10176896,N/A,N/A,N/A,217086989,"Moderate updates with 256-byte changes (25% of record)"
+
+medium_updates_moderate,kdv,30,0,70,1024,256,10000,N/A,10176932,N/A,N/A,N/A,215170289,"Moderate updates with 256-byte changes (25% of record)"
+
+small_updates_balanced,baseline,50,0,50,1024,16,10000,N/A,10176896,N/A,N/A,N/A,93009572,"Balanced workload with small deltas"
+
+small_updates_balanced,kdv,50,0,50,1024,16,10000,N/A,10176924,N/A,N/A,N/A,74575917,"Balanced workload with small deltas"
+
+small_updates_read_heavy,baseline,90,0,10,1024,16,10000,N/A,10176896,N/A,N/A,N/A,209769958,"Read-heavy with occasional 16-byte updates"
+
+small_updates_read_heavy,kdv,90,0,10,1024,16,10000,N/A,10176932,N/A,N/A,N/A,210084213,"Read-heavy with occasional 16-byte updates"
+
+large_updates,baseline,50,0,50,1024,920,10000,N/A,10176896,N/A,N/A,N/A,93353587,"Large updates (90% of record - should use base encoding)"
+
+large_updates,kdv,50,0,50,1024,920,10000,N/A,10176924,N/A,N/A,N/A,58981043,"Large updates (90% of record - should use base encoding)"
+
+small_record_small_delta,baseline,50,0,50,256,16,10000,N/A,2499968,N/A,N/A,N/A,11225677,"256-byte records, 16-byte updates (6.25% change)"
+
+small_record_small_delta,kdv,50,0,50,256,16,10000,N/A,2499996,N/A,N/A,N/A,9622163,"256-byte records, 16-byte updates (6.25% change)"
+
+large_record_small_delta,baseline,50,0,50,4096,64,10000,N/A,40884608,N/A,N/A,N/A,74646974,"4KB records, 64-byte updates (1.5% change)"
+
+large_record_small_delta,kdv,50,0,50,4096,64,10000,32394.9,1504919860,1958431792,1958469844,,1959156250,"4KB records, 64-byte updates (1.5% change)"

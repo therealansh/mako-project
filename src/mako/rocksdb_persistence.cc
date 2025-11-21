@@ -639,6 +639,13 @@ void RocksDBPersistence::printKDVStats() const {
     
     if (original == 0) {
         fprintf(stderr, "[RocksDB KDV Stats] No KDV-encoded data persisted\n");
+        fprintf(stderr, "\n=== RocksDB KDV Compression Statistics ===\n");
+        fprintf(stderr, "Total original bytes:  %lu (%.2f MB)\n", original, original / (1024.0 * 1024.0));
+        fprintf(stderr, "Total encoded bytes:   %lu (%.2f MB)\n", encoded, encoded / (1024.0 * 1024.0));
+        fprintf(stderr, "Compression ratio:     0.00%%\n");
+        fprintf(stderr, "Size ratio:            0.0000\n");
+        fprintf(stderr, "Disk savings:          0 bytes (0.00 MB)\n");
+        fprintf(stderr, "==========================================\n\n");
         return;
     }
     

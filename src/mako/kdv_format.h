@@ -74,7 +74,7 @@ struct DeltaBlock {
 
 /**
  * Per-Key State for KDV Encoding
- * 
+ *
  * Tracks the last base value and chain length for a specific key.
  */
 struct KDVKeyState {
@@ -82,8 +82,23 @@ struct KDVKeyState {
     uint64_t base_seq_;
     uint16_t chain_len_;
     uint64_t last_access_time_;  // For LRU eviction
-    
+
     KDVKeyState() : base_seq_(0), chain_len_(0), last_access_time_(0) {}
+};
+
+/**
+ * Result of atomic base lookup operation.
+ *
+ * Returns base value by copy to avoid dangling reference after mutex release.
+ * Combines existence check with value retrieval to eliminate TOCTOU races.
+ */
+struct KDVBaseResult {
+    bool exists;           // Whether a base exists for this key
+    std::string base;      // Copy of base value (empty if !exists)
+    uint64_t base_seq;     // Sequence number when base was written
+    uint16_t chain_len;    // Current chain length
+
+    KDVBaseResult() : exists(false), base_seq(0), chain_len(0) {}
 };
 
 /**
@@ -95,23 +110,36 @@ struct KDVKeyState {
 class KDVPartitionState {
 public:
     KDVPartitionState(size_t max_cache_size = 10000);
-    
+
     void setBase(uint64_t key_hash, uint64_t seq, const std::string& value);
     bool hasBase(uint64_t key_hash) const;
-    const std::string& getBase(uint64_t key_hash) const;
+
+    /**
+     * Get base value by copy (SAFE - no dangling reference).
+     * Returns empty string if key doesn't exist.
+     */
+    std::string getBase(uint64_t key_hash) const;
+
+    /**
+     * Atomic lookup: get base + metadata in single locked operation.
+     * Eliminates TOCTOU race between hasBase() and getBase().
+     * Returns KDVBaseResult with exists=false if key not found.
+     */
+    KDVBaseResult getBaseIfExists(uint64_t key_hash) const;
+
     uint64_t getBaseSeq(uint64_t key_hash) const;
     uint16_t getChainLen(uint64_t key_hash) const;
     void incrementChain(uint64_t key_hash);
     void resetChain(uint64_t key_hash, uint64_t seq);
-    
+
     // Statistics
     size_t getCacheSize() const;
     size_t getEvictionCount() const;
-    
+
 private:
     void evictLRU();
     void updateAccessTime(uint64_t key_hash);
-    
+
     mutable std::mutex mutex_;
     std::unordered_map<uint64_t, KDVKeyState> key_states_;
     size_t max_cache_size_;

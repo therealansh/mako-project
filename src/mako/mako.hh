@@ -213,6 +213,10 @@ static void register_paxos_follower_callback(TSharedThreadPoolMbta& replicated_d
   //transport::ShardAddress addr = config->shard(shardIndex, mako::LEARNER_CENTER);
   register_for_follower_par_id_return([&,thread_id](const char*& log, int len, int par_id, int slot_id, std::queue<std::tuple<int, int, int, int, const char *>> & un_replay_logs_) {
     auto& benchConfig = BenchmarkConfig::getInstance();
+    const char* disable_advancer_env = getenv("MAKO_DISABLE_ADVANCER");
+    bool disable_advancer = (disable_advancer_env != nullptr) &&
+                            (strcmp(disable_advancer_env, "1") == 0 ||
+                             strcmp(disable_advancer_env, "true") == 0);
     //Warning("receive a register_for_follower_par_id_return, par_id:%d, slot_id:%d,len:%d",par_id, slot_id,len);
     int status = mako::PaxosStatus::STATUS_INIT;
     uint32_t timestamp = 0;  // Track timestamp for return value encoding
@@ -222,8 +226,16 @@ static void register_paxos_follower_callback(TSharedThreadPoolMbta& replicated_d
     if (len==mako::ADVANCER_MARKER_NUM) { // start a advancer
       status = mako::PaxosStatus::STATUS_REPLAY_DONE;
       if (par_id==0){
-        std::cout << "we can start a advancer" << std::endl;
-        sync_util::sync_logger::start_advancer();
+        // Advancer is only needed for legacy TPCC experiments and has been
+        // a source of instability in YCSB + replication runs. Allow it to
+        // be globally disabled via MAKO_DISABLE_ADVANCER, and always keep
+        // it off for the YCSB benchmark used in KDV evaluation.
+        if (!disable_advancer && benchConfig.getBenchName() != "ycsb") {
+          std::cout << "we can start a advancer" << std::endl;
+          sync_util::sync_logger::start_advancer();
+        } else {
+          std::cout << "skip advancer for YCSB benchmark" << std::endl;
+        }
       }
       return status; 
     }
@@ -390,6 +402,10 @@ static void register_paxos_leader_callback(vector<pair<uint32_t, uint32_t>>& adv
   if (!BenchmarkConfig::getInstance().getIsReplicated()) { return ; }
   register_for_leader_par_id_return([&,thread_id](const char*& log, int len, int par_id, int slot_id, std::queue<std::tuple<int, int, int, int, const char *>> & un_replay_logs_) {
     auto& benchConfig = BenchmarkConfig::getInstance();
+    const char* disable_advancer_env = getenv("MAKO_DISABLE_ADVANCER");
+    bool disable_advancer = (disable_advancer_env != nullptr) &&
+                            (strcmp(disable_advancer_env, "1") == 0 ||
+                             strcmp(disable_advancer_env, "true") == 0);
     //Warning("receive a register_for_leader_par_id_return, par_id:%d, slot_id:%d,len:%d",par_id, slot_id,len);
     int status = mako::PaxosStatus::STATUS_NORMAL;
     uint32_t timestamp = 0;  // Track timestamp for return value encoding
@@ -398,8 +414,15 @@ static void register_paxos_leader_callback(vector<pair<uint32_t, uint32_t>>& adv
     if (len==mako::ADVANCER_MARKER_NUM) { // start a advancer
       status = mako::PaxosStatus::STATUS_REPLAY_DONE;
       if (par_id==0){
-        std::cout << "we can start a advancer" << std::endl;
-        sync_util::sync_logger::start_advancer();
+        // Same reasoning as follower side: allow global disable via
+        // MAKO_DISABLE_ADVANCER and always skip advancer for the YCSB
+        // benchmark to keep replicated YCSB KDV evaluation stable.
+        if (!disable_advancer && benchConfig.getBenchName() != "ycsb") {
+          std::cout << "we can start a advancer" << std::endl;
+          sync_util::sync_logger::start_advancer();
+        } else {
+          std::cout << "skip advancer for YCSB benchmark (leader)" << std::endl;
+        }
       }
       return status; 
     }

@@ -1,0 +1,336 @@
+nohup: ignoring input
+=========================================
+Configuration:
+=========================================
+  Number of shards:  1
+  Shard index:       0
+  Number of threads: 4
+  Cluster:           learner
+  Micro benchmark:   disabled
+  Replicated mode:   enabled
+=========================================
+20251021-06:23.45-859066(us) 382102 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:81] 2025-11-21 06:23:45.866 | PWD : /home/anshtyagi.linux/mako_ansh/mako-project
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:276] 2025-11-21 06:23:45.866 | starting process 382102
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/config.cc:290] 2025-11-21 06:23:45.866 | LoadYML: config/1leader_2followers/paxos4_shardidx0.yml
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/config.cc:290] 2025-11-21 06:23:45.867 | LoadYML: config/occ_paxos.yml
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:285] 2025-11-21 06:23:45.868 | server_infos, number of sites: 4, proc_name: learner
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 06:23:45.907 | parition id of each Paxos group is 3, site-name: s404, site-id: 15
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 06:23:45.944 | parition id of each Paxos group is 2, site-name: s403, site-id: 11
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 06:23:45.981 | parition id of each Paxos group is 1, site-name: s402, site-id: 7
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:291] 2025-11-21 06:23:46.019 | parition id of each Paxos group is 0, site-name: s401, site-id: 3
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:297] 2025-11-21 06:23:46.019 | running machine-id: 3
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 06:23:46.019 | launching site: 3, bind address 0.0.0.0:7301
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 06:23:46.020 | launching site: 7, bind address 0.0.0.0:7302
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 06:23:46.021 | launching site: b, bind address 0.0.0.0:7303
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 06:23:46.021 | [service]loc_id: 3, name: s401, proc: learner, id: 3
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:106] 2025-11-21 06:23:46.022 | waiting for server setup threads.
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:91] 2025-11-21 06:23:46.022 | launching site: f, bind address 0.0.0.0:7304
+starting server at 0.0.0.0:7301
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 06:23:46.023 | Server s401 ready at 0.0.0.0:7301
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 06:23:46.023 | [service]loc_id: 3, name: s402, proc: learner, id: 7
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 06:23:46.024 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.025 | connect to site: 127.0.0.1:7001 (attempt 0)
+starting server at 0.0.0.0:7302
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.025 | connect to site: 127.0.0.1:7101 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 06:23:46.026 | [service]loc_id: 3, name: s403, proc: learner, id: 11
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 06:23:46.026 | Server s402 ready at 0.0.0.0:7302
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:46.026 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 06:23:46.026 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.027 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.027 | connect to site: 127.0.0.1:7101 (attempt 0)
+starting server at 0.0.0.0:7303
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 06:23:46.028 | Server s403 ready at 0.0.0.0:7303
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 06:23:46.028 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.028 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.029 | connect to site: 127.0.0.1:7101 (attempt 0)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:46.029 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:46.027 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:192] 2025-11-21 06:23:46.030 | [service]loc_id: 3, name: s404, proc: learner, id: 15
+starting server at 0.0.0.0:7304
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:215] 2025-11-21 06:23:46.031 | Server s404 ready at 0.0.0.0:7304
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:14] 2025-11-21 06:23:46.031 | setup paxos communicator
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.031 | connect to site: 127.0.0.1:7001 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:46.031 | connect to site: 127.0.0.1:7101 (attempt 0)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:46.032 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:47.027 | connect to site: 127.0.0.1:7101 (attempt 1)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:47.027 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:47.030 | connect to site: 127.0.0.1:7101 (attempt 1)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:47.030 | connect to site: 127.0.0.1:7101 (attempt 1)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:47.030 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:47.030 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:47.033 | connect to site: 127.0.0.1:7101 (attempt 1)
+E [/home/anshtyagi.linux/mako_ansh/mako-project/src/rrr/rpc/client.cpp:179] 2025-11-21 06:23:47.033 | rrr::Client: connect(127.0.0.1:7101): Connection refused
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.030 | connect to site: 127.0.0.1:7101 (attempt 2)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.033 | connect to site: 127.0.0.1:7101 (attempt 2)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.034 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.035 | connect to site: 127.0.0.1:7101 (attempt 2)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.036 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.036 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.037 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.037 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.039 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.040 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.042 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.046 | connect to site: 127.0.0.1:7101 (attempt 2)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.047 | connect to site: 127.0.0.1:7201 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.048 | connect to site: 127.0.0.1:7301 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.049 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.050 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.051 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.051 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.051 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.052 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.052 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.052 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.052 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.053 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.053 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.053 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.054 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.054 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.058 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.058 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.058 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.058 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.059 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.059 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.059 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 06:23:48.059 | site 11 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.059 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.059 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.060 | connect to site: 127.0.0.1:7002 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.060 | connect to site: 127.0.0.1:7102 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.061 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.061 | connect to site: 127.0.0.1:7202 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.062 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.061 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.064 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 06:23:48.064 | site 15 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.065 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.065 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.066 | connect to site: 127.0.0.1:7302 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.066 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.066 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.066 | connect to site: 127.0.0.1:7003 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.066 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.066 | connect to site: 127.0.0.1:7103 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.067 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.067 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.067 | connect to site: 127.0.0.1:7203 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 06:23:48.067 | site 7 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.068 | connect to site: 127.0.0.1:7303 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.068 | connect to site: 127.0.0.1:7004 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.069 | connect to site: 127.0.0.1:7104 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.070 | connect to site: 127.0.0.1:7204 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/communicator.cc:174] 2025-11-21 06:23:48.070 | connect to site: 127.0.0.1:7304 (attempt 0)
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:103] 2025-11-21 06:23:48.071 | site 3 launched!
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:110] 2025-11-21 06:23:48.071 | done waiting for server setup threads.
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 06:23:48.072 | heartbeat setup for s401 on 0.0.0.0:17301
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 06:23:48.073 | heartbeat setup for s402 on 0.0.0.0:17302
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 06:23:48.074 | heartbeat setup for s403 on 0.0.0.0:17303
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:249] 2025-11-21 06:23:48.075 | heartbeat setup for s404 on 0.0.0.0:17304
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:117] 2025-11-21 06:23:48.076 | server workers' communicators setup
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:746] 2025-11-21 06:23:48.078 | start a heartbeatBackground, addr:127.0.0.1:17001
+tpcc settings:
+  cross_partition_transactions : 1
+  read_only_snapshots          : 1
+  partition_locks              : 0
+  separate_tree_per_partition  : 1
+  new_order_remote_item_pct    : 1
+  new_order_fast_id_gen        : 1
+  uniform_item_dist            : 0
+  order_status_scan_hack       : 0
+  workload_mix                 : [45, 43, 4, 4, 4]
+20251021-06:23.51-83702(us) 382102 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-06:23.51-84204(us) 382102 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-06:23.51-85456(us) 382102 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:34010 (listening on 0.0.0.0:34010)
+20251021-06:23.51-85609(us) 382102 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:34009 (listening on 0.0.0.0:34009)
+20251021-06:23.51-86099(us) 382102 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:34009
+20251021-06:23.51-86284(us) 382102 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:34010
+20251021-06:23.51-87444(us) 382102 ! modeMonitor     (common2.h:93):     start for modeMonitor, running:0
+reinitializing partitions under failure
+reinitializing partitions under failure - DONE
+start worker:9834
+allocator::Initialize()
+  hugepgsize: 2097152
+  use MADV_WILLNEED: 1
+  mmap() region [0x7f74a4c00000, 0x7f74e4e00000)
+cpu0 owns [0x7f74a4c00000, 0x7f74b4c00000)
+cpu1 owns [0x7f74b4c00000, 0x7f74c4c00000)
+cpu2 owns [0x7f74c4c00000, 0x7f74d4c00000)
+cpu3 owns [0x7f74d4c00000, 0x7f74e4c00000)
+Database Benchmark:
+  pid: 382102
+settings:
+  num-cpus    : 8
+  num-threads : 4
+  shardIndex  : 0
+  paxos_proc_name  : learner
+  nshards     : 1
+  is_micro    : 0
+  is_replicated : 1
+  var-encode  : yes
+  allocator   : jemalloc
+system properties:
+  tuple_prefetch          : no
+  btree_node_prefetch     : yes
+20251021-06:23.52-91313(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:0, replay_batch:32665, wait_time:1s
+
+20251021-06:23.53-85051(us) 382102 ! operator()      (mako.hh:634):      Receive a control command:0, current ms: 1763706233085
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:798] 2025-11-21 06:23:53.084 | the time for the heartbeat: 1345.810001 ms
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:805] 2025-11-21 06:23:53.085 | trigger an new leader: 1345.810001 ms, 5 sec
+Implement a new fail recovery!
+20251021-06:23.53-91606(us) 382102 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-06:23.53-93285(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:0, replay_batch:32665, wait_time:2s
+
+20251021-06:23.53-94927(us) 382102 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-06:23.53-97541(us) 382102 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:34007 (listening on 0.0.0.0:34007)
+20251021-06:23.53-97910(us) 382102 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:34007
+20251021-06:23.53-100029(us) 382102 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251021-06:23.53-100908(us) 382102 ! client_control  (sync_util.hh:368): client for the control is starting! control:0, value:0
+20251021-06:23.53-101215(us) 382102 ! get_num_erpc_server (Interface.hh:76):  using default erpc_num, please ensure it is expected
+20251021-06:23.53-101552(us) 382102 ! client_control  (sync_util.hh:374): client for the control is terminated! control:0, value:0
+20251021-06:23.53-161097(us) 382102 ! operator()      (mako.hh:435):      phase-1,par_id:3 DONE
+20251021-06:23.53-161954(us) 382102 ! operator()      (mako.hh:435):      phase-1,par_id:2 DONE
+20251021-06:23.53-162457(us) 382102 ! operator()      (mako.hh:435):      phase-1,par_id:1 DONE
+20251021-06:23.53-163298(us) 382102 ! operator()      (mako.hh:435):      phase-1,par_id:0 DONE
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos/commo.cc:295] 2025-11-21 06:23:53.102 | invoke BroadcastSyncLog to prepare for the failover
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:414] 2025-11-21 06:23:53.106 | Responses size is 2
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:430] 2025-11-21 06:23:53.107 | [Paxos Network] Sent 0 logs, total bytes: 8
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:615] 2025-11-21 06:23:53.107 | wait for noops: 0
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:162] 2025-11-21 06:23:53.161 | update the no-ops, par_id:3, slot_id:109
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:162] 2025-11-21 06:23:53.162 | update the no-ops, par_id:2, slot_id:112
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:162] 2025-11-21 06:23:53.162 | update the no-ops, par_id:1, slot_id:118
+set fvw, 1, fvw_0:7990
+20251021-06:23.53-167210(us) 382102 ! operator()      (mako.hh:634):      Receive a control command:2, current ms: 1763706233167
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_worker.cc:162] 2025-11-21 06:23:53.165 | update the no-ops, par_id:0, slot_id:103
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:617] 2025-11-21 06:23:53.167 | wait for noops(DONE),par_id: 0
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:615] 2025-11-21 06:23:53.167 | wait for noops: 1
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:617] 2025-11-21 06:23:53.167 | wait for noops(DONE),par_id: 1
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:615] 2025-11-21 06:23:53.167 | wait for noops: 2
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:617] 2025-11-21 06:23:53.167 | wait for noops(DONE),par_id: 2
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:615] 2025-11-21 06:23:53.167 | wait for noops: 3
+I [/home/anshtyagi.linux/mako_ansh/mako-project/src/deptran/paxos_main_helper.cc:617] 2025-11-21 06:23:53.167 | wait for noops(DONE),par_id: 3
+get fvw, 1, fvw_0:7990
+20251021-06:23.53-167747(us) 382102 ! client_control  (sync_util.hh:368): client for the control is starting! control:1, value:0
+20251021-06:23.53-167871(us) 382102 ! get_num_erpc_server (Interface.hh:76):  using default erpc_num, please ensure it is expected
+20251021-06:23.53-167970(us) 382102 ! client_control  (sync_util.hh:374): client for the control is terminated! control:1, value:0
+20251021-06:23.53-168148(us) 382102 ! modeMonitorRun  (common2.h:74):     start for modeMonitorRun, running:0
+20251021-06:23.54-95845(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:3s
+
+20251021-06:23.55-98055(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:4s
+
+20251021-06:23.56-100025(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:5s
+
+20251021-06:23.57-101741(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:6s
+
+20251021-06:23.58-103478(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:7s
+
+20251021-06:23.59-104169(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:8s
+
+20251021-06:24.00-105815(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:9s
+
+20251021-06:24.01-107256(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:10s
+
+20251021-06:24.02-108829(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:11s
+
+20251021-06:24.03-110942(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:12s
+
+20251021-06:24.04-112513(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:13s
+
+20251021-06:24.05-113511(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:14s
+
+20251021-06:24.06-114610(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:15s
+
+20251021-06:24.07-117372(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:16s
+
+20251021-06:24.08-119301(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:17s
+
+20251021-06:24.09-120775(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:18s
+
+20251021-06:24.10-122430(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:19s
+
+20251021-06:24.11-123662(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:20s
+
+20251021-06:24.12-124995(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:21s
+
+20251021-06:24.13-126450(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:22s
+
+20251021-06:24.14-127405(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:23s
+
+20251021-06:24.15-128988(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:24s
+
+20251021-06:24.16-130669(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:25s
+
+20251021-06:24.17-132707(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:26s
+
+20251021-06:24.18-133617(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:27s
+
+20251021-06:24.19-134032(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:28s
+
+20251021-06:24.20-135340(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:29s
+
+20251021-06:24.21-137300(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:30s
+
+20251021-06:24.22-139191(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:31s
+
+20251021-06:24.23-140051(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:32s
+
+20251021-06:24.24-141683(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:33s
+
+20251021-06:24.25-142891(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:34s
+
+20251021-06:24.26-144256(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:35s
+
+20251021-06:24.27-144854(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:36s
+
+20251021-06:24.28-146441(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:37s
+
+20251021-06:24.29-147324(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:38s
+
+20251021-06:24.30-147825(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:39s
+
+20251021-06:24.31-148422(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:40s
+
+20251021-06:24.32-149133(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:41s
+
+20251021-06:24.33-150628(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:42s
+
+20251021-06:24.34-151880(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:43s
+
+20251021-06:24.35-153432(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:44s
+
+20251021-06:24.36-154017(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:45s
+
+20251021-06:24.37-154613(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:46s
+
+20251021-06:24.38-157322(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:47s
+
+20251021-06:24.39-159662(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:48s
+
+20251021-06:24.40-160738(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:49s
+
+20251021-06:24.41-162404(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:50s
+
+20251021-06:24.42-163610(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:51s
+
+20251021-06:24.43-164357(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:52s
+
+20251021-06:24.44-164714(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:53s
+
+20251021-06:24.45-165741(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:54s
+
+20251021-06:24.46-167571(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:55s
+
+20251021-06:24.47-169368(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:56s
+
+20251021-06:24.48-174774(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:57s
+
+20251021-06:24.49-176032(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:58s
+
+20251021-06:24.50-177729(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:59s
+
+20251021-06:24.51-180791(us) 382102 * wait_for_termination (mako.hh:552):      learner is waiting for being ended: 0/4, noops_cnt:4, replay_batch:32665, wait_time:60s
+
+bash/shard.sh: line 53: 382102 Killed                  ./dbtest --bench ycsb --num-threads 4 --shard-index 0 --shard-config /home/anshtyagi.linux/mako_ansh/mako-project/src/mako/config/local-shards1-warehouses4.yml -F config/1leader_2followers/paxos4\_shardidx0.yml -F config/occ_paxos.yml -P learner --is-replicated -w 50,0,50,0 -r 100 -u 90 -m middle -k 100000

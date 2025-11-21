@@ -1,0 +1,327 @@
+[2025-11-20 02:58:36] ==========================================
+[2025-11-20 02:58:36] YCSB KDV Evaluation Script
+[2025-11-20 02:58:36] ==========================================
+[2025-11-20 02:58:36] Configuration:
+[2025-11-20 02:58:36]   Duration: 60s
+[2025-11-20 02:58:36]   Output directory: results/ycsb_kdv_eval
+[2025-11-20 02:58:36]   Skip baseline: 0
+[2025-11-20 02:58:36]   Skip KDV: 0
+[2025-11-20 02:58:36]   Skip build: 1
+[2025-11-20 02:58:36] ==========================================
+[2025-11-20 02:58:36] Skipping build (--skip-build specified)
+[2025-11-20 02:58:36] ----------------------------------------
+[2025-11-20 02:58:36] Running experiment: read_heavy_95_5_baseline
+[2025-11-20 02:58:36]   Workload mix: 95,0,5,0
+[2025-11-20 02:58:36]   Record size: 1024 bytes
+[2025-11-20 02:58:36]   Number of keys: 100000
+[2025-11-20 02:58:36]   KDV enabled: false
+[2025-11-20 02:58:36]   Update pattern: small (16 bytes)
+[2025-11-20 02:58:36] ----------------------------------------
+[2025-11-20 02:58:36] Cleaning up...
+[2025-11-20 02:58:38] Starting dbtest...
+[2025-11-20 03:00:09] Extracting metrics...
+[2025-11-20 03:00:09] Metrics saved to results/ycsb_kdv_eval/read_heavy_95_5_baseline/metrics.txt
+[2025-11-20 03:00:09] Throughput: 656450 TPS
+[2025-11-20 03:00:09] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:00:09] Disk usage:  bytes
+[2025-11-20 03:00:09] Cleaning up...
+[2025-11-20 03:00:11] ----------------------------------------
+[2025-11-20 03:00:11] Running experiment: read_heavy_95_5_kdv
+[2025-11-20 03:00:11]   Workload mix: 95,0,5,0
+[2025-11-20 03:00:11]   Record size: 1024 bytes
+[2025-11-20 03:00:11]   Number of keys: 100000
+[2025-11-20 03:00:11]   KDV enabled: true
+[2025-11-20 03:00:11]   Update pattern: small (16 bytes)
+[2025-11-20 03:00:11] ----------------------------------------
+[2025-11-20 03:00:11] Cleaning up...
+[2025-11-20 03:00:13] Starting dbtest...
+[2025-11-20 03:01:43] Extracting metrics...
+[2025-11-20 03:01:43] Metrics saved to results/ycsb_kdv_eval/read_heavy_95_5_kdv/metrics.txt
+[2025-11-20 03:01:43] Throughput: 654417 TPS
+[2025-11-20 03:01:43] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:01:43] KDV Bases/Deltas:  / 
+[2025-11-20 03:01:43] KDV Compression: %
+[2025-11-20 03:01:43] Disk usage:  bytes
+[2025-11-20 03:01:43] Cleaning up...
+[2025-11-20 03:01:45] ----------------------------------------
+[2025-11-20 03:01:45] Running experiment: balanced_50_50_baseline
+[2025-11-20 03:01:45]   Workload mix: 50,0,50,0
+[2025-11-20 03:01:45]   Record size: 1024 bytes
+[2025-11-20 03:01:45]   Number of keys: 100000
+[2025-11-20 03:01:45]   KDV enabled: false
+[2025-11-20 03:01:45]   Update pattern: small (16 bytes)
+[2025-11-20 03:01:45] ----------------------------------------
+[2025-11-20 03:01:45] Cleaning up...
+[2025-11-20 03:01:47] Starting dbtest...
+[2025-11-20 03:03:18] Extracting metrics...
+[2025-11-20 03:03:18] Metrics saved to results/ycsb_kdv_eval/balanced_50_50_baseline/metrics.txt
+[2025-11-20 03:03:18] Throughput: 332394 TPS
+[2025-11-20 03:03:18] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:03:18] Disk usage:  bytes
+[2025-11-20 03:03:18] Cleaning up...
+[2025-11-20 03:03:20] ----------------------------------------
+[2025-11-20 03:03:20] Running experiment: balanced_50_50_kdv
+[2025-11-20 03:03:20]   Workload mix: 50,0,50,0
+[2025-11-20 03:03:20]   Record size: 1024 bytes
+[2025-11-20 03:03:20]   Number of keys: 100000
+[2025-11-20 03:03:20]   KDV enabled: true
+[2025-11-20 03:03:20]   Update pattern: small (16 bytes)
+[2025-11-20 03:03:20] ----------------------------------------
+[2025-11-20 03:03:20] Cleaning up...
+[2025-11-20 03:03:22] Starting dbtest...
+[2025-11-20 03:04:52] Extracting metrics...
+[2025-11-20 03:04:52] Metrics saved to results/ycsb_kdv_eval/balanced_50_50_kdv/metrics.txt
+[2025-11-20 03:04:52] Throughput: 368343 TPS
+[2025-11-20 03:04:52] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:04:52] KDV Bases/Deltas:  / 
+[2025-11-20 03:04:52] KDV Compression: %
+[2025-11-20 03:04:52] Disk usage:  bytes
+[2025-11-20 03:04:52] Cleaning up...
+[2025-11-20 03:04:54] ----------------------------------------
+[2025-11-20 03:04:54] Running experiment: write_heavy_20_80_baseline
+[2025-11-20 03:04:54]   Workload mix: 20,0,80,0
+[2025-11-20 03:04:54]   Record size: 1024 bytes
+[2025-11-20 03:04:54]   Number of keys: 100000
+[2025-11-20 03:04:54]   KDV enabled: false
+[2025-11-20 03:04:54]   Update pattern: small (16 bytes)
+[2025-11-20 03:04:54] ----------------------------------------
+[2025-11-20 03:04:54] Cleaning up...
+[2025-11-20 03:04:57] Starting dbtest...
+[2025-11-20 03:06:27] Extracting metrics...
+[2025-11-20 03:06:27] Metrics saved to results/ycsb_kdv_eval/write_heavy_20_80_baseline/metrics.txt
+[2025-11-20 03:06:27] Throughput: 241176 TPS
+[2025-11-20 03:06:27] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:06:27] Disk usage:  bytes
+[2025-11-20 03:06:27] Cleaning up...
+[2025-11-20 03:06:29] ----------------------------------------
+[2025-11-20 03:06:29] Running experiment: write_heavy_20_80_kdv
+[2025-11-20 03:06:29]   Workload mix: 20,0,80,0
+[2025-11-20 03:06:29]   Record size: 1024 bytes
+[2025-11-20 03:06:29]   Number of keys: 100000
+[2025-11-20 03:06:29]   KDV enabled: true
+[2025-11-20 03:06:29]   Update pattern: small (16 bytes)
+[2025-11-20 03:06:29] ----------------------------------------
+[2025-11-20 03:06:29] Cleaning up...
+[2025-11-20 03:06:31] Starting dbtest...
+[2025-11-20 03:08:01] Extracting metrics...
+[2025-11-20 03:08:01] Metrics saved to results/ycsb_kdv_eval/write_heavy_20_80_kdv/metrics.txt
+[2025-11-20 03:08:01] Throughput: 229555 TPS
+[2025-11-20 03:08:01] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:08:01] KDV Bases/Deltas:  / 
+[2025-11-20 03:08:01] KDV Compression: %
+[2025-11-20 03:08:01] Disk usage:  bytes
+[2025-11-20 03:08:01] Cleaning up...
+[2025-11-20 03:08:03] ----------------------------------------
+[2025-11-20 03:08:03] Running experiment: update_small_baseline
+[2025-11-20 03:08:03]   Workload mix: 50,0,50,0
+[2025-11-20 03:08:03]   Record size: 1024 bytes
+[2025-11-20 03:08:03]   Number of keys: 100000
+[2025-11-20 03:08:03]   KDV enabled: false
+[2025-11-20 03:08:03]   Update pattern: small (16 bytes)
+[2025-11-20 03:08:03] ----------------------------------------
+[2025-11-20 03:08:03] Cleaning up...
+[2025-11-20 03:08:06] Starting dbtest...
+[2025-11-20 03:09:36] Extracting metrics...
+[2025-11-20 03:09:36] Metrics saved to results/ycsb_kdv_eval/update_small_baseline/metrics.txt
+[2025-11-20 03:09:36] Throughput: 371400 TPS
+[2025-11-20 03:09:36] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:09:36] Disk usage:  bytes
+[2025-11-20 03:09:36] Cleaning up...
+[2025-11-20 03:09:38] ----------------------------------------
+[2025-11-20 03:09:38] Running experiment: update_small_kdv
+[2025-11-20 03:09:38]   Workload mix: 50,0,50,0
+[2025-11-20 03:09:38]   Record size: 1024 bytes
+[2025-11-20 03:09:38]   Number of keys: 100000
+[2025-11-20 03:09:38]   KDV enabled: true
+[2025-11-20 03:09:38]   Update pattern: small (16 bytes)
+[2025-11-20 03:09:38] ----------------------------------------
+[2025-11-20 03:09:38] Cleaning up...
+[2025-11-20 03:09:40] Starting dbtest...
+[2025-11-20 03:11:10] Extracting metrics...
+[2025-11-20 03:11:10] Metrics saved to results/ycsb_kdv_eval/update_small_kdv/metrics.txt
+[2025-11-20 03:11:10] Throughput: 361992 TPS
+[2025-11-20 03:11:10] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:11:10] KDV Bases/Deltas:  / 
+[2025-11-20 03:11:10] KDV Compression: %
+[2025-11-20 03:11:10] Disk usage:  bytes
+[2025-11-20 03:11:10] Cleaning up...
+[2025-11-20 03:11:12] ----------------------------------------
+[2025-11-20 03:11:12] Running experiment: update_medium_baseline
+[2025-11-20 03:11:12]   Workload mix: 50,0,50,0
+[2025-11-20 03:11:12]   Record size: 1024 bytes
+[2025-11-20 03:11:12]   Number of keys: 100000
+[2025-11-20 03:11:12]   KDV enabled: false
+[2025-11-20 03:11:12]   Update pattern: medium (512 bytes)
+[2025-11-20 03:11:12] ----------------------------------------
+[2025-11-20 03:11:12] Cleaning up...
+[2025-11-20 03:11:15] Starting dbtest...
+[2025-11-20 03:12:45] Extracting metrics...
+[2025-11-20 03:12:45] Metrics saved to results/ycsb_kdv_eval/update_medium_baseline/metrics.txt
+[2025-11-20 03:12:45] Throughput: 366927 TPS
+[2025-11-20 03:12:45] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:12:45] Disk usage:  bytes
+[2025-11-20 03:12:45] Cleaning up...
+[2025-11-20 03:12:47] ----------------------------------------
+[2025-11-20 03:12:47] Running experiment: update_medium_kdv
+[2025-11-20 03:12:47]   Workload mix: 50,0,50,0
+[2025-11-20 03:12:47]   Record size: 1024 bytes
+[2025-11-20 03:12:47]   Number of keys: 100000
+[2025-11-20 03:12:47]   KDV enabled: true
+[2025-11-20 03:12:47]   Update pattern: medium (512 bytes)
+[2025-11-20 03:12:47] ----------------------------------------
+[2025-11-20 03:12:47] Cleaning up...
+[2025-11-20 03:12:49] Starting dbtest...
+[2025-11-20 03:14:19] Extracting metrics...
+[2025-11-20 03:14:19] Metrics saved to results/ycsb_kdv_eval/update_medium_kdv/metrics.txt
+[2025-11-20 03:14:19] Throughput: 351161 TPS
+[2025-11-20 03:14:19] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:14:19] KDV Bases/Deltas:  / 
+[2025-11-20 03:14:19] KDV Compression: %
+[2025-11-20 03:14:19] Disk usage:  bytes
+[2025-11-20 03:14:19] Cleaning up...
+[2025-11-20 03:14:22] ----------------------------------------
+[2025-11-20 03:14:22] Running experiment: update_large_baseline
+[2025-11-20 03:14:22]   Workload mix: 50,0,50,0
+[2025-11-20 03:14:22]   Record size: 1024 bytes
+[2025-11-20 03:14:22]   Number of keys: 100000
+[2025-11-20 03:14:22]   KDV enabled: false
+[2025-11-20 03:14:22]   Update pattern: large (921 bytes)
+[2025-11-20 03:14:22] ----------------------------------------
+[2025-11-20 03:14:22] Cleaning up...
+[2025-11-20 03:14:24] Starting dbtest...
+[2025-11-20 03:15:54] Extracting metrics...
+[2025-11-20 03:15:54] Metrics saved to results/ycsb_kdv_eval/update_large_baseline/metrics.txt
+[2025-11-20 03:15:54] Throughput: 359503 TPS
+[2025-11-20 03:15:54] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:15:54] Disk usage:  bytes
+[2025-11-20 03:15:54] Cleaning up...
+[2025-11-20 03:15:56] ----------------------------------------
+[2025-11-20 03:15:56] Running experiment: update_large_kdv
+[2025-11-20 03:15:56]   Workload mix: 50,0,50,0
+[2025-11-20 03:15:56]   Record size: 1024 bytes
+[2025-11-20 03:15:56]   Number of keys: 100000
+[2025-11-20 03:15:56]   KDV enabled: true
+[2025-11-20 03:15:56]   Update pattern: large (921 bytes)
+[2025-11-20 03:15:56] ----------------------------------------
+[2025-11-20 03:15:56] Cleaning up...
+[2025-11-20 03:15:58] Starting dbtest...
+[2025-11-20 03:17:28] Extracting metrics...
+[2025-11-20 03:17:28] Metrics saved to results/ycsb_kdv_eval/update_large_kdv/metrics.txt
+[2025-11-20 03:17:28] Throughput: 365416 TPS
+[2025-11-20 03:17:28] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:17:28] KDV Bases/Deltas:  / 
+[2025-11-20 03:17:28] KDV Compression: %
+[2025-11-20 03:17:28] Disk usage:  bytes
+[2025-11-20 03:17:28] Cleaning up...
+[2025-11-20 03:17:31] ----------------------------------------
+[2025-11-20 03:17:31] Running experiment: record_100b_baseline
+[2025-11-20 03:17:31]   Workload mix: 50,0,50,0
+[2025-11-20 03:17:31]   Record size: 100 bytes
+[2025-11-20 03:17:31]   Number of keys: 100000
+[2025-11-20 03:17:31]   KDV enabled: false
+[2025-11-20 03:17:31]   Update pattern: small (16 bytes)
+[2025-11-20 03:17:31] ----------------------------------------
+[2025-11-20 03:17:31] Cleaning up...
+[2025-11-20 03:17:33] Starting dbtest...
+[2025-11-20 03:19:03] Extracting metrics...
+[2025-11-20 03:19:03] Metrics saved to results/ycsb_kdv_eval/record_100b_baseline/metrics.txt
+[2025-11-20 03:19:03] Throughput: 676881 TPS
+[2025-11-20 03:19:03] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:19:03] Disk usage:  bytes
+[2025-11-20 03:19:03] Cleaning up...
+[2025-11-20 03:19:05] ----------------------------------------
+[2025-11-20 03:19:05] Running experiment: record_100b_kdv
+[2025-11-20 03:19:05]   Workload mix: 50,0,50,0
+[2025-11-20 03:19:05]   Record size: 100 bytes
+[2025-11-20 03:19:05]   Number of keys: 100000
+[2025-11-20 03:19:05]   KDV enabled: true
+[2025-11-20 03:19:05]   Update pattern: small (16 bytes)
+[2025-11-20 03:19:05] ----------------------------------------
+[2025-11-20 03:19:05] Cleaning up...
+[2025-11-20 03:19:07] Starting dbtest...
+[2025-11-20 03:20:37] Extracting metrics...
+[2025-11-20 03:20:37] Metrics saved to results/ycsb_kdv_eval/record_100b_kdv/metrics.txt
+[2025-11-20 03:20:37] Throughput: 671280 TPS
+[2025-11-20 03:20:37] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:20:38] KDV Bases/Deltas:  / 
+[2025-11-20 03:20:38] KDV Compression: %
+[2025-11-20 03:20:38] Disk usage:  bytes
+[2025-11-20 03:20:38] Cleaning up...
+[2025-11-20 03:20:40] ----------------------------------------
+[2025-11-20 03:20:40] Running experiment: record_1kb_baseline
+[2025-11-20 03:20:40]   Workload mix: 50,0,50,0
+[2025-11-20 03:20:40]   Record size: 1024 bytes
+[2025-11-20 03:20:40]   Number of keys: 100000
+[2025-11-20 03:20:40]   KDV enabled: false
+[2025-11-20 03:20:40]   Update pattern: small (16 bytes)
+[2025-11-20 03:20:40] ----------------------------------------
+[2025-11-20 03:20:40] Cleaning up...
+[2025-11-20 03:20:42] Starting dbtest...
+[2025-11-20 03:22:12] Extracting metrics...
+[2025-11-20 03:22:12] Metrics saved to results/ycsb_kdv_eval/record_1kb_baseline/metrics.txt
+[2025-11-20 03:22:12] Throughput: 362245 TPS
+[2025-11-20 03:22:12] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:22:12] Disk usage:  bytes
+[2025-11-20 03:22:12] Cleaning up...
+[2025-11-20 03:22:14] ----------------------------------------
+[2025-11-20 03:22:14] Running experiment: record_1kb_kdv
+[2025-11-20 03:22:14]   Workload mix: 50,0,50,0
+[2025-11-20 03:22:14]   Record size: 1024 bytes
+[2025-11-20 03:22:14]   Number of keys: 100000
+[2025-11-20 03:22:14]   KDV enabled: true
+[2025-11-20 03:22:14]   Update pattern: small (16 bytes)
+[2025-11-20 03:22:14] ----------------------------------------
+[2025-11-20 03:22:14] Cleaning up...
+[2025-11-20 03:22:16] Starting dbtest...
+[2025-11-20 03:23:46] Extracting metrics...
+[2025-11-20 03:23:47] Metrics saved to results/ycsb_kdv_eval/record_1kb_kdv/metrics.txt
+[2025-11-20 03:23:47] Throughput: 363502 TPS
+[2025-11-20 03:23:47] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:23:47] KDV Bases/Deltas:  / 
+[2025-11-20 03:23:47] KDV Compression: %
+[2025-11-20 03:23:47] Disk usage:  bytes
+[2025-11-20 03:23:47] Cleaning up...
+[2025-11-20 03:23:49] ----------------------------------------
+[2025-11-20 03:23:49] Running experiment: record_4kb_baseline
+[2025-11-20 03:23:49]   Workload mix: 50,0,50,0
+[2025-11-20 03:23:49]   Record size: 4096 bytes
+[2025-11-20 03:23:49]   Number of keys: 100000
+[2025-11-20 03:23:49]   KDV enabled: false
+[2025-11-20 03:23:49]   Update pattern: small (16 bytes)
+[2025-11-20 03:23:49] ----------------------------------------
+[2025-11-20 03:23:49] Cleaning up...
+[2025-11-20 03:23:51] Starting dbtest...
+[2025-11-20 03:25:21] Extracting metrics...
+[2025-11-20 03:25:21] Metrics saved to results/ycsb_kdv_eval/record_4kb_baseline/metrics.txt
+[2025-11-20 03:25:21] Throughput: 604601 TPS
+[2025-11-20 03:25:21] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:25:21] Disk usage:  bytes
+[2025-11-20 03:25:21] Cleaning up...
+[2025-11-20 03:25:23] ----------------------------------------
+[2025-11-20 03:25:23] Running experiment: record_4kb_kdv
+[2025-11-20 03:25:23]   Workload mix: 50,0,50,0
+[2025-11-20 03:25:23]   Record size: 4096 bytes
+[2025-11-20 03:25:23]   Number of keys: 100000
+[2025-11-20 03:25:23]   KDV enabled: true
+[2025-11-20 03:25:23]   Update pattern: small (16 bytes)
+[2025-11-20 03:25:23] ----------------------------------------
+[2025-11-20 03:25:23] Cleaning up...
+[2025-11-20 03:25:25] Starting dbtest...
+[2025-11-20 03:26:56] Extracting metrics...
+[2025-11-20 03:26:56] Metrics saved to results/ycsb_kdv_eval/record_4kb_kdv/metrics.txt
+[2025-11-20 03:26:56] Throughput: 614500 TPS
+[2025-11-20 03:26:56] Latency P50/P95/P99:  /  /  us
+[2025-11-20 03:26:56] KDV Bases/Deltas:  / 
+[2025-11-20 03:26:56] KDV Compression: %
+[2025-11-20 03:26:56] Disk usage:  bytes
+[2025-11-20 03:26:56] Cleaning up...
+[2025-11-20 03:26:58] ==========================================
+[2025-11-20 03:26:58] Generating summary report...
+[2025-11-20 03:26:58] ==========================================
+[2025-11-20 03:26:59] Summary report generated: results/ycsb_kdv_eval/summary_20251120_025836.md
+[2025-11-20 03:26:59] ==========================================
+[2025-11-20 03:26:59] Evaluation complete!
+[2025-11-20 03:26:59] ==========================================
+[2025-11-20 03:26:59] Results directory: results/ycsb_kdv_eval
+[2025-11-20 03:26:59] Summary report: results/ycsb_kdv_eval/summary_20251120_025836.md
+[2025-11-20 03:26:59] Log file: results/ycsb_kdv_eval/evaluation_20251120_025836.log

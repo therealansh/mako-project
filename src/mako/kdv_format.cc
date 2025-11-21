@@ -71,15 +71,34 @@ bool KDVPartitionState::hasBase(uint64_t key_hash) const {
     return it != key_states_.end() && !it->second.base_.empty();
 }
 
-const std::string& KDVPartitionState::getBase(uint64_t key_hash) const {
+std::string KDVPartitionState::getBase(uint64_t key_hash) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = key_states_.find(key_hash);
     if (it == key_states_.end()) {
-        static const std::string empty;
-        return empty;
+        return std::string();  // Return empty by value
     }
     const_cast<KDVPartitionState*>(this)->updateAccessTime(key_hash);
-    return it->second.base_;
+    return it->second.base_;  // Return COPY, not reference - safe after mutex release
+}
+
+KDVBaseResult KDVPartitionState::getBaseIfExists(uint64_t key_hash) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    KDVBaseResult result;
+
+    auto it = key_states_.find(key_hash);
+    if (it == key_states_.end() || it->second.base_.empty()) {
+        result.exists = false;
+        return result;
+    }
+
+    // Copy all data while holding the lock - safe after mutex release
+    result.exists = true;
+    result.base = it->second.base_;          // Copy the base value
+    result.base_seq = it->second.base_seq_;
+    result.chain_len = it->second.chain_len_;
+
+    const_cast<KDVPartitionState*>(this)->updateAccessTime(key_hash);
+    return result;
 }
 
 uint64_t KDVPartitionState::getBaseSeq(uint64_t key_hash) const {
@@ -353,24 +372,38 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     
     auto& store = KDVStoreState::getInstance();
     auto& partition_state = store.getPartitionState(partition_id);
-    
+
     std::string value(data, size);
     std::string result;
-    
+
     KDVHeader header;
     header.version = 2;
     header.original_size = static_cast<uint32_t>(size);
     header.key_hash = key_hash;
-    
+
     bool write_base = false;
     std::string delta;
-    
-    if (partition_state.hasBase(key_hash)) {
+
+    // Use atomic getBaseIfExists() to eliminate TOCTOU race between hasBase()/getBase()
+    KDVBaseResult base_result = partition_state.getBaseIfExists(key_hash);
+
+    if (base_result.exists) {
         // Compute delta against the base for this specific key
-        delta = compute_delta(partition_state.getBase(key_hash), value);
-        
-        // Decide whether to write base or delta
-        write_base = should_write_base(partition_state, key_hash, delta.size(), size, seq_num);
+        // base_result.base is a COPY - safe to use after mutex release
+        delta = compute_delta(base_result.base, value);
+
+        // Decide whether to write base or delta using cached metadata
+        // This avoids re-acquiring the mutex and potential race conditions
+        auto& store_config = KDVStoreState::getInstance();
+
+        // Check policy conditions using cached values from base_result
+        bool chain_too_long = (base_result.chain_len >= store_config.getMaxChainLen());
+        bool delta_too_large = (size > 0 &&
+            delta.size() > static_cast<size_t>(store_config.getMaxDeltaSizeRatio() * size));
+        bool base_too_old = (seq_num > base_result.base_seq &&
+            seq_num - base_result.base_seq > store_config.getMaxBaseAge());
+
+        write_base = chain_too_long || delta_too_large || base_too_old;
     } else {
         // First log for this key, must write base
         write_base = true;
@@ -393,12 +426,13 @@ std::string kdv_encode_log(uint32_t shard_id, uint32_t partition_id,
     } else {
         // Write as DELTA
         header.mode = static_cast<uint8_t>(KDVEncodeMode::DELTA);
-        header.chain_len = partition_state.getChainLen(key_hash) + 1;
-        header.base_seq = partition_state.getBaseSeq(key_hash);
-        
+        // Use cached values from base_result to avoid TOCTOU race
+        header.chain_len = base_result.chain_len + 1;
+        header.base_seq = base_result.base_seq;
+
         // Increment chain length for this key
         partition_state.incrementChain(key_hash);
-        
+
         // Build result: header + delta
         result.resize(sizeof(KDVHeader) + delta.size());
         std::memcpy(&result[0], &header, sizeof(KDVHeader));
@@ -597,15 +631,22 @@ std::string kdv_encode_log_recordwise(uint32_t shard_id, uint32_t partition_id,
             bool write_base = false;
             std::string delta;
 
-            if (partition_state.hasBase(record_hash)) {
-                delta = compute_delta(partition_state.getBase(record_hash), rec.value);
-                WriteBaseReason reason;
-                write_base = should_write_base(partition_state,
-                                               record_hash,
-                                               delta.size(),
-                                               rec.value.size(),
-                                               seq_num,
-                                               &reason);
+            // Use atomic getBaseIfExists() to eliminate TOCTOU race
+            KDVBaseResult base_result = partition_state.getBaseIfExists(record_hash);
+
+            if (base_result.exists) {
+                // base_result.base is a COPY - safe to use after mutex release
+                delta = compute_delta(base_result.base, rec.value);
+
+                // Check policy conditions using cached values
+                auto& store_config = KDVStoreState::getInstance();
+                bool chain_too_long = (base_result.chain_len >= store_config.getMaxChainLen());
+                bool delta_too_large = (rec.value.size() > 0 &&
+                    delta.size() > static_cast<size_t>(store_config.getMaxDeltaSizeRatio() * rec.value.size()));
+                bool base_too_old = (seq_num > base_result.base_seq &&
+                    seq_num - base_result.base_seq > store_config.getMaxBaseAge());
+
+                write_base = chain_too_long || delta_too_large || base_too_old;
             } else {
                 write_base = true;
             }

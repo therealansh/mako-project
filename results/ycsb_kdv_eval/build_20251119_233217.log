@@ -1,0 +1,2378 @@
+cmake -S . -B build 
+-- The C compiler identification is GNU 12.3.0
+-- The CXX compiler identification is GNU 12.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/gcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Rusty C++ Checker submodule found at: /home/anshtyagi.linux/mako_ansh/mako-project/third-party/rusty-cpp
+-- Checker will be built on demand at: /home/anshtyagi.linux/mako_ansh/mako-project/third-party/rusty-cpp/target/release/rusty-cpp-checker
+-- Building rusty-cpp-checker binary...
+   Compiling glob v0.3.3
+   Compiling proc-macro2 v1.0.103
+   Compiling quote v1.0.42
+   Compiling unicode-ident v1.0.22
+   Compiling libc v0.2.177
+   Compiling cfg-if v1.0.4
+   Compiling memchr v2.7.6
+   Compiling regex-syntax v0.8.8
+   Compiling minimal-lexical v0.2.1
+   Compiling libloading v0.8.9
+   Compiling bindgen v0.66.1
+   Compiling crossbeam-utils v0.8.21
+   Compiling shlex v1.3.0
+   Compiling lazycell v1.3.0
+   Compiling clang-sys v1.8.1
+   Compiling lazy_static v1.5.0
+   Compiling bitflags v2.10.0
+   Compiling rustc-hash v1.1.0
+   Compiling peeking_take_while v0.1.2
+   Compiling nom v7.1.3
+   Compiling serde_core v1.0.228
+   Compiling utf8parse v0.2.2
+   Compiling syn v2.0.110
+   Compiling crossbeam-epoch v0.9.18
+   Compiling anstyle-parse v0.2.7
+   Compiling rayon-core v1.13.0
+   Compiling anstyle v1.0.13
+   Compiling colorchoice v1.0.4
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling anstyle-query v1.1.5
+   Compiling crossbeam-deque v0.8.6
+   Compiling regex-automata v0.4.13
+   Compiling anstream v0.6.21
+   Compiling aho-corasick v1.1.4
+   Compiling cexpr v0.6.0
+   Compiling foldhash v0.1.5
+   Compiling regex v1.12.2
+   Compiling hashbrown v0.16.0
+   Compiling serde v1.0.228
+   Compiling equivalent v1.0.2
+   Compiling serde_json v1.0.145
+   Compiling heck v0.5.0
+   Compiling strsim v0.11.1
+   Compiling clap_lex v0.7.6
+   Compiling clap_builder v4.5.51
+   Compiling indexmap v2.12.0
+   Compiling hashbrown v0.15.5
+   Compiling itoa v1.0.15
+   Compiling clap_derive v4.5.49
+   Compiling miette-derive v7.6.0
+   Compiling either v1.15.0
+   Compiling ryu v1.0.20
+   Compiling unicode-width v0.1.14
+   Compiling rusty-cpp v0.1.0 (/home/anshtyagi.linux/mako_ansh/mako-project/third-party/rusty-cpp)
+   Compiling fixedbitset v0.5.7
+   Compiling log v0.4.28
+   Compiling miette v7.6.0
+   Compiling clap v4.5.51
+   Compiling petgraph v0.8.3
+   Compiling rayon v1.11.0
+   Compiling clang v2.0.0
+   Compiling z3-sys v0.8.1
+   Compiling once_cell v1.21.3
+   Compiling colored v3.0.0
+   Compiling z3 v0.12.1
+warning: unused import: `crate::debug_println`
+ --> src/analysis/lifetime_checker.rs:5:5
+  |
+5 | use crate::debug_println;
+  |     ^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::debug_println`
+ --> src/analysis/lifetime_inference.rs:3:5
+  |
+3 | use crate::debug_println;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `HashSet`
+  --> src/analysis/liveness.rs:13:33
+   |
+13 | use std::collections::{HashMap, HashSet};
+   |                                 ^^^^^^^
+
+warning: unused variable: `idx`
+   --> src/parser/ast_visitor.rs:691:22
+    |
+691 |                 for (idx, c) in children.iter().enumerate() {
+    |                      ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `child_idx`
+   --> src/parser/ast_visitor.rs:773:38
+    |
+773 | ...                   for (child_idx, member_child) in c.get_children().iter().enumerate() {
+    |                            ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_child_idx`
+
+warning: unused variable: `member_child`
+   --> src/parser/ast_visitor.rs:773:49
+    |
+773 | ...                   for (child_idx, member_child) in c.get_children().iter().enumerate() {
+    |                                       ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_member_child`
+
+warning: unused variable: `semantic_parent`
+   --> src/parser/ast_visitor.rs:779:45
+    |
+779 | ...                   if let Some(semantic_parent) = c.get_semantic_parent() {
+    |                                   ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_semantic_parent`
+
+warning: unused variable: `lexical_parent`
+   --> src/parser/ast_visitor.rs:785:45
+    |
+785 | ...                   if let Some(lexical_parent) = c.get_lexical_parent() {
+    |                                   ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_lexical_parent`
+
+warning: unused variable: `idx`
+    --> src/parser/ast_visitor.rs:1083:18
+     |
+1083 |             for (idx, c) in children.iter().enumerate() {
+     |                  ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+
+warning: unused variable: `i`
+    --> src/parser/ast_visitor.rs:1113:26
+     |
+1113 |                     for (i, mc) in member_children.iter().enumerate() {
+     |                          ^ help: if this is intentional, prefix it with an underscore: `_i`
+
+warning: unused variable: `mc`
+    --> src/parser/ast_visitor.rs:1113:29
+     |
+1113 |                     for (i, mc) in member_children.iter().enumerate() {
+     |                             ^^ help: if this is intentional, prefix it with an underscore: `_mc`
+
+warning: unused variable: `i`
+    --> src/parser/ast_visitor.rs:1238:18
+     |
+1238 |             for (i, arg) in args.iter().enumerate() {
+     |                  ^ help: if this is intentional, prefix it with an underscore: `_i`
+
+warning: unused variable: `arg`
+    --> src/parser/ast_visitor.rs:1238:21
+     |
+1238 |             for (i, arg) in args.iter().enumerate() {
+     |                     ^^^ help: if this is intentional, prefix it with an underscore: `_arg`
+
+warning: unused variable: `ref_entity`
+    --> src/parser/ast_visitor.rs:1259:25
+     |
+1259 |             if let Some(ref_entity) = entity.get_reference() {
+     |                         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ref_entity`
+
+warning: unused variable: `child_ref`
+    --> src/parser/ast_visitor.rs:1286:29
+     |
+1286 |                 if let Some(child_ref) = child.get_reference() {
+     |                             ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_child_ref`
+
+warning: unused variable: `e`
+  --> src/parser/header_cache.rs:67:24
+   |
+67 |             if let Err(e) = self.external_annotations.parse_content(&content) {
+   |                        ^ help: if this is intentional, prefix it with an underscore: `_e`
+
+warning: unused variable: `name`
+   --> src/parser/header_cache.rs:101:14
+    |
+101 |         for (name, mode) in &self.safety_annotations {
+    |              ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `mode`
+   --> src/parser/header_cache.rs:101:20
+    |
+101 |         for (name, mode) in &self.safety_annotations {
+    |                    ^^^^ help: if this is intentional, prefix it with an underscore: `_mode`
+
+warning: unused variable: `name`
+   --> src/parser/header_cache.rs:174:29
+    |
+174 |                 if let Some(name) = entity.get_name() {
+    |                             ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `comment_content`
+  --> src/parser/external_annotations.rs:79:17
+   |
+79 |         let mut comment_content = String::new();
+   |                 ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_comment_content`
+
+warning: variable does not need to be mutable
+  --> src/parser/external_annotations.rs:79:13
+   |
+79 |         let mut comment_content = String::new();
+   |             ----^^^^^^^^^^^^^^^
+   |             |
+   |             help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `return_lifetime` is never read
+   --> src/parser/external_annotations.rs:283:17
+    |
+283 |         let mut return_lifetime = None;
+    |                 ^^^^^^^^^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `template_kind`
+   --> src/parser/mod.rs:105:13
+    |
+105 |         let template_kind = entity.get_template_kind();
+    |             ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_template_kind`
+
+warning: unused variable: `template_args`
+   --> src/parser/mod.rs:106:13
+    |
+106 |         let template_args = entity.get_template_arguments();
+    |             ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_template_args`
+
+warning: unused variable: `field`
+   --> src/ir/mod.rs:421:44
+    |
+421 |         Expression::MemberAccess { object, field } => {
+    |                                            ^^^^^ help: try ignoring the field: `field: _`
+
+warning: unused variable: `name`
+   --> src/ir/mod.rs:473:36
+    |
+473 |         Expression::FunctionCall { name, args } => {
+    |                                    ^^^^ help: try ignoring the field: `name: _`
+
+warning: unused variable: `left`
+   --> src/ir/mod.rs:485:32
+    |
+485 |         Expression::BinaryOp { left, right, op } => {
+    |                                ^^^^ help: try ignoring the field: `left: _`
+
+warning: unused variable: `right`
+   --> src/ir/mod.rs:485:38
+    |
+485 |         Expression::BinaryOp { left, right, op } => {
+    |                                      ^^^^^ help: try ignoring the field: `right: _`
+
+warning: unused variable: `op`
+   --> src/ir/mod.rs:485:45
+    |
+485 |         Expression::BinaryOp { left, right, op } => {
+    |                                             ^^ help: try ignoring the field: `op: _`
+
+warning: unreachable pattern
+    --> src/ir/mod.rs:1006:29
+     |
+ 959 | ...                   crate::parser::Expression::Move(inner) => {
+     |                       -------------------------------------- matches all the relevant values
+...
+1006 | ...                   crate::parser::Expression::Move(inner) => {
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no value can reach this
+     |
+     = note: `#[warn(unreachable_patterns)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `name`
+    --> src/ir/mod.rs:1258:18
+     |
+1258 |             for (name, info) in variables.iter() {
+     |                  ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `info`
+    --> src/ir/mod.rs:1258:24
+     |
+1258 |             for (name, info) in variables.iter() {
+     |                        ^^^^ help: if this is intentional, prefix it with an underscore: `_info`
+
+warning: unused variable: `name`
+    --> src/ir/mod.rs:1279:18
+     |
+1279 |             for (name, decl_idx, has_dest) in &vars_to_drop {
+     |                  ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `decl_idx`
+    --> src/ir/mod.rs:1279:24
+     |
+1279 |             for (name, decl_idx, has_dest) in &vars_to_drop {
+     |                        ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_decl_idx`
+
+warning: unused variable: `has_dest`
+    --> src/ir/mod.rs:1279:34
+     |
+1279 |             for (name, decl_idx, has_dest) in &vars_to_drop {
+     |                                  ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_has_dest`
+
+warning: unused variable: `inner`
+    --> src/ir/mod.rs:1393:54
+     |
+1393 |                 crate::parser::Expression::AddressOf(inner) => {
+     |                                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_inner`
+
+warning: unused variable: `right`
+    --> src/ir/mod.rs:1398:65
+     |
+1398 |                 crate::parser::Expression::BinaryOp { left, op, right } if op == "=" => {
+     |                                                                 ^^^^^ help: try ignoring the field: `right: _`
+
+warning: unused variable: `var_info`
+   --> src/analysis/lifetime_checker.rs:238:20
+    |
+238 |     for (var_name, var_info) in &function.variables {
+    |                    ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_var_info`
+
+warning: unused variable: `idx`
+   --> src/analysis/lifetime_checker.rs:261:14
+    |
+261 |         for (idx, statement) in block.statements.iter().enumerate() {
+    |              ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+
+warning: unused variable: `var`
+  --> src/analysis/liveness.rs:73:14
+   |
+73 |         for (var, idx) in &last_uses {
+   |              ^^^ help: if this is intentional, prefix it with an underscore: `_var`
+
+warning: unused variable: `idx`
+  --> src/analysis/liveness.rs:73:19
+   |
+73 |         for (var, idx) in &last_uses {
+   |                   ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+
+warning: unused variable: `current_scope`
+   --> src/analysis/mod.rs:855:17
+    |
+855 |             let current_scope = ownership_tracker.scope_stack.len();
+    |                 ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_current_scope`
+
+warning: unused variable: `current_scope_level`
+    --> src/analysis/mod.rs:1246:17
+     |
+1246 |             let current_scope_level = self.scope_stack.len() + 1; // +1 because we just popped
+     |                 ^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_current_scope_level`
+
+warning: unused variable: `then_borrowers`
+    --> src/analysis/mod.rs:1407:21
+     |
+1407 |                 let then_borrowers: HashSet<String> = then_borrows.iter().map(|b| b.borrower.clone()).collect();
+     |                     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_then_borrowers`
+
+warning: function `extract_qualified_function_name` is never used
+   --> src/parser/safety_annotations.rs:257:4
+    |
+257 | fn extract_qualified_function_name(before_paren: &str) -> Option<String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `returns_reference` is never used
+   --> src/analysis/mod.rs:180:4
+    |
+180 | fn returns_reference(return_type: &str) -> bool {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: field `this_context` is never read
+    --> src/analysis/mod.rs:1020:5
+     |
+1001 | struct OwnershipTracker {
+     |        ---------------- field in this struct
+...
+1020 |     this_context: Option<ThisContext>,
+     |     ^^^^^^^^^^^^
+
+warning: fields `borrowed_from`, `kind`, and `scope` are never read
+    --> src/analysis/mod.rs:1067:5
+     |
+1065 | struct ActiveBorrow {
+     |        ------------ fields in this struct
+1066 |     borrower: String,      // The reference variable that is borrowing (e.g., "ref")
+1067 |     borrowed_from: String, // The variable being borrowed from (e.g., "ptr")
+     |     ^^^^^^^^^^^^^
+1068 |     kind: BorrowKind,
+     |     ^^^^
+1069 |     scope: usize,          // Scope level where this borrow was created
+     |     ^^^^^
+     |
+     = note: `ActiveBorrow` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: variants `Borrowed`, `MutBorrowed`, `ConstBorrowed`, and `Consumed` are never constructed
+    --> src/analysis/mod.rs:1075:5
+     |
+1074 | enum ThisContext {
+     |      ----------- variants in this enum
+1075 |     Borrowed,       // Regular method - implicit &self
+     |     ^^^^^^^^
+1076 |     MutBorrowed,    // Mutable method - implicit &mut self
+     |     ^^^^^^^^^^^
+1077 |     ConstBorrowed,  // Const method - const &self
+     |     ^^^^^^^^^^^^^
+1078 |     Consumed,       // Rvalue ref method - implicit &&self (owned)
+     |     ^^^^^^^^
+     |
+     = note: `ThisContext` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: associated items `new`, `can_move_from_this`, and `set_this_context` are never used
+    --> src/analysis/mod.rs:1082:8
+     |
+1081 | impl OwnershipTracker {
+     | --------------------- associated items in this implementation
+1082 |     fn new() -> Self {
+     |        ^^^
+...
+1227 |     fn can_move_from_this(&self) -> bool {
+     |        ^^^^^^^^^^^^^^^^^^
+...
+1236 |     fn set_this_context(&mut self, context: Option<ThisContext>) {
+     |        ^^^^^^^^^^^^^^^^
+
+warning: function `check_statement_for_unsafe_calls` is never used
+  --> src/analysis/unsafe_propagation.rs:60:4
+   |
+60 | fn check_statement_for_unsafe_calls(
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `find_unsafe_function_call` is never used
+   --> src/analysis/unsafe_propagation.rs:218:4
+    |
+218 | fn find_unsafe_function_call(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `is_function_safe` is never used
+   --> src/analysis/unsafe_propagation.rs:310:4
+    |
+310 | fn is_function_safe(
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `is_function_safe_with_external` is never used
+   --> src/analysis/unsafe_propagation.rs:352:4
+    |
+352 | fn is_function_safe_with_external(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `rusty-cpp` (lib) generated 54 warnings (run `cargo fix --lib -p rusty-cpp` to apply 4 suggestions)
+warning: unused import: `template_context::TemplateContext`
+  --> src/parser/mod.rs:14:9
+   |
+14 | pub use template_context::TemplateContext;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::debug_println`
+ --> src/analysis/lifetime_checker.rs:5:5
+  |
+5 | use crate::debug_println;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused variable: `e`
+   --> src/main.rs:100:20
+    |
+100 |         if let Err(e) = header_cache.external_annotations.parse_content(&source_content) {
+    |                    ^ help: if this is intentional, prefix it with an underscore: `_e`
+
+warning: multiple fields are never read
+   --> src/parser/ast_visitor.rs:142:9
+    |
+141 | pub struct Class {
+    |            ----- fields in this struct
+142 |     pub name: String,
+    |         ^^^^
+143 |     pub template_parameters: Vec<String>,  // e.g., ["T", "Args"] for template<typename T, typename... Args>
+    |         ^^^^^^^^^^^^^^^^^^^
+144 |     pub is_template: bool,
+    |         ^^^^^^^^^^^
+145 |     pub members: Vec<Variable>,            // Member fields
+    |         ^^^^^^^
+146 |     pub methods: Vec<Function>,            // Member methods
+    |         ^^^^^^^
+147 |     pub base_classes: Vec<String>,         // Base class names (may contain packs like "Bases...")
+    |         ^^^^^^^^^^^^
+148 |     pub location: SourceLocation,
+    |         ^^^^^^^^
+    |
+    = note: `Class` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `get_safety_annotation` is never used
+  --> src/parser/header_cache.rs:49:12
+   |
+27 | impl HeaderCache {
+   | ---------------- method in this implementation
+...
+49 |     pub fn get_safety_annotation(&self, func_name: &str) -> Option<SafetyMode> {
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_qualified_function_name` is never used
+   --> src/parser/safety_annotations.rs:257:4
+    |
+257 | fn extract_qualified_function_name(before_paren: &str) -> Option<String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `TemplateContext` is never constructed
+  --> src/parser/template_context.rs:12:12
+   |
+12 | pub struct TemplateContext {
+   |            ^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `enter_template`, `exit_template`, `is_type_parameter`, `get_type_parameters`, and `is_in_template` are never used
+  --> src/parser/template_context.rs:20:12
+   |
+18 | impl TemplateContext {
+   | -------------------- associated items in this implementation
+19 |     /// Create a new empty template context
+20 |     pub fn new() -> Self {
+   |            ^^^
+...
+35 |     pub fn enter_template(&mut self, params: Vec<String>) {
+   |            ^^^^^^^^^^^^^^
+...
+40 |     pub fn exit_template(&mut self) {
+   |            ^^^^^^^^^^^^^
+...
+51 |     pub fn is_type_parameter(&self, name: &str) -> bool {
+   |            ^^^^^^^^^^^^^^^^^
+...
+56 |     pub fn get_type_parameters(&self) -> &HashSet<String> {
+   |            ^^^^^^^^^^^^^^^^^^^
+...
+61 |     pub fn is_in_template(&self) -> bool {
+   |            ^^^^^^^^^^^^^^
+
+warning: enum `TypeLifetime` is never used
+ --> src/parser/type_annotations.rs:9:10
+  |
+9 | pub enum TypeLifetime {
+  |          ^^^^^^^^^^^^
+
+warning: struct `MethodLifetime` is never constructed
+  --> src/parser/type_annotations.rs:27:12
+   |
+27 | pub struct MethodLifetime {
+   |            ^^^^^^^^^^^^^^
+
+warning: struct `TypeLifetimeSpec` is never constructed
+  --> src/parser/type_annotations.rs:35:12
+   |
+35 | pub struct TypeLifetimeSpec {
+   |            ^^^^^^^^^^^^^^^^
+
+warning: struct `TypeLifetimeRegistry` is never constructed
+  --> src/parser/type_annotations.rs:43:12
+   |
+43 | pub struct TypeLifetimeRegistry {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `get_type_spec`, `add_type_spec`, and `load_stl_annotations` are never used
+  --> src/parser/type_annotations.rs:48:12
+   |
+47 | impl TypeLifetimeRegistry {
+   | ------------------------- associated items in this implementation
+48 |     pub fn new() -> Self {
+   |            ^^^
+...
+56 |     pub fn get_type_spec(&self, type_name: &str) -> Option<&TypeLifetimeSpec> {
+   |            ^^^^^^^^^^^^^
+...
+62 |     pub fn add_type_spec(&mut self, spec: TypeLifetimeSpec) {
+   |            ^^^^^^^^^^^^^
+...
+67 |     fn load_stl_annotations(&mut self) {
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_type_lifetime_annotation` is never used
+   --> src/parser/type_annotations.rs:254:8
+    |
+254 | pub fn parse_type_lifetime_annotation(comment: &str) -> Option<TypeLifetimeSpec> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_method_lifetime` is never used
+   --> src/parser/type_annotations.rs:290:4
+    |
+290 | fn parse_method_lifetime(line: &str, spec: &mut TypeLifetimeSpec) {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_member_lifetime` is never used
+   --> src/parser/type_annotations.rs:313:4
+    |
+313 | fn parse_member_lifetime(line: &str, spec: &mut TypeLifetimeSpec) {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_param_types` is never used
+   --> src/parser/type_annotations.rs:330:4
+    |
+330 | fn parse_param_types(params: &str) -> Vec<TypeLifetime> {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: function `parse_type_lifetime` is never used
+   --> src/parser/type_annotations.rs:340:4
+    |
+340 | fn parse_type_lifetime(s: &str) -> TypeLifetime {
+    |    ^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_lifetime_name` is never used
+   --> src/parser/type_annotations.rs:370:4
+    |
+370 | fn extract_lifetime_name(s: &str) -> Option<String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_base_type` is never used
+   --> src/parser/type_annotations.rs:377:4
+    |
+377 | fn extract_base_type(type_name: &str) -> &str {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: fields `name`, `lifetime_spec`, `param_lifetimes`, `return_lifetime`, and `lifetime_constraints` are never read
+  --> src/parser/external_annotations.rs:17:9
+   |
+16 | pub struct ExternalFunctionAnnotation {
+   |            -------------------------- fields in this struct
+17 |     pub name: String,
+   |         ^^^^
+18 |     pub safety: ExternalSafety,
+19 |     pub lifetime_spec: Option<String>, // Raw lifetime specification for future use
+   |         ^^^^^^^^^^^^^
+20 |     pub param_lifetimes: Vec<String>,  // Parameter lifetime annotations
+   |         ^^^^^^^^^^^^^^^
+21 |     pub return_lifetime: Option<String>, // Return type lifetime
+   |         ^^^^^^^^^^^^^^^
+22 |     pub lifetime_constraints: Vec<String>, // Where clauses
+   |         ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `ExternalFunctionAnnotation` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: associated items `from_file` and `set_active_profile` are never used
+   --> src/parser/external_annotations.rs:67:12
+    |
+ 51 | impl ExternalAnnotations {
+    | ------------------------ associated items in this implementation
+...
+ 67 |     pub fn from_file(path: &Path) -> Result<Self, String> {
+    |            ^^^^^^^^^
+...
+622 |     pub fn set_active_profile(&mut self, profile_name: &str) -> Result<(), String> {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: fields `class_name` and `template_parameters` are never read
+  --> src/ir/mod.rs:64:9
+   |
+54 | pub struct IrFunction {
+   |            ---------- fields in this struct
+...
+64 |     pub class_name: Option<String>,
+   |         ^^^^^^^^^^
+65 |     // Template information
+66 |     pub template_parameters: Vec<String>,  // e.g., ["T", "U"] for template<typename T, typename U>
+   |         ^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `IrFunction` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `check_unsafe_propagation` is never used
+  --> src/analysis/unsafe_propagation.rs:12:8
+   |
+12 | pub fn check_unsafe_propagation(
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `clear_field_borrow`, `method_qualifier`, `is_field_moved`, and `is_field_borrowed` are never used
+   --> src/analysis/this_tracking.rs:183:12
+    |
+ 23 | impl ThisPointerTracker {
+    | ----------------------- methods in this implementation
+...
+183 |     pub fn clear_field_borrow(&mut self, field: &str) {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+188 |     pub fn method_qualifier(&self) -> Option<&MethodQualifier> {
+    |            ^^^^^^^^^^^^^^^^
+...
+193 |     pub fn is_field_moved(&self, field: &str) -> bool {
+    |            ^^^^^^^^^^^^^^
+...
+198 |     pub fn is_field_borrowed(&self, field: &str) -> bool {
+    |            ^^^^^^^^^^^^^^^^^
+
+warning: `rusty-cpp` (bin "rusty-cpp-checker") generated 77 warnings (52 duplicates) (run `cargo fix --bin "rusty-cpp-checker"` to apply 2 suggestions)
+    Finished `release` profile [optimized] target(s) in 4m 09s
+-- C++ Borrow Checking enabled
+-- Checker will be built at: /home/anshtyagi.linux/mako_ansh/mako-project/third-party/rusty-cpp/target/release/rusty-cpp-checker
+-- Build type: release
+-- Checking RustyCpp dependencies...
+-- Found cargo: /home/anshtyagi.linux/.local-rust/bin/cargo
+-- Found libclang: /usr/lib/llvm-14/lib/libclang.so
+-- Found libclang headers: /usr/lib/llvm-14/include
+-- Found llvm-config: /usr/lib/llvm-14/bin/llvm-config
+-- Found Z3: /usr/lib/x86_64-linux-gnu/libz3.so
+-- Found Z3 headers: /usr/include
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+-- Checking for module 'libdpdk'
+--   Found libdpdk, version 21.11.9
+-- Found Python3: /usr/include/python3.10 (found version "3.10.12") found components: Development Development.Module Development.Embed 
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: system filesystem thread coroutine context 
+-- I: /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc
+-- environment: eth
+CMake Deprecation Warning at third-party/erpc/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Compilation optimized for performance.
+-- Debugging is disabled.
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") 
+-- Found Threads: TRUE  
+-- Looking for ceil in m
+-- Looking for ceil in m - found
+-- Looking for clock_gettime in rt
+-- Looking for clock_gettime in rt - found
+CMake Warning (dev) at third-party/erpc/third_party/googletest/CMakeLists.txt:26 (option):
+  Policy CMP0077 is not set: option() honors normal variables.  Run "cmake
+  --help-policy CMP0077" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+  For compatibility with older versions of CMake, option is clearing the
+  normal variable 'INSTALL_GTEST'.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found Python: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Looking for C++ include unistd.h
+-- Looking for C++ include unistd.h - found
+-- Looking for C++ include stdint.h
+-- Looking for C++ include stdint.h - found
+-- Looking for C++ include inttypes.h
+-- Looking for C++ include inttypes.h - found
+-- Looking for C++ include sys/types.h
+-- Looking for C++ include sys/types.h - found
+-- Looking for C++ include sys/stat.h
+-- Looking for C++ include sys/stat.h - found
+-- Looking for C++ include fnmatch.h
+-- Looking for C++ include fnmatch.h - found
+-- Looking for C++ include stddef.h
+-- Looking for C++ include stddef.h - found
+-- Check size of uint32_t
+-- Check size of uint32_t - done
+-- Looking for strtoll
+-- Looking for strtoll - found
+-- Profile-guided optimization is disabled.
+-- Logging level = none.
+-- Testing is disabled, so tests may fail.
+-- Selected transport = fake.
+-- Compiling app = latency
+-- DPDK not needed to build eRPC
+STATUS,server compiles
+-- Checking for module 'libevent'
+--   Found libevent, version 2.1.12-stable
+-- Checking for module 'gflags'
+--   Found gflags, version 2.2.2
+-- Checking for module 'protobuf'
+--   Found protobuf, version 3.12.4
+-- Checking for module 'jemalloc'
+--   Found jemalloc, version 5.2.1_0
+-- Running autoreconf for Masstree...
+configure.ac:14: warning: The macro `AC_LANG_CPLUSPLUS' is obsolete.
+configure.ac:14: You should run autoupdate.
+./lib/autoconf/c.m4:262: AC_LANG_CPLUSPLUS is expanded from...
+configure.ac:14: the top level
+-- Configuring Masstree with: CC=/usr/bin/gcc CXX=/usr/bin/g++ --enable-max-key-len=1024 --disable-assertions --disable-invariants --disable-preconditions --with-malloc=jemalloc
+checking for gcc... /usr/bin/gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether /usr/bin/gcc accepts -g... yes
+checking for /usr/bin/gcc option to enable C11 features... none needed
+checking whether the compiler supports GNU C++... yes
+checking whether /usr/bin/g++ accepts -g... yes
+checking for /usr/bin/g++ option to enable C++11 features... none needed
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking whether byte ordering is bigendian... no
+checking for sys/epoll.h... yes
+checking for numa.h... yes
+checking for library containing numa_available... -lnuma
+checking for __builtin_clz builtin... yes
+checking for __builtin_clzl builtin... yes
+checking for __builtin_clzll builtin... yes
+checking for __builtin_ctz builtin... yes
+checking for __builtin_ctzl builtin... yes
+checking for __builtin_ctzll builtin... yes
+checking for __sync_synchronize builtin... yes
+checking for __sync_fetch_and_add builtin... yes
+checking for __sync_add_and_fetch builtin... yes
+checking for __sync_fetch_and_add_8 builtin... yes
+checking for __sync_add_and_fetch_8 builtin... yes
+checking for __sync_fetch_and_or builtin... yes
+checking for __sync_or_and_fetch builtin... yes
+checking for __sync_fetch_and_or_8 builtin... yes
+checking for __sync_or_and_fetch_8 builtin... yes
+checking for __sync_bool_compare_and_swap builtin... yes
+checking for __sync_bool_compare_and_swap_8 builtin... yes
+checking for __sync_val_compare_and_swap builtin... yes
+checking for __sync_val_compare_and_swap_8 builtin... yes
+checking for __sync_lock_test_and_set builtin... yes
+checking for __sync_lock_test_and_set_val builtin... yes
+checking for __sync_lock_release_set builtin... yes
+checking whether the C++ compiler understands 'auto'... yes
+checking whether the C++ compiler understands constexpr... yes
+checking whether the C++ compiler understands static_assert... yes
+checking whether the C++ compiler understands rvalue references... yes
+checking whether the C++ compiler understands template alias... yes
+checking for type_traits... yes
+checking for std::hash... yes
+checking for __has_trivial_copy... yes
+checking for __has_trivial_destructor... yes
+checking for std::move... yes
+checking for std::is_trivially_copyable... yes
+checking for std::is_trivially_destructible... yes
+checking for std::is_rvalue_reference... yes
+checking for malloc in -lflow... no
+checking for mallctl in -ljemalloc... yes
+checking for tc_malloc in -ltcmalloc_minimal... yes
+checking for _Z16getMainHoardHeapv in -lhoard... no
+checking for malloc library... -ljemalloc
+checking whether off_t and long are the same type... yes
+checking whether off_t and long long are the same type... no
+checking whether int64_t and long are the same type... yes
+checking whether int64_t and long long are the same type... no
+checking whether size_t and unsigned are the same type... no
+checking whether size_t and unsigned long are the same type... yes
+checking whether size_t and unsigned long long are the same type... no
+checking for long long... yes
+checking size of short... 2
+checking size of int... 4
+checking size of long... 8
+checking size of long long... 8
+checking size of void *... 8
+checking for /usr/bin/g++ options needed to detect all undeclared functions... none needed
+checking whether getline is declared... yes
+checking for time.h... yes
+checking for execinfo.h... yes
+checking whether clock_gettime is declared... yes
+checking for library containing clock_gettime... none required
+checking for clock_gettime... yes
+checking for library containing backtrace... none required
+checking whether MADV_HUGEPAGE is supported... checking how to run the C++ preprocessor... /usr/bin/g++ -E
+yes
+checking whether MAP_HUGETLB is supported... yes
+configure: creating ./config.status
+config.status: creating GNUmakefile
+config.status: creating config.h
+-- Building LZ4 library...
+make[1]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/third-party/lz4'
+gcc -fPIC -O3 -I. -std=c99 -Wall -W -Wundef -Wno-implicit-function-declaration -c lz4.c -o lz4.o
+gcc -fPIC -O3 -I. -std=c99 -Wall -W -Wundef -Wno-implicit-function-declaration -c xxhash.c -o xxhash.o
+gcc -shared -Wl,-soname,liblz4.so -o liblz4.so lz4.o xxhash.o
+make[1]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/third-party/lz4'
+-- LZ4 library built successfully
+> out-perf.masstree/src/mako/buildstamp.masstree
+-- GoogleTest found via find_package
+-- Test targets configured:
+--   - test_marshal: Marshal/Unmarshal tests
+--   - test_rpc: RPC client/server tests
+--   - test_rpc_extended: Extended RPC tests (timeouts, reconnection, load)
+--   - test_future: Future/async operation tests
+--   - test_reactor: Reactor/event system tests
+--   - test_reactor_extended: Extended reactor tests (events, coroutines, load)
+-- 
+-- Run tests with: make run_tests
+-- Or individually: make test && ctest
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/anshtyagi.linux/mako_ansh/mako-project/build
+Building with 4 parallel jobs...
+cmake --build build --parallel 4  
+gmake[1]: warning: -j4 forced in submake: resetting jobserver mode.
+gmake[1]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[2]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[  0%] Building Rust library if needed
+[  0%] Built target rcc_rpc_gen
+[  1%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/nexus_impl/nexus.cc.o
+[  1%] Building CXX object CMakeFiles/mako.dir/src/mako/allocator.cc.o
+[  1%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/nexus_impl/nexus_bg_thread.cc.o
+   Compiling libc v0.2.177
+   Compiling proc-macro2 v1.0.103
+   Compiling unicode-ident v1.0.22
+   Compiling quote v1.0.42
+   Compiling parking_lot_core v0.9.12
+   Compiling smallvec v1.15.1
+   Compiling cfg-if v1.0.4
+   Compiling scopeguard v1.2.0
+   Compiling bytes v1.11.0
+   Compiling lock_api v0.4.14
+   Compiling pin-project-lite v0.2.16
+   Compiling crc16 v0.4.0
+   Compiling minimal-lexical v0.2.1
+   Compiling futures-sink v0.3.31
+   Compiling memchr v2.7.6
+   Compiling either v1.15.0
+   Compiling futures-core v0.3.31
+   Compiling log v0.4.28
+   Compiling rust_redis v0.1.0 (/home/anshtyagi.linux/mako_ansh/mako-project/third-party/makocon/mako/rust-lib)
+   Compiling bytes-utils v0.1.4
+   Compiling cookie-factory v0.3.2
+   Compiling syn v2.0.110
+   Compiling nom v7.1.3
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc: In constructor ‘erpc::Nexus::Nexus(std::string, size_t, size_t)’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:64:10: warning: unused variable ‘sm_thread_lcore_index’ [-Wunused-variable]
+   64 |   size_t sm_thread_lcore_index = sm_udp_port_ % num_lcores_per_numa_node();
+      |          ^~~~~~~~~~~~~~~~~~~~~
+In file included from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/util/udp_client.h:11,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/heartbeat_mgr.h:11,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus.h:5,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:1:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc: In member function ‘void erpc::Nexus::print_stats()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:82:81: warning: use of old-style cast to ‘intmax_t’ {aka ‘long int’} [-Wold-style-cast]
+   82 |     ERPC_INFO("[CPU_TIME] for sm_thread_ of nexus: %4jd.%03ld\n", (intmax_t) ts.tv_sec, ts.tv_nsec / 1000000);
+      |                                                                                 ^~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/util/logger.h:65:36: note: in definition of macro ‘ERPC_INFO’
+   65 |   fprintf(ERPC_LOG_DEFAULT_STREAM, __VA_ARGS__);                        \
+      |                                    ^~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:76:7: warning: variable ‘s’ set but not used [-Wunused-but-set-variable]
+   76 |   int s;
+      |       ^
+   Compiling socket2 v0.6.1
+   Compiling signal-hook-registry v1.4.6
+   Compiling mio v1.1.0
+[  1%] Building CXX object CMakeFiles/mako.dir/src/mako/btree.cc.o
+   Compiling parking_lot v0.12.5
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[  1%] Building rusty-cpp-checker (release mode) with environment: LIBCLANG_PATH=/usr/lib/llvm-14/lib;LLVM_CONFIG_PATH=/usr/lib/llvm-14/bin/llvm-config;Z3_SYS_Z3_HEADER=/usr/include/z3.h
+   Compiling bindgen v0.66.1
+   Compiling rusty-cpp v0.1.0 (/home/anshtyagi.linux/mako_ansh/mako-project/third-party/rusty-cpp)
+   Compiling tokio-macros v2.6.0
+   Compiling tokio v1.48.0
+At global scope:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[  2%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/nexus_impl/nexus_sm_thread.cc.o
+   Compiling z3-sys v0.8.1
+   Compiling z3 v0.12.1
+[  2%] Building CXX object CMakeFiles/mako.dir/src/mako/core.cc.o
+   Compiling tokio-util v0.7.17
+[  3%] Building CXX object CMakeFiles/mako.dir/src/mako/counter.cc.o
+warning: unused import: `crate::debug_println`
+ --> src/analysis/lifetime_checker.rs:5:5
+  |
+5 | use crate::debug_println;
+  |     ^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::debug_println`
+ --> src/analysis/lifetime_inference.rs:3:5
+  |
+3 | use crate::debug_println;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `HashSet`
+  --> src/analysis/liveness.rs:13:33
+   |
+13 | use std::collections::{HashMap, HashSet};
+   |                                 ^^^^^^^
+
+   Compiling redis-protocol v6.0.0
+[  3%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc.cc.o
+warning: unused variable: `idx`
+   --> src/parser/ast_visitor.rs:691:22
+    |
+691 |                 for (idx, c) in children.iter().enumerate() {
+    |                      ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `child_idx`
+   --> src/parser/ast_visitor.rs:773:38
+    |
+773 | ...                   for (child_idx, member_child) in c.get_children().iter().enumerate() {
+    |                            ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_child_idx`
+
+warning: unused variable: `member_child`
+   --> src/parser/ast_visitor.rs:773:49
+    |
+773 | ...                   for (child_idx, member_child) in c.get_children().iter().enumerate() {
+    |                                       ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_member_child`
+
+warning: unused variable: `semantic_parent`
+   --> src/parser/ast_visitor.rs:779:45
+    |
+779 | ...                   if let Some(semantic_parent) = c.get_semantic_parent() {
+    |                                   ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_semantic_parent`
+
+warning: unused variable: `lexical_parent`
+   --> src/parser/ast_visitor.rs:785:45
+    |
+785 | ...                   if let Some(lexical_parent) = c.get_lexical_parent() {
+    |                                   ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_lexical_parent`
+
+warning: unused variable: `idx`
+    --> src/parser/ast_visitor.rs:1083:18
+     |
+1083 |             for (idx, c) in children.iter().enumerate() {
+     |                  ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+
+warning: unused variable: `i`
+    --> src/parser/ast_visitor.rs:1113:26
+     |
+1113 |                     for (i, mc) in member_children.iter().enumerate() {
+     |                          ^ help: if this is intentional, prefix it with an underscore: `_i`
+
+warning: unused variable: `mc`
+    --> src/parser/ast_visitor.rs:1113:29
+     |
+1113 |                     for (i, mc) in member_children.iter().enumerate() {
+     |                             ^^ help: if this is intentional, prefix it with an underscore: `_mc`
+
+warning: unused variable: `i`
+    --> src/parser/ast_visitor.rs:1238:18
+     |
+1238 |             for (i, arg) in args.iter().enumerate() {
+     |                  ^ help: if this is intentional, prefix it with an underscore: `_i`
+
+warning: unused variable: `arg`
+    --> src/parser/ast_visitor.rs:1238:21
+     |
+1238 |             for (i, arg) in args.iter().enumerate() {
+     |                     ^^^ help: if this is intentional, prefix it with an underscore: `_arg`
+
+warning: unused variable: `ref_entity`
+    --> src/parser/ast_visitor.rs:1259:25
+     |
+1259 |             if let Some(ref_entity) = entity.get_reference() {
+     |                         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_ref_entity`
+
+warning: unused variable: `child_ref`
+    --> src/parser/ast_visitor.rs:1286:29
+     |
+1286 |                 if let Some(child_ref) = child.get_reference() {
+     |                             ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_child_ref`
+
+warning: unused variable: `e`
+  --> src/parser/header_cache.rs:67:24
+   |
+67 |             if let Err(e) = self.external_annotations.parse_content(&content) {
+   |                        ^ help: if this is intentional, prefix it with an underscore: `_e`
+
+warning: unused variable: `name`
+   --> src/parser/header_cache.rs:101:14
+    |
+101 |         for (name, mode) in &self.safety_annotations {
+    |              ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `mode`
+   --> src/parser/header_cache.rs:101:20
+    |
+101 |         for (name, mode) in &self.safety_annotations {
+    |                    ^^^^ help: if this is intentional, prefix it with an underscore: `_mode`
+
+warning: unused variable: `name`
+   --> src/parser/header_cache.rs:174:29
+    |
+174 |                 if let Some(name) = entity.get_name() {
+    |                             ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `comment_content`
+  --> src/parser/external_annotations.rs:79:17
+   |
+79 |         let mut comment_content = String::new();
+   |                 ^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_comment_content`
+
+warning: variable does not need to be mutable
+  --> src/parser/external_annotations.rs:79:13
+   |
+79 |         let mut comment_content = String::new();
+   |             ----^^^^^^^^^^^^^^^
+   |             |
+   |             help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `return_lifetime` is never read
+   --> src/parser/external_annotations.rs:283:17
+    |
+283 |         let mut return_lifetime = None;
+    |                 ^^^^^^^^^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `template_kind`
+   --> src/parser/mod.rs:105:13
+    |
+105 |         let template_kind = entity.get_template_kind();
+    |             ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_template_kind`
+
+warning: unused variable: `template_args`
+   --> src/parser/mod.rs:106:13
+    |
+106 |         let template_args = entity.get_template_arguments();
+    |             ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_template_args`
+
+warning: unused variable: `field`
+   --> src/ir/mod.rs:421:44
+    |
+421 |         Expression::MemberAccess { object, field } => {
+    |                                            ^^^^^ help: try ignoring the field: `field: _`
+
+warning: unused variable: `name`
+   --> src/ir/mod.rs:473:36
+    |
+473 |         Expression::FunctionCall { name, args } => {
+    |                                    ^^^^ help: try ignoring the field: `name: _`
+
+warning: unused variable: `left`
+   --> src/ir/mod.rs:485:32
+    |
+485 |         Expression::BinaryOp { left, right, op } => {
+    |                                ^^^^ help: try ignoring the field: `left: _`
+
+warning: unused variable: `right`
+   --> src/ir/mod.rs:485:38
+    |
+485 |         Expression::BinaryOp { left, right, op } => {
+    |                                      ^^^^^ help: try ignoring the field: `right: _`
+
+warning: unused variable: `op`
+   --> src/ir/mod.rs:485:45
+    |
+485 |         Expression::BinaryOp { left, right, op } => {
+    |                                             ^^ help: try ignoring the field: `op: _`
+
+warning: unreachable pattern
+    --> src/ir/mod.rs:1006:29
+     |
+ 959 | ...                   crate::parser::Expression::Move(inner) => {
+     |                       -------------------------------------- matches all the relevant values
+...
+1006 | ...                   crate::parser::Expression::Move(inner) => {
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no value can reach this
+     |
+     = note: `#[warn(unreachable_patterns)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `name`
+    --> src/ir/mod.rs:1258:18
+     |
+1258 |             for (name, info) in variables.iter() {
+     |                  ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `info`
+    --> src/ir/mod.rs:1258:24
+     |
+1258 |             for (name, info) in variables.iter() {
+     |                        ^^^^ help: if this is intentional, prefix it with an underscore: `_info`
+
+warning: unused variable: `name`
+    --> src/ir/mod.rs:1279:18
+     |
+1279 |             for (name, decl_idx, has_dest) in &vars_to_drop {
+     |                  ^^^^ help: if this is intentional, prefix it with an underscore: `_name`
+
+warning: unused variable: `decl_idx`
+    --> src/ir/mod.rs:1279:24
+     |
+1279 |             for (name, decl_idx, has_dest) in &vars_to_drop {
+     |                        ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_decl_idx`
+
+warning: unused variable: `has_dest`
+    --> src/ir/mod.rs:1279:34
+     |
+1279 |             for (name, decl_idx, has_dest) in &vars_to_drop {
+     |                                  ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_has_dest`
+
+warning: unused variable: `inner`
+    --> src/ir/mod.rs:1393:54
+     |
+1393 |                 crate::parser::Expression::AddressOf(inner) => {
+     |                                                      ^^^^^ help: if this is intentional, prefix it with an underscore: `_inner`
+
+warning: unused variable: `right`
+    --> src/ir/mod.rs:1398:65
+     |
+1398 |                 crate::parser::Expression::BinaryOp { left, op, right } if op == "=" => {
+     |                                                                 ^^^^^ help: try ignoring the field: `right: _`
+
+warning: unused variable: `var_info`
+   --> src/analysis/lifetime_checker.rs:238:20
+    |
+238 |     for (var_name, var_info) in &function.variables {
+    |                    ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_var_info`
+
+warning: unused variable: `idx`
+   --> src/analysis/lifetime_checker.rs:261:14
+    |
+261 |         for (idx, statement) in block.statements.iter().enumerate() {
+    |              ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+
+warning: unused variable: `var`
+  --> src/analysis/liveness.rs:73:14
+   |
+73 |         for (var, idx) in &last_uses {
+   |              ^^^ help: if this is intentional, prefix it with an underscore: `_var`
+
+warning: unused variable: `idx`
+  --> src/analysis/liveness.rs:73:19
+   |
+73 |         for (var, idx) in &last_uses {
+   |                   ^^^ help: if this is intentional, prefix it with an underscore: `_idx`
+
+warning: unused variable: `current_scope`
+   --> src/analysis/mod.rs:855:17
+    |
+855 |             let current_scope = ownership_tracker.scope_stack.len();
+    |                 ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_current_scope`
+
+warning: unused variable: `current_scope_level`
+    --> src/analysis/mod.rs:1246:17
+     |
+1246 |             let current_scope_level = self.scope_stack.len() + 1; // +1 because we just popped
+     |                 ^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_current_scope_level`
+
+warning: unused variable: `then_borrowers`
+    --> src/analysis/mod.rs:1407:21
+     |
+1407 |                 let then_borrowers: HashSet<String> = then_borrows.iter().map(|b| b.borrower.clone()).collect();
+     |                     ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_then_borrowers`
+
+warning: function `extract_qualified_function_name` is never used
+   --> src/parser/safety_annotations.rs:257:4
+    |
+257 | fn extract_qualified_function_name(before_paren: &str) -> Option<String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `returns_reference` is never used
+   --> src/analysis/mod.rs:180:4
+    |
+180 | fn returns_reference(return_type: &str) -> bool {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: field `this_context` is never read
+    --> src/analysis/mod.rs:1020:5
+     |
+1001 | struct OwnershipTracker {
+     |        ---------------- field in this struct
+...
+1020 |     this_context: Option<ThisContext>,
+     |     ^^^^^^^^^^^^
+
+warning: fields `borrowed_from`, `kind`, and `scope` are never read
+    --> src/analysis/mod.rs:1067:5
+     |
+1065 | struct ActiveBorrow {
+     |        ------------ fields in this struct
+1066 |     borrower: String,      // The reference variable that is borrowing (e.g., "ref")
+1067 |     borrowed_from: String, // The variable being borrowed from (e.g., "ptr")
+     |     ^^^^^^^^^^^^^
+1068 |     kind: BorrowKind,
+     |     ^^^^
+1069 |     scope: usize,          // Scope level where this borrow was created
+     |     ^^^^^
+     |
+     = note: `ActiveBorrow` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: variants `Borrowed`, `MutBorrowed`, `ConstBorrowed`, and `Consumed` are never constructed
+    --> src/analysis/mod.rs:1075:5
+     |
+1074 | enum ThisContext {
+     |      ----------- variants in this enum
+1075 |     Borrowed,       // Regular method - implicit &self
+     |     ^^^^^^^^
+1076 |     MutBorrowed,    // Mutable method - implicit &mut self
+     |     ^^^^^^^^^^^
+1077 |     ConstBorrowed,  // Const method - const &self
+     |     ^^^^^^^^^^^^^
+1078 |     Consumed,       // Rvalue ref method - implicit &&self (owned)
+     |     ^^^^^^^^
+     |
+     = note: `ThisContext` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: associated items `new`, `can_move_from_this`, and `set_this_context` are never used
+    --> src/analysis/mod.rs:1082:8
+     |
+1081 | impl OwnershipTracker {
+     | --------------------- associated items in this implementation
+1082 |     fn new() -> Self {
+     |        ^^^
+...
+1227 |     fn can_move_from_this(&self) -> bool {
+     |        ^^^^^^^^^^^^^^^^^^
+...
+1236 |     fn set_this_context(&mut self, context: Option<ThisContext>) {
+     |        ^^^^^^^^^^^^^^^^
+
+warning: function `check_statement_for_unsafe_calls` is never used
+  --> src/analysis/unsafe_propagation.rs:60:4
+   |
+60 | fn check_statement_for_unsafe_calls(
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `find_unsafe_function_call` is never used
+   --> src/analysis/unsafe_propagation.rs:218:4
+    |
+218 | fn find_unsafe_function_call(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `is_function_safe` is never used
+   --> src/analysis/unsafe_propagation.rs:310:4
+    |
+310 | fn is_function_safe(
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `is_function_safe_with_external` is never used
+   --> src/analysis/unsafe_propagation.rs:352:4
+    |
+352 | fn is_function_safe_with_external(
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[  3%] Building CXX object CMakeFiles/mako.dir/src/mako/memory.cc.o
+[  3%] Building CXX object CMakeFiles/mako.dir/src/mako/rocksdb_persistence.cc.o
+warning: creating a shared reference to mutable static
+  --> src/lib.rs:60:29
+   |
+60 |         let request_queue = REQUEST_QUEUE.as_ref().unwrap().clone();
+   |                             ^^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+   |
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+   = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+   = note: `#[warn(static_mut_refs)]` (part of `#[warn(rust_2024_compatibility)]`) on by default
+
+warning: creating a shared reference to mutable static
+  --> src/lib.rs:61:33
+   |
+61 |         let response_channels = RESPONSE_CHANNELS.as_ref().unwrap().clone();
+   |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+   |
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+   = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+
+warning: creating a shared reference to mutable static
+  --> src/lib.rs:62:23
+   |
+62 |         let next_id = NEXT_ID.as_ref().unwrap().clone();
+   |                       ^^^^^^^^^^^^^^^^ shared reference to mutable static
+   |
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+   = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+
+warning: creating a shared reference to mutable static
+  --> src/lib.rs:84:34
+   |
+84 |         if let Some(queue_ref) = &REQUEST_QUEUE {
+   |                                  ^^^^^^^^^^^^^^ shared reference to mutable static
+   |
+   = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+   = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+help: use `&raw const` instead to create a raw pointer
+   |
+84 |         if let Some(queue_ref) = &raw const REQUEST_QUEUE {
+   |                                   +++++++++
+
+warning: creating a shared reference to mutable static
+   --> src/lib.rs:114:37
+    |
+114 |         if let Some(channels_ref) = &RESPONSE_CHANNELS {
+    |                                     ^^^^^^^^^^^^^^^^^^ shared reference to mutable static
+    |
+    = note: for more information, see <https://doc.rust-lang.org/edition-guide/rust-2024/static-mut-references.html>
+    = note: shared references to mutable statics are dangerous; it's undefined behavior if the static is mutated or if a mutable reference is created for it while the shared reference lives
+help: use `&raw const` instead to create a raw pointer
+    |
+114 |         if let Some(channels_ref) = &raw const RESPONSE_CHANNELS {
+    |                                      +++++++++
+
+warning: `rust_redis` (lib) generated 5 warnings
+    Finished `release` profile [optimized] target(s) in 1m 57s
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[  3%] Built target rust_build
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[  3%] Borrow checking src/mako/benchmarks/dbtest.cc (from dbtest)
+Rusty C++ Checker
+Analyzing: /home/anshtyagi.linux/mako_ansh/mako-project/src/mako/benchmarks/dbtest.cc
+[  3%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_queues.cc.o
+warning: `rusty-cpp` (lib) generated 54 warnings (run `cargo fix --lib -p rusty-cpp` to apply 4 suggestions)
+warning: unused import: `template_context::TemplateContext`
+  --> src/parser/mod.rs:14:9
+   |
+14 | pub use template_context::TemplateContext;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::debug_println`
+ --> src/analysis/lifetime_checker.rs:5:5
+  |
+5 | use crate::debug_println;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused variable: `e`
+   --> src/main.rs:100:20
+    |
+100 |         if let Err(e) = header_cache.external_annotations.parse_content(&source_content) {
+    |                    ^ help: if this is intentional, prefix it with an underscore: `_e`
+
+warning: multiple fields are never read
+   --> src/parser/ast_visitor.rs:142:9
+    |
+141 | pub struct Class {
+    |            ----- fields in this struct
+142 |     pub name: String,
+    |         ^^^^
+143 |     pub template_parameters: Vec<String>,  // e.g., ["T", "Args"] for template<typename T, typename... Args>
+    |         ^^^^^^^^^^^^^^^^^^^
+144 |     pub is_template: bool,
+    |         ^^^^^^^^^^^
+145 |     pub members: Vec<Variable>,            // Member fields
+    |         ^^^^^^^
+146 |     pub methods: Vec<Function>,            // Member methods
+    |         ^^^^^^^
+147 |     pub base_classes: Vec<String>,         // Base class names (may contain packs like "Bases...")
+    |         ^^^^^^^^^^^^
+148 |     pub location: SourceLocation,
+    |         ^^^^^^^^
+    |
+    = note: `Class` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `get_safety_annotation` is never used
+  --> src/parser/header_cache.rs:49:12
+   |
+27 | impl HeaderCache {
+   | ---------------- method in this implementation
+...
+49 |     pub fn get_safety_annotation(&self, func_name: &str) -> Option<SafetyMode> {
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_qualified_function_name` is never used
+   --> src/parser/safety_annotations.rs:257:4
+    |
+257 | fn extract_qualified_function_name(before_paren: &str) -> Option<String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `TemplateContext` is never constructed
+  --> src/parser/template_context.rs:12:12
+   |
+12 | pub struct TemplateContext {
+   |            ^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `enter_template`, `exit_template`, `is_type_parameter`, `get_type_parameters`, and `is_in_template` are never used
+  --> src/parser/template_context.rs:20:12
+   |
+18 | impl TemplateContext {
+   | -------------------- associated items in this implementation
+19 |     /// Create a new empty template context
+20 |     pub fn new() -> Self {
+   |            ^^^
+...
+35 |     pub fn enter_template(&mut self, params: Vec<String>) {
+   |            ^^^^^^^^^^^^^^
+...
+40 |     pub fn exit_template(&mut self) {
+   |            ^^^^^^^^^^^^^
+...
+51 |     pub fn is_type_parameter(&self, name: &str) -> bool {
+   |            ^^^^^^^^^^^^^^^^^
+...
+56 |     pub fn get_type_parameters(&self) -> &HashSet<String> {
+   |            ^^^^^^^^^^^^^^^^^^^
+...
+61 |     pub fn is_in_template(&self) -> bool {
+   |            ^^^^^^^^^^^^^^
+
+warning: enum `TypeLifetime` is never used
+ --> src/parser/type_annotations.rs:9:10
+  |
+9 | pub enum TypeLifetime {
+  |          ^^^^^^^^^^^^
+
+warning: struct `MethodLifetime` is never constructed
+  --> src/parser/type_annotations.rs:27:12
+   |
+27 | pub struct MethodLifetime {
+   |            ^^^^^^^^^^^^^^
+
+warning: struct `TypeLifetimeSpec` is never constructed
+  --> src/parser/type_annotations.rs:35:12
+   |
+35 | pub struct TypeLifetimeSpec {
+   |            ^^^^^^^^^^^^^^^^
+
+warning: struct `TypeLifetimeRegistry` is never constructed
+  --> src/parser/type_annotations.rs:43:12
+   |
+43 | pub struct TypeLifetimeRegistry {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `get_type_spec`, `add_type_spec`, and `load_stl_annotations` are never used
+  --> src/parser/type_annotations.rs:48:12
+   |
+47 | impl TypeLifetimeRegistry {
+   | ------------------------- associated items in this implementation
+48 |     pub fn new() -> Self {
+   |            ^^^
+...
+56 |     pub fn get_type_spec(&self, type_name: &str) -> Option<&TypeLifetimeSpec> {
+   |            ^^^^^^^^^^^^^
+...
+62 |     pub fn add_type_spec(&mut self, spec: TypeLifetimeSpec) {
+   |            ^^^^^^^^^^^^^
+...
+67 |     fn load_stl_annotations(&mut self) {
+   |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_type_lifetime_annotation` is never used
+   --> src/parser/type_annotations.rs:254:8
+    |
+254 | pub fn parse_type_lifetime_annotation(comment: &str) -> Option<TypeLifetimeSpec> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_method_lifetime` is never used
+   --> src/parser/type_annotations.rs:290:4
+    |
+290 | fn parse_method_lifetime(line: &str, spec: &mut TypeLifetimeSpec) {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_member_lifetime` is never used
+   --> src/parser/type_annotations.rs:313:4
+    |
+313 | fn parse_member_lifetime(line: &str, spec: &mut TypeLifetimeSpec) {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `parse_param_types` is never used
+   --> src/parser/type_annotations.rs:330:4
+    |
+330 | fn parse_param_types(params: &str) -> Vec<TypeLifetime> {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: function `parse_type_lifetime` is never used
+   --> src/parser/type_annotations.rs:340:4
+    |
+340 | fn parse_type_lifetime(s: &str) -> TypeLifetime {
+    |    ^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_lifetime_name` is never used
+   --> src/parser/type_annotations.rs:370:4
+    |
+370 | fn extract_lifetime_name(s: &str) -> Option<String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `extract_base_type` is never used
+   --> src/parser/type_annotations.rs:377:4
+    |
+377 | fn extract_base_type(type_name: &str) -> &str {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: fields `name`, `lifetime_spec`, `param_lifetimes`, `return_lifetime`, and `lifetime_constraints` are never read
+  --> src/parser/external_annotations.rs:17:9
+   |
+16 | pub struct ExternalFunctionAnnotation {
+   |            -------------------------- fields in this struct
+17 |     pub name: String,
+   |         ^^^^
+18 |     pub safety: ExternalSafety,
+19 |     pub lifetime_spec: Option<String>, // Raw lifetime specification for future use
+   |         ^^^^^^^^^^^^^
+20 |     pub param_lifetimes: Vec<String>,  // Parameter lifetime annotations
+   |         ^^^^^^^^^^^^^^^
+21 |     pub return_lifetime: Option<String>, // Return type lifetime
+   |         ^^^^^^^^^^^^^^^
+22 |     pub lifetime_constraints: Vec<String>, // Where clauses
+   |         ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `ExternalFunctionAnnotation` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: associated items `from_file` and `set_active_profile` are never used
+   --> src/parser/external_annotations.rs:67:12
+    |
+ 51 | impl ExternalAnnotations {
+    | ------------------------ associated items in this implementation
+...
+ 67 |     pub fn from_file(path: &Path) -> Result<Self, String> {
+    |            ^^^^^^^^^
+...
+622 |     pub fn set_active_profile(&mut self, profile_name: &str) -> Result<(), String> {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: fields `class_name` and `template_parameters` are never read
+  --> src/ir/mod.rs:64:9
+   |
+54 | pub struct IrFunction {
+   |            ---------- fields in this struct
+...
+64 |     pub class_name: Option<String>,
+   |         ^^^^^^^^^^
+65 |     // Template information
+66 |     pub template_parameters: Vec<String>,  // e.g., ["T", "U"] for template<typename T, typename U>
+   |         ^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `IrFunction` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `check_unsafe_propagation` is never used
+  --> src/analysis/unsafe_propagation.rs:12:8
+   |
+12 | pub fn check_unsafe_propagation(
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `clear_field_borrow`, `method_qualifier`, `is_field_moved`, and `is_field_borrowed` are never used
+   --> src/analysis/this_tracking.rs:183:12
+    |
+ 23 | impl ThisPointerTracker {
+    | ----------------------- methods in this implementation
+...
+183 |     pub fn clear_field_borrow(&mut self, field: &str) {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+188 |     pub fn method_qualifier(&self) -> Option<&MethodQualifier> {
+    |            ^^^^^^^^^^^^^^^^
+...
+193 |     pub fn is_field_moved(&self, field: &str) -> bool {
+    |            ^^^^^^^^^^^^^^
+...
+198 |     pub fn is_field_borrowed(&self, field: &str) -> bool {
+    |            ^^^^^^^^^^^^^^^^^
+
+[  3%] Building CXX object CMakeFiles/mako.dir/src/mako/kdv_format.cc.o
+[  4%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_rfr.cc.o
+[  5%] Building CXX object CMakeFiles/mako.dir/src/mako/rcu.cc.o
+[  5%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_cr.cc.o
+[  5%] Building CXX object CMakeFiles/mako.dir/src/mako/stats_server.cc.o
+[  5%] Building CXX object CMakeFiles/mako.dir/src/mako/thread.cc.o
+[  5%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_kick.cc.o
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::LevelMetaData'
+Warning (suppressed error): static_assert failed due to requirement 'std::__is_complete_or_unbounded(std::__type_identity<rocksdb::LevelMetaData>{})' "template argument must be a complete class or an unbounded array"
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::LevelMetaData'
+Warning (suppressed error): invalid application of 'sizeof' to an incomplete type 'rocksdb::LevelMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::LevelMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'const rocksdb::LevelMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::LevelMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::SstFileMetaData'
+Warning (suppressed error): invalid application of 'sizeof' to an incomplete type 'rocksdb::SstFileMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::SstFileMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::SstFileMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'const rocksdb::SstFileMetaData'
+Warning (suppressed error): arithmetic on a pointer to an incomplete type 'rocksdb::SstFileMetaData'
+Warning (suppressed error): static_assert failed due to requirement 'std::__is_complete_or_unbounded(std::__type_identity<rocksdb::SstFileMetaData>{})' "template argument must be a complete class or an unbounded array"
+Warning (suppressed error): calling a private constructor of class 'Transaction'
+Warning (suppressed error): variable of type 'Transaction' has private destructor
+Warning (suppressed error): calling a private constructor of class 'Transaction'
+Warning (suppressed error): variable of type 'Transaction' has private destructor
+✓ rusty-cpp: no violations found!
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[  5%] Built target borrow_check_dbtest_dbtest
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[  6%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/basetypes.cpp.o
+[  6%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_req.cc.o
+[  6%] Building CXX object CMakeFiles/mako.dir/src/mako/ticker.cc.o
+[  6%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/debugging.cpp.o
+[  7%] Building CXX object CMakeFiles/mako.dir/src/mako/tuple.cc.o
+[  7%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/logging.cpp.o
+[  7%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/misc.cpp.o
+[  8%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_resp.cc.o
+[  8%] Building CXX object CMakeFiles/mako.dir/src/mako/txn_btree.cc.o
+[  9%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/strop.cpp.o
+[  9%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/threading.cpp.o
+[  9%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_ev_loop.cc.o
+[  9%] Building CXX object CMakeFiles/rrr.dir/src/rrr/base/unittest.cpp.o
+[  9%] Building CXX object CMakeFiles/rrr.dir/src/rrr/misc/alock.cpp.o
+[  9%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_fault_inject.cc.o
+[  9%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_pkt_loss.cc.o
+[ 10%] Building CXX object CMakeFiles/rrr.dir/src/rrr/misc/marshal.cpp.o
+[ 10%] Building CXX object CMakeFiles/mako.dir/src/mako/txn.cc.o
+[ 10%] Building CXX object CMakeFiles/rrr.dir/src/rrr/misc/rand.cpp.o
+[ 11%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_rx.cc.o
+[ 12%] Building CXX object CMakeFiles/mako.dir/src/mako/txn_proto2_impl.cc.o
+[ 12%] Building CXX object CMakeFiles/rrr.dir/src/rrr/misc/recorder.cpp.o
+warning: `rusty-cpp` (bin "rusty-cpp-checker") generated 77 warnings (52 duplicates) (run `cargo fix --bin "rusty-cpp-checker"` to apply 2 suggestions)
+    Finished `release` profile [optimized] target(s) in 4m 42s
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 12%] Built target build_rusty_cpp_checker
+[ 12%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_connect_handlers.cc.o
+[ 12%] Building CXX object CMakeFiles/rrr.dir/src/rrr/reactor/coroutine.cc.o
+[ 12%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_disconnect_handlers.cc.o
+[ 12%] Building CXX object CMakeFiles/mako.dir/src/mako/varint.cc.o
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/rpc_impl/rpc_connect_handlers.cc: In member function ‘void erpc::Rpc<T>::handle_connect_req_st(const erpc::SmPkt&) [with TTr = erpc::FakeTransport]’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/rpc_impl/rpc_connect_handlers.cc:94:11: warning: ‘void free(void*)’ called on pointer returned from a mismatched allocation function [-Wmismatched-new-delete]
+   94 |       free(session);
+      |       ~~~~^~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/rpc_impl/rpc_connect_handlers.cc:78:19: note: returned from ‘void* operator new(std::size_t)’
+   78 |   auto *session = new Session(Session::Role::kServer, sm_pkt.uniq_token_,
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |                               get_freq_ghz(), transport_->get_bandwidth());
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+At global scope:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[ 12%] Building CXX object CMakeFiles/mako.dir/src/mako/masstree/compiler.cc.o
+[ 13%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_reset_handlers.cc.o
+[ 13%] Building CXX object CMakeFiles/mako.dir/src/mako/masstree/str.cc.o
+[ 14%] Building CXX object CMakeFiles/rrr.dir/src/rrr/reactor/epoll_wrapper.cc.o
+[ 14%] Building CXX object CMakeFiles/rrr.dir/src/rrr/reactor/event.cc.o
+[ 15%] Building CXX object CMakeFiles/mako.dir/src/mako/masstree/string.cc.o
+[ 15%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_sm_api.cc.o
+[ 15%] Building CXX object CMakeFiles/mako.dir/src/mako/masstree/straccum.cc.o
+[ 15%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/rpc_impl/rpc_sm_helpers.cc.o
+[ 15%] Building CXX object CMakeFiles/mako.dir/src/mako/masstree/json.cc.o
+[ 15%] Building CXX object CMakeFiles/rrr.dir/src/rrr/reactor/quorum_event.cc.o
+[ 15%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/transport.cc.o
+[ 15%] Building CXX object CMakeFiles/mako.dir/src/mako/masstree/kvthread.cc.o
+[ 16%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/dpdk/dpdk_transport.cc.o
+[ 16%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/dpdk/dpdk_init.cc.o
+[ 16%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/dpdk/dpdk_externs.cc.o
+[ 17%] Building CXX object CMakeFiles/rrr.dir/src/rrr/reactor/reactor.cc.o
+[ 17%] Building CXX object CMakeFiles/rrr.dir/src/rrr/rpc/client.cpp.o
+[ 18%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/bench.cc.o
+[ 18%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/dpdk/dpdk_transport_datapath.cc.o
+[ 19%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/infiniband/ib_transport.cc.o
+[ 19%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/infiniband/ib_transport_datapath.cc.o
+[ 19%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/raw/raw_transport.cc.o
+[ 19%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/raw/raw_transport_datapath.cc.o
+[ 20%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/transport_impl/fake/fake_transport.cc.o
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc: In member function ‘size_t erpc::FakeTransport::rx_burst()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:198:12: warning: unused variable ‘pkt_size’ [-Wunused-variable]
+  198 |     size_t pkt_size = pkt_info.second;
+      |            ^~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc: In member function ‘void erpc::FakeTransport::rx_thread_func()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:228:56: warning: conversion to ‘size_t’ {aka ‘long unsigned int’} from ‘ssize_t’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  228 |       uint8_t *pkt_copy = static_cast<uint8_t*>(malloc(bytes_received));
+      |                                                        ^~~~~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:230:34: warning: conversion to ‘size_t’ {aka ‘long unsigned int’} from ‘ssize_t’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  230 |         memcpy(pkt_copy, buffer, bytes_received);
+      |                                  ^~~~~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc: In member function ‘void erpc::FakeTransport::resolve_local_ip_address()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:284:45: warning: use of old-style cast to ‘struct sockaddr*’ [-Wold-style-cast]
+  284 |   if (connect(temp_sock, (struct sockaddr*)&remote_addr, sizeof(remote_addr)) < 0) {
+      |                                             ^~~~~~~~~~~
+      |                          -
+      |                          reinterpret_cast<-
+      |                                           > (          )
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:293:49: warning: use of old-style cast to ‘struct sockaddr*’ [-Wold-style-cast]
+  293 |   if (getsockname(temp_sock, (struct sockaddr*)&local_addr, &addr_len) < 0) {
+      |                                                 ^~~~~~~~~~
+      |                              -
+      |                              reinterpret_cast<-
+      |                                               > (         )
+At global scope:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[ 20%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/util/huge_alloc.cc.o
+[ 20%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/util/numautils.cc.o
+[ 21%] Building CXX object third-party/erpc/CMakeFiles/erpc.dir/src/util/tls_registry.cc.o
+[ 21%] Building CXX object CMakeFiles/rrr.dir/src/rrr/rpc/server.cpp.o
+[ 21%] Building CXX object CMakeFiles/rrr.dir/src/rrr/rpc/utils.cpp.o
+[ 21%] Linking CXX static library liberpc.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 21%] Built target erpc
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 21%] Building CXX object third-party/erpc/third_party/googletest/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 21%] Building CXX object CMakeFiles/kdv_format_test.dir/test/kdv_format_test.cc.o
+[ 21%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/encstress.cc.o
+[ 21%] Building CXX object CMakeFiles/kdv_format_test.dir/src/mako/kdv_format.cc.o
+[ 22%] Linking CXX static library librrr.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 22%] Built target rrr
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 22%] Building CXX object third-party/erpc/third_party/gflags/CMakeFiles/gflags_nothreads_static.dir/src/gflags.cc.o
+[ 22%] Linking CXX executable kdv_format_test
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 22%] Built target kdv_format_test
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 23%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_encoding.c.o
+[ 23%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_histogram.c.o
+[ 23%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_histogram_log.c.o
+[ 23%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_interval_recorder.c.o
+[ 24%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_thread.c.o
+[ 24%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_time.c.o
+[ 24%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram_static.dir/hdr_writer_reader_phaser.c.o
+[ 24%] Linking C static library libhdr_histogram_static.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 24%] Built target hdr_histogram_static
+[ 24%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/bid.cc.o
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 24%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_encoding.c.o
+[ 25%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_histogram.c.o
+[ 25%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_histogram_log.c.o
+[ 25%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_interval_recorder.c.o
+[ 25%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_thread.c.o
+[ 26%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_time.c.o
+[ 26%] Building C object third-party/erpc/third_party/HdrHistogram_c/src/CMakeFiles/hdr_histogram.dir/hdr_writer_reader_phaser.c.o
+[ 26%] Linking C shared library libhdr_histogram.so
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 26%] Built target hdr_histogram
+[ 27%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/queue.cc.o
+[ 27%] Building CXX object third-party/erpc/third_party/gflags/CMakeFiles/gflags_nothreads_static.dir/src/gflags_reporting.cc.o
+[ 28%] Building CXX object third-party/erpc/third_party/gflags/CMakeFiles/gflags_nothreads_static.dir/src/gflags_completions.cc.o
+[ 28%] Linking CXX static library libgflags_nothreads.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 28%] Built target gflags_nothreads_static
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 28%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos_main_helper.cc.o
+[ 28%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/tpcc.cc.o
+[ 29%] Linking CXX static library ../../../../../lib/libgtest.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 29%] Built target gtest
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 29%] Built target borrow_check_all_dbtest
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 29%] Building CXX object CMakeFiles/memdb.dir/src/memdb/MurmurHash3.cc.o
+[ 29%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/rpc_setup.cc.o
+[ 29%] Building CXX object CMakeFiles/memdb.dir/src/memdb/row.cc.o
+[ 29%] Building CXX object CMakeFiles/memdb.dir/src/memdb/schema.cc.o
+[ 29%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/ycsb.cc.o
+[ 30%] Building CXX object CMakeFiles/memdb.dir/src/memdb/table.cc.o
+[ 31%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sync_util_init.cc.o
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 31%] Building CXX object third-party/erpc/third_party/googletest/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 31%] Building CXX object CMakeFiles/txlog.dir/src/bench/micro/procedure.cc.o
+[ 31%] Linking CXX static library ../../../../../lib/libgtest_main.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 31%] Built target gtest_main
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 32%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/apps/latency/latency.cc.o
+[ 32%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/Transaction.cc.o
+[ 32%] Building CXX object CMakeFiles/memdb.dir/src/memdb/txn.cc.o
+[ 32%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/nexus_impl/nexus.cc.o
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc: In constructor ‘erpc::Nexus::Nexus(std::string, size_t, size_t)’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:64:10: warning: unused variable ‘sm_thread_lcore_index’ [-Wunused-variable]
+   64 |   size_t sm_thread_lcore_index = sm_udp_port_ % num_lcores_per_numa_node();
+      |          ^~~~~~~~~~~~~~~~~~~~~
+In file included from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/util/udp_client.h:11,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/heartbeat_mgr.h:11,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus.h:5,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:1:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc: In member function ‘void erpc::Nexus::print_stats()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:82:81: warning: use of old-style cast to ‘intmax_t’ {aka ‘long int’} [-Wold-style-cast]
+   82 |     ERPC_INFO("[CPU_TIME] for sm_thread_ of nexus: %4jd.%03ld\n", (intmax_t) ts.tv_sec, ts.tv_nsec / 1000000);
+      |                                                                                 ^~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/util/logger.h:65:36: note: in definition of macro ‘ERPC_INFO’
+   65 |   fprintf(ERPC_LOG_DEFAULT_STREAM, __VA_ARGS__);                        \
+      |                                    ^~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/nexus_impl/nexus.cc:76:7: warning: variable ‘s’ set but not used [-Wunused-but-set-variable]
+   76 |   int s;
+      |       ^
+At top level:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[ 32%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/nexus_impl/nexus_bg_thread.cc.o
+[ 32%] Building CXX object CMakeFiles/memdb.dir/src/memdb/txn_2pl.cc.o
+[ 32%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/MassTrans.cc.o
+[ 33%] Building CXX object CMakeFiles/txlog.dir/src/bench/micro/workload.cc.o
+[ 33%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/nexus_impl/nexus_sm_thread.cc.o
+[ 34%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc.cc.o
+[ 34%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/common.cc.o
+[ 34%] Building CXX object CMakeFiles/memdb.dir/src/memdb/txn_nested.cc.o
+[ 34%] Building CXX object CMakeFiles/txlog.dir/src/bench/rw/procedure.cc.o
+[ 34%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_queues.cc.o
+[ 35%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/TRcu.cc.o
+[ 35%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/Packer.cc.o
+[ 35%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/ReplayDB.cc.o
+[ 35%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_rfr.cc.o
+[ 36%] Building CXX object CMakeFiles/memdb.dir/src/memdb/txn_occ.cc.o
+[ 36%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_cr.cc.o
+[ 36%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/sto/ThreadPool.cc.o
+[ 36%] Building CXX object CMakeFiles/txlog.dir/src/bench/rw/workload.cc.o
+[ 37%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_kick.cc.o
+[ 37%] Building CXX object CMakeFiles/memdb.dir/src/memdb/txn_unsafe.cc.o
+[ 37%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_req.cc.o
+[ 38%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/lookup3.cc.o
+[ 38%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/kv_store.cc.o
+[ 38%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_resp.cc.o
+[ 38%] Building CXX object CMakeFiles/memdb.dir/src/memdb/utils.cc.o
+[ 39%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpca/payment.cc.o
+[ 40%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_ev_loop.cc.o
+[ 41%] Building CXX object CMakeFiles/memdb.dir/src/memdb/value.cc.o
+[ 41%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_fault_inject.cc.o
+[ 41%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/rust_wrapper.cc.o
+[ 42%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/message.cc.o
+[ 42%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_pkt_loss.cc.o
+[ 42%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/memory.cc.o
+[ 42%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/helper_queue.cc.o
+[ 42%] Building CXX object CMakeFiles/memdb.dir/src/memdb/xxhash.cc.o
+[ 42%] Linking CXX static library libmemdb.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 42%] Built target memdb
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 42%] Building CXX object third-party/erpc/CMakeFiles/hello_server.dir/hello_world/server.cc.o
+[ 42%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_rx.cc.o
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/server.cc: In function ‘void hello_wrapper_request_f(erpc::ReqHandle*, void*)’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/server.cc:18:10: warning: format not a string literal and no format arguments [-Wformat-security]
+   18 |   sprintf(reinterpret_cast<char *>(resp.buf_), v.data());
+      |   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/server.cc: In function ‘int main()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/server.cc:54:9: warning: unused variable ‘num_pkts’ [-Wunused-variable]
+   54 |     int num_pkts = rpc->run_event_loop_once();
+      |         ^~~~~~~~
+[ 42%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpca/sharding.cc.o
+[ 42%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/transport.cc.o
+At global scope:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[ 43%] Linking CXX executable ../../hello_server
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 43%] Built target hello_server
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 44%] Building CXX object third-party/erpc/CMakeFiles/hello_client.dir/hello_world/client.cc.o
+[ 45%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/fasttransport.cc.o
+[ 46%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_connect_handlers.cc.o
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc: In function ‘void hello_wrapper_response(void*, void*)’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc:22:54: warning: use of old-style cast to ‘int*’ [-Wold-style-cast]
+   22 |   std::cout << "the held pointer(_tag): " << (*(int*)_tag) << std::endl;
+      |                                                      ^~~~
+      |                                                ----------
+      |                                                static_cast<int*> (_tag)
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc:23:52: warning: use of old-style cast to ‘char*’ [-Wold-style-cast]
+   23 |   std::cout << "received message: " << (char*)resp.buf_ << std::endl;
+      |                                                    ^~~~
+      |                                        ----------------
+      |                                        reinterpret_cast<char*> (resp.buf_)
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc:18:35: warning: unused parameter ‘_context’ [-Wunused-parameter]
+   18 | void hello_wrapper_response(void *_context, void *_tag) {
+      |                             ~~~~~~^~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc: In function ‘void hello(int, int)’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc:34:35: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘size_t’ {aka ‘long unsigned int’} [-Wformat=]
+   34 |   printf("hello_client send size:%d\n", strlen(chr));
+      |                                  ~^     ~~~~~~~~~~~
+      |                                   |           |
+      |                                   int         size_t {aka long unsigned int}
+      |                                  %ld
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/hello_world/client.cc:41:9: warning: unused variable ‘num_pkts’ [-Wunused-variable]
+   41 |     int num_pkts = rpc->run_event_loop_once();
+      |         ^~~~~~~~
+At global scope:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[ 46%] Linking CXX executable ../../hello_client
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 46%] Built target hello_client
+[ 46%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_disconnect_handlers.cc.o
+[ 46%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_reset_handlers.cc.o
+[ 46%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_sm_api.cc.o
+[ 46%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpca/workload.cc.o
+[ 47%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/rpc_impl/rpc_sm_helpers.cc.o
+[ 47%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/erpc_backend.cc.o
+[ 47%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/transport.cc.o
+[ 47%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/dpdk/dpdk_transport.cc.o
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 47%] Building CXX object third-party/erpc/third_party/googletest/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 48%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/dpdk/dpdk_init.cc.o
+[ 48%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/dpdk/dpdk_externs.cc.o
+[ 48%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/dpdk/dpdk_transport_datapath.cc.o
+[ 48%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/infiniband/ib_transport.cc.o
+[ 49%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/infiniband/ib_transport_datapath.cc.o
+[ 49%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/raw/raw_transport.cc.o
+[ 49%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/raw/raw_transport_datapath.cc.o
+[ 49%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/transport_impl/fake/fake_transport.cc.o
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc: In member function ‘size_t erpc::FakeTransport::rx_burst()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:198:12: warning: unused variable ‘pkt_size’ [-Wunused-variable]
+  198 |     size_t pkt_size = pkt_info.second;
+      |            ^~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc: In member function ‘void erpc::FakeTransport::rx_thread_func()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:228:56: warning: conversion to ‘size_t’ {aka ‘long unsigned int’} from ‘ssize_t’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  228 |       uint8_t *pkt_copy = static_cast<uint8_t*>(malloc(bytes_received));
+      |                                                        ^~~~~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:230:34: warning: conversion to ‘size_t’ {aka ‘long unsigned int’} from ‘ssize_t’ {aka ‘long int’} may change the sign of the result [-Wsign-conversion]
+  230 |         memcpy(pkt_copy, buffer, bytes_received);
+      |                                  ^~~~~~~~~~~~~~
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc: In member function ‘void erpc::FakeTransport::resolve_local_ip_address()’:
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:284:45: warning: use of old-style cast to ‘struct sockaddr*’ [-Wold-style-cast]
+  284 |   if (connect(temp_sock, (struct sockaddr*)&remote_addr, sizeof(remote_addr)) < 0) {
+      |                                             ^~~~~~~~~~~
+      |                          -
+      |                          reinterpret_cast<-
+      |                                           > (          )
+/home/anshtyagi.linux/mako_ansh/mako-project/third-party/erpc/src/transport_impl/fake/fake_transport.cc:293:49: warning: use of old-style cast to ‘struct sockaddr*’ [-Wold-style-cast]
+  293 |   if (getsockname(temp_sock, (struct sockaddr*)&local_addr, &addr_len) < 0) {
+      |                                                 ^~~~~~~~~~
+      |                              -
+      |                              reinterpret_cast<-
+      |                                               > (         )
+At top level:
+cc1plus: note: unrecognized command-line option ‘-Wno-keyword-macro’ may have been intended to silence earlier diagnostics
+cc1plus: note: unrecognized command-line option ‘-Wno-nested-anon-types’ may have been intended to silence earlier diagnostics
+[ 50%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/util/huge_alloc.cc.o
+[ 50%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/util/numautils.cc.o
+[ 50%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/rrr_rpc_backend.cc.o
+[ 50%] Building CXX object third-party/erpc/CMakeFiles/latency.dir/src/util/tls_registry.cc.o
+[ 50%] Linking CXX executable ../../latency
+[ 51%] Linking CXX static library ../../../../../lib/libgmock.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 51%] Built target gmock
+[ 51%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/delivery.cc.o
+lto-wrapper: warning: using serial compilation of 3 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 52%] Building CXX object CMakeFiles/rpcbench.dir/test/rpcbench.cc.o
+[ 52%] Building CXX object CMakeFiles/rpcbench.dir/test/benchmark_service.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 52%] Built target latency
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 52%] Building CXX object CMakeFiles/test_marshal.dir/test/test_marshal.cc.o
+[ 52%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/multi_transport_manager.cc.o
+[ 53%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/new_order.cc.o
+[ 53%] Linking CXX executable rpcbench
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 53%] Built target rpcbench
+[ 53%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/order_status.cc.o
+[ 54%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/configuration.cc.o
+[ 54%] Linking CXX executable test_marshal
+[ 54%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/timestamp.cc.o
+[ 54%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/promise.cc.o
+[ 55%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/client.cc.o
+[ 55%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/shardClient.cc.o
+[ 55%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/payment.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 55%] Built target test_marshal
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 55%] Building CXX object CMakeFiles/test_rpc.dir/test/test_rpc.cc.o
+[ 55%] Building CXX object CMakeFiles/mako.dir/src/mako/lib/server.cc.o
+[ 55%] Building CXX object CMakeFiles/mako.dir/src/mako/benchmarks/abstract_db.cc.o
+[ 56%] Building CXX object CMakeFiles/test_rpc.dir/test/benchmark_service.cc.o
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 57%] Building CXX object CMakeFiles/test_future.dir/test/test_future.cc.o
+[ 57%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/procedure.cc.o
+[ 58%] Linking CXX static library libmako.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Built target mako
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Building CXX object CMakeFiles/test_reactor.dir/test/test_reactor.cc.o
+[ 58%] Linking CXX executable test_rpc
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Built target test_rpc
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Building CXX object CMakeFiles/test_coroutine.dir/test/coroutine.cc.o
+[ 58%] Linking CXX executable test_future
+In file included from /usr/include/boost/config/header_deprecated.hpp:18,
+                 from /usr/include/boost/detail/scoped_enum_emulation.hpp:15,
+                 from /usr/include/boost/coroutine/exceptions.hpp:14,
+                 from /usr/include/boost/coroutine/asymmetric_coroutine.hpp:24,
+                 from /usr/include/boost/coroutine/coroutine.hpp:10,
+                 from /usr/include/boost/coroutine/all.hpp:11,
+                 from /home/anshtyagi.linux/mako_ansh/mako-project/test/coroutine.cc:3:
+/usr/include/boost/detail/scoped_enum_emulation.hpp:17:1: note: ‘#pragma message: This header is deprecated. Use <boost/core/scoped_enum.hpp> instead.’
+   17 | BOOST_HEADER_DEPRECATED("<boost/core/scoped_enum.hpp>")
+      | ^~~~~~~~~~~~~~~~~~~~~~~
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Built target test_future
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Building CXX object CMakeFiles/test_rpc_extended.dir/test/test_rpc_extended.cc.o
+[ 58%] Linking CXX executable test_reactor
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Built target test_reactor
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 58%] Building CXX object CMakeFiles/test_reactor_extended.dir/test/test_reactor_extended.cc.o
+[ 59%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/sharding.cc.o
+[ 59%] Linking CXX executable test_coroutine
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 59%] Built target test_coroutine
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 60%] Building CXX object CMakeFiles/test_timeout_race.dir/test/test_timeout_race.cc.o
+[ 61%] Building CXX object CMakeFiles/test_rpc_extended.dir/test/benchmark_service.cc.o
+[ 62%] Linking CXX executable test_reactor_extended
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Built target test_reactor_extended
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Building CXX object CMakeFiles/test_and_event.dir/test/test_and_event.cc.o
+[ 62%] Linking CXX executable test_rpc_extended
+[ 62%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/stock_level.cc.o
+[ 62%] Linking CXX executable test_timeout_race
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Built target test_rpc_extended
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Building CXX object third-party/erpc/third_party/googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Built target test_timeout_race
+[ 62%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc/workload.cc.o
+[ 62%] Linking CXX static library ../../../../../lib/libgmock_main.a
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Built target gmock_main
+[ 62%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_dist/procedure.cc.o
+[ 62%] Linking CXX executable test_and_event
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 62%] Built target test_and_event
+[ 63%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_real_dist/delivery.cc.o
+[ 63%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_real_dist/new_order.cc.o
+[ 63%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_real_dist/payment.cc.o
+[ 64%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_real_dist/procedure.cc.o
+[ 64%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_real_dist/sharding.cc.o
+[ 64%] Building CXX object CMakeFiles/txlog.dir/src/bench/tpcc_real_dist/workload.cc.o
+[ 64%] Building CXX object CMakeFiles/txlog.dir/src/deptran/2pl/scheduler.cc.o
+[ 65%] Building CXX object CMakeFiles/txlog.dir/src/deptran/2pl/tx.cc.o
+[ 65%] Building CXX object CMakeFiles/txlog.dir/src/deptran/benchmark_control_rpc.cc.o
+[ 65%] Building CXX object CMakeFiles/txlog.dir/src/deptran/classic/coordinator.cc.o
+[ 65%] Building CXX object CMakeFiles/txlog.dir/src/deptran/classic/scheduler.cc.o
+[ 66%] Building CXX object CMakeFiles/txlog.dir/src/deptran/classic/tpc_command.cc.o
+[ 66%] Building CXX object CMakeFiles/txlog.dir/src/deptran/client_worker.cc.o
+[ 66%] Building CXX object CMakeFiles/txlog.dir/src/deptran/command_marshaler.cc.o
+[ 67%] Building CXX object CMakeFiles/txlog.dir/src/deptran/communicator.cc.o
+[ 67%] Building CXX object CMakeFiles/txlog.dir/src/deptran/config.cc.o
+[ 67%] Building CXX object CMakeFiles/txlog.dir/src/deptran/coordinator.cc.o
+[ 67%] Building CXX object CMakeFiles/txlog.dir/src/deptran/empty.cc.o
+[ 68%] Building CXX object CMakeFiles/txlog.dir/src/deptran/executor.cc.o
+[ 68%] Building CXX object CMakeFiles/txlog.dir/src/deptran/extern_c/frame.cc.o
+[ 68%] Building CXX object CMakeFiles/txlog.dir/src/deptran/extern_c/sched.cc.o
+[ 68%] Building CXX object CMakeFiles/txlog.dir/src/deptran/februus/commo.cc.o
+[ 69%] Building CXX object CMakeFiles/txlog.dir/src/deptran/februus/coordinator.cc.o
+[ 69%] Building CXX object CMakeFiles/txlog.dir/src/deptran/februus/frame.cc.o
+[ 69%] Building CXX object CMakeFiles/txlog.dir/src/deptran/februus/scheduler.cc.o
+[ 69%] Building CXX object CMakeFiles/txlog.dir/src/deptran/frame.cc.o
+[ 70%] Building CXX object CMakeFiles/txlog.dir/src/deptran/helloworld_client/helloworld_impl.cc.o
+[ 70%] Building CXX object CMakeFiles/txlog.dir/src/deptran/janus/commo.cc.o
+[ 70%] Building CXX object CMakeFiles/txlog.dir/src/deptran/janus/coordinator.cc.o
+[ 71%] Building CXX object CMakeFiles/txlog.dir/src/deptran/janus/frame.cc.o
+[ 71%] Building CXX object CMakeFiles/txlog.dir/src/deptran/janus/scheduler.cc.o
+[ 71%] Building CXX object CMakeFiles/txlog.dir/src/deptran/janus/tx.cc.o
+[ 71%] Building CXX object CMakeFiles/txlog.dir/src/deptran/marshal-value.cc.o
+[ 72%] Building CXX object CMakeFiles/txlog.dir/src/deptran/multi_value.cc.o
+[ 72%] Building CXX object CMakeFiles/txlog.dir/src/deptran/network_client/network_impl.cc.o
+[ 72%] Building CXX object CMakeFiles/txlog.dir/src/deptran/none/coordinator.cc.o
+[ 72%] Building CXX object CMakeFiles/txlog.dir/src/deptran/none/scheduler.cc.o
+[ 73%] Building CXX object CMakeFiles/txlog.dir/src/deptran/occ/scheduler.cc.o
+[ 73%] Building CXX object CMakeFiles/txlog.dir/src/deptran/occ/tx.cc.o
+[ 73%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos/commo.cc.o
+[ 74%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos/coordinator.cc.o
+[ 74%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos/exec.cc.o
+[ 74%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos/frame.cc.o
+[ 74%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos/server.cc.o
+[ 75%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos/service.cc.o
+[ 75%] Building CXX object CMakeFiles/txlog.dir/src/deptran/paxos_worker.cc.o
+[ 75%] Building CXX object CMakeFiles/txlog.dir/src/deptran/procedure.cc.o
+[ 75%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/commo.cc.o
+[ 76%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/coord.cc.o
+[ 76%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/dep_graph.cc.o
+[ 76%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/frame.cc.o
+[ 76%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/graph_marshaler.cc.o
+[ 77%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/row.cc.o
+[ 77%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/server.cc.o
+[ 77%] Building CXX object CMakeFiles/txlog.dir/src/deptran/rcc/tx.cc.o
+[ 78%] Building CXX object CMakeFiles/txlog.dir/src/deptran/scheduler.cc.o
+[ 78%] Building CXX object CMakeFiles/txlog.dir/src/deptran/server_worker.cc.o
+[ 78%] Building CXX object CMakeFiles/txlog.dir/src/deptran/service.cc.o
+[ 78%] Building CXX object CMakeFiles/txlog.dir/src/deptran/sharding.cc.o
+[ 79%] Building CXX object CMakeFiles/txlog.dir/src/deptran/snow/ro6.cc.o
+[ 79%] Building CXX object CMakeFiles/txlog.dir/src/deptran/snow/ro6_coord.cc.o
+[ 79%] Building CXX object CMakeFiles/txlog.dir/src/deptran/snow/ro6_row.cc.o
+[ 79%] Building CXX object CMakeFiles/txlog.dir/src/deptran/tapir/commo.cc.o
+[ 80%] Building CXX object CMakeFiles/txlog.dir/src/deptran/tapir/coordinator.cc.o
+[ 80%] Building CXX object CMakeFiles/txlog.dir/src/deptran/tapir/frame.cc.o
+[ 80%] Building CXX object CMakeFiles/txlog.dir/src/deptran/tapir/scheduler.cc.o
+[ 81%] Building CXX object CMakeFiles/txlog.dir/src/deptran/tapir/tx.cc.o
+[ 81%] Building CXX object CMakeFiles/txlog.dir/src/deptran/troad/troad.cc.o
+[ 81%] Building CXX object CMakeFiles/txlog.dir/src/deptran/tx.cc.o
+[ 81%] Building CXX object CMakeFiles/txlog.dir/src/deptran/txn_reg.cc.o
+[ 82%] Building CXX object CMakeFiles/txlog.dir/src/deptran/workload.cc.o
+[ 82%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/basetypes.cpp.o
+[ 82%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/debugging.cpp.o
+[ 82%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/logging.cpp.o
+[ 83%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/misc.cpp.o
+[ 83%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/strop.cpp.o
+[ 83%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/threading.cpp.o
+[ 83%] Building CXX object CMakeFiles/txlog.dir/src/rrr/base/unittest.cpp.o
+[ 84%] Building CXX object CMakeFiles/txlog.dir/src/rrr/misc/alock.cpp.o
+[ 84%] Building CXX object CMakeFiles/txlog.dir/src/rrr/misc/marshal.cpp.o
+[ 84%] Building CXX object CMakeFiles/txlog.dir/src/rrr/misc/rand.cpp.o
+[ 85%] Building CXX object CMakeFiles/txlog.dir/src/rrr/misc/recorder.cpp.o
+[ 85%] Building CXX object CMakeFiles/txlog.dir/src/rrr/pylib/simplerpc/_pyrpc.cpp.o
+[ 85%] Building CXX object CMakeFiles/txlog.dir/src/rrr/reactor/coroutine.cc.o
+[ 85%] Building CXX object CMakeFiles/txlog.dir/src/rrr/reactor/epoll_wrapper.cc.o
+[ 86%] Building CXX object CMakeFiles/txlog.dir/src/rrr/reactor/event.cc.o
+[ 86%] Building CXX object CMakeFiles/txlog.dir/src/rrr/reactor/quorum_event.cc.o
+[ 86%] Building CXX object CMakeFiles/txlog.dir/src/rrr/reactor/reactor.cc.o
+[ 86%] Building CXX object CMakeFiles/txlog.dir/src/rrr/rpc/client.cpp.o
+[ 87%] Building CXX object CMakeFiles/txlog.dir/src/rrr/rpc/server.cpp.o
+[ 87%] Building CXX object CMakeFiles/txlog.dir/src/rrr/rpc/utils.cpp.o
+[ 87%] Building CXX object CMakeFiles/txlog.dir/src/memdb/MurmurHash3.cc.o
+[ 88%] Building CXX object CMakeFiles/txlog.dir/src/memdb/row.cc.o
+[ 88%] Building CXX object CMakeFiles/txlog.dir/src/memdb/schema.cc.o
+[ 88%] Building CXX object CMakeFiles/txlog.dir/src/memdb/table.cc.o
+[ 88%] Building CXX object CMakeFiles/txlog.dir/src/memdb/txn.cc.o
+[ 89%] Building CXX object CMakeFiles/txlog.dir/src/memdb/txn_2pl.cc.o
+[ 89%] Building CXX object CMakeFiles/txlog.dir/src/memdb/txn_nested.cc.o
+[ 89%] Building CXX object CMakeFiles/txlog.dir/src/memdb/txn_occ.cc.o
+[ 89%] Building CXX object CMakeFiles/txlog.dir/src/memdb/txn_unsafe.cc.o
+[ 90%] Building CXX object CMakeFiles/txlog.dir/src/memdb/utils.cc.o
+[ 90%] Building CXX object CMakeFiles/txlog.dir/src/memdb/value.cc.o
+[ 90%] Building CXX object CMakeFiles/txlog.dir/src/memdb/xxhash.cc.o
+[ 91%] Linking CXX shared library libtxlog.so
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 91%] Built target txlog
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Building CXX object CMakeFiles/simpleTransactionRep.dir/examples/simpleTransactionRep.cc.o
+[ 93%] Building CXX object CMakeFiles/dbtest.dir/src/mako/benchmarks/dbtest.cc.o
+[ 93%] Building CXX object CMakeFiles/continuousTransactions.dir/examples/continuousTransactions.cc.o
+[ 93%] Building CXX object CMakeFiles/simpleTransaction.dir/examples/simpleTransaction.cc.o
+[ 93%] Linking CXX executable simpleTransaction
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Built target simpleTransaction
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Building CXX object CMakeFiles/simplePaxos.dir/examples/simplePaxos.cc.o
+[ 93%] Linking CXX executable dbtest
+[ 93%] Linking CXX executable continuousTransactions
+[ 93%] Linking CXX executable simpleTransactionRep
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Built target dbtest
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Building CXX object CMakeFiles/test_rocksdb_persistence.dir/examples/test_rocksdb_persistence.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Built target continuousTransactions
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Building CXX object CMakeFiles/rocksdb_replay_app.dir/src/mako/benchmarks/rocksdb_replay_app.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 93%] Built target simpleTransactionRep
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 94%] Building CXX object CMakeFiles/test_callback_demo.dir/examples/test_callback_demo.cc.o
+[ 94%] Linking CXX executable test_rocksdb_persistence
+[ 94%] Linking CXX executable test_callback_demo
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 94%] Built target test_rocksdb_persistence
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 95%] Building CXX object CMakeFiles/test_ordered_callbacks.dir/examples/test_ordered_callbacks.cc.o
+[ 95%] Built target test_callback_demo
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 95%] Building CXX object CMakeFiles/test_partitioned_queues.dir/examples/test_partitioned_queues.cc.o
+[ 96%] Linking CXX executable test_partitioned_queues
+[ 96%] Linking CXX executable test_ordered_callbacks
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 96%] Built target test_partitioned_queues
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 96%] Building CXX object CMakeFiles/test_stress_partitioned_queues.dir/examples/test_stress_partitioned_queues.cc.o
+[ 97%] Linking CXX executable simplePaxos
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 97%] Built target test_ordered_callbacks
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 97%] Building CXX object CMakeFiles/paxos_async_commit_test.dir/src/mako/benchmarks/paxos_async_commit_test.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 97%] Built target simplePaxos
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 97%] Building CXX object CMakeFiles/basic.dir/src/mako/benchmarks/ut/basic.cc.o
+[ 97%] Linking CXX executable rocksdb_replay_app
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 97%] Built target rocksdb_replay_app
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 97%] Building CXX object CMakeFiles/erpc_client.dir/src/mako/benchmarks/ut/erpc_client.cc.o
+[ 97%] Linking CXX executable test_stress_partitioned_queues
+[ 98%] Linking CXX executable paxos_async_commit_test
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[ 98%] Built target paxos_async_commit_test
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[3]: Entering directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[100%] Building CXX object CMakeFiles/erpc_server.dir/src/mako/benchmarks/ut/erpc_server.cc.o
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[100%] Built target test_stress_partitioned_queues
+[100%] Linking CXX executable basic
+[100%] Linking CXX executable erpc_client
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[100%] Built target basic
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[100%] Built target erpc_client
+[100%] Linking CXX executable erpc_server
+gmake[3]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+[100%] Built target erpc_server
+gmake[2]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'
+gmake[1]: Leaving directory '/home/anshtyagi.linux/mako_ansh/mako-project/build'

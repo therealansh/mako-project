@@ -433,7 +433,11 @@ bench_runner::run()
       }
     }
 
-    if (cfg.getIsReplicated()) {
+    // Advancer is used for TPCC-style long-running experiments; it is not
+    // required for the YCSB benchmark used in KDV evaluation and has been
+    // a source of crashes when enabled there. Only send the advancer marker
+    // for non-YCSB benchmarks.
+    if (cfg.getIsReplicated() && cfg.getBenchName() != "ycsb") {
       std::string log(mako::ADVANCER_MARKER_NUM, 'a');
       for(int i=0;i<BenchmarkConfig::getInstance().getNthreads();i++)
         add_log_to_nc(log.c_str(), log.size(), i); // notify others start a advancer

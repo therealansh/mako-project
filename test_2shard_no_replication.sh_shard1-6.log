@@ -1,0 +1,298 @@
+=========================================
+Configuration:
+=========================================
+  Number of shards:  2
+  Shard index:       1
+  Number of threads: 6
+  Cluster:           localhost
+  Micro benchmark:   disabled
+  Replicated mode:   disabled
+=========================================
+20251017-03:59.43-858638(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+allocator::Initialize()
+  hugepgsize: 2097152
+  use MADV_WILLNEED: 1
+  mmap() region [0x7efeb837f000, 0x7efef8d7f000)
+cpu0 owns [0x7efeb8400000, 0x7efec3000000)
+cpu1 owns [0x7efec3000000, 0x7efecdc00000)
+cpu2 owns [0x7efecdc00000, 0x7efed8800000)
+cpu3 owns [0x7efed8800000, 0x7efee3400000)
+cpu4 owns [0x7efee3400000, 0x7efeee000000)
+cpu5 owns [0x7efeee000000, 0x7efef8c00000)
+Database Benchmark:
+  pid: 21900
+settings:
+  num-cpus    : 8
+  num-threads : 6
+  shardIndex  : 1
+  paxos_proc_name  : localhost
+  nshards     : 2
+  is_micro    : 0
+  is_replicated : 0
+  var-encode  : yes
+  allocator   : jemalloc
+system properties:
+  tuple_prefetch          : no
+  btree_node_prefetch     : yes
+tpcc settings:
+  cross_partition_transactions : 1
+  read_only_snapshots          : 1
+  partition_locks              : 0
+  separate_tree_per_partition  : 1
+  new_order_remote_item_pct    : 1
+  new_order_fast_id_gen        : 1
+  uniform_item_dist            : 0
+  order_status_scan_hack       : 0
+  workload_mix                 : [45, 43, 4, 4, 4]
+new table is createded with name: customer_0, table-id: 201, on shard-server id:1
+new table is createded with name: customer_1, table-id: 202, on shard-server id:1
+new table is createded with name: customer_2, table-id: 203, on shard-server id:1
+new table is createded with name: customer_3, table-id: 204, on shard-server id:1
+new table is createded with name: customer_4, table-id: 205, on shard-server id:1
+new table is createded with name: customer_5, table-id: 206, on shard-server id:1
+new table is createded with name: customer_name_idx_0, table-id: 207, on shard-server id:1
+new table is createded with name: customer_name_idx_1, table-id: 208, on shard-server id:1
+new table is createded with name: customer_name_idx_2, table-id: 209, on shard-server id:1
+new table is createded with name: customer_name_idx_3, table-id: 210, on shard-server id:1
+new table is createded with name: customer_name_idx_4, table-id: 211, on shard-server id:1
+new table is createded with name: customer_name_idx_5, table-id: 212, on shard-server id:1
+new table is createded with name: district_0, table-id: 213, on shard-server id:1
+new table is createded with name: district_1, table-id: 214, on shard-server id:1
+new table is createded with name: district_2, table-id: 215, on shard-server id:1
+new table is createded with name: district_3, table-id: 216, on shard-server id:1
+new table is createded with name: district_4, table-id: 217, on shard-server id:1
+new table is createded with name: district_5, table-id: 218, on shard-server id:1
+new table is createded with name: history_0, table-id: 219, on shard-server id:1
+new table is createded with name: history_1, table-id: 220, on shard-server id:1
+new table is createded with name: history_2, table-id: 221, on shard-server id:1
+new table is createded with name: history_3, table-id: 222, on shard-server id:1
+new table is createded with name: history_4, table-id: 223, on shard-server id:1
+new table is createded with name: history_5, table-id: 224, on shard-server id:1
+new table is createded with name: new_order_0, table-id: 225, on shard-server id:1
+new table is createded with name: new_order_1, table-id: 226, on shard-server id:1
+new table is createded with name: new_order_2, table-id: 227, on shard-server id:1
+new table is createded with name: new_order_3, table-id: 228, on shard-server id:1
+new table is createded with name: new_order_4, table-id: 229, on shard-server id:1
+new table is createded with name: new_order_5, table-id: 230, on shard-server id:1
+new table is createded with name: oorder_0, table-id: 231, on shard-server id:1
+new table is createded with name: oorder_1, table-id: 232, on shard-server id:1
+new table is createded with name: oorder_2, table-id: 233, on shard-server id:1
+new table is createded with name: oorder_3, table-id: 234, on shard-server id:1
+new table is createded with name: oorder_4, table-id: 235, on shard-server id:1
+new table is createded with name: oorder_5, table-id: 236, on shard-server id:1
+new table is createded with name: oorder_c_id_idx_0, table-id: 237, on shard-server id:1
+new table is createded with name: oorder_c_id_idx_1, table-id: 238, on shard-server id:1
+new table is createded with name: oorder_c_id_idx_2, table-id: 239, on shard-server id:1
+new table is createded with name: oorder_c_id_idx_3, table-id: 240, on shard-server id:1
+new table is createded with name: oorder_c_id_idx_4, table-id: 241, on shard-server id:1
+new table is createded with name: oorder_c_id_idx_5, table-id: 242, on shard-server id:1
+new table is createded with name: order_line_0, table-id: 243, on shard-server id:1
+new table is createded with name: order_line_1, table-id: 244, on shard-server id:1
+new table is createded with name: order_line_2, table-id: 245, on shard-server id:1
+new table is createded with name: order_line_3, table-id: 246, on shard-server id:1
+new table is createded with name: order_line_4, table-id: 247, on shard-server id:1
+new table is createded with name: order_line_5, table-id: 248, on shard-server id:1
+new table is createded with name: stock_0, table-id: 249, on shard-server id:1
+new table is createded with name: stock_1, table-id: 250, on shard-server id:1
+new table is createded with name: stock_2, table-id: 251, on shard-server id:1
+new table is createded with name: stock_3, table-id: 252, on shard-server id:1
+new table is createded with name: stock_4, table-id: 253, on shard-server id:1
+new table is createded with name: stock_5, table-id: 254, on shard-server id:1
+new table is createded with name: stock_data_0, table-id: 255, on shard-server id:1
+new table is createded with name: stock_data_1, table-id: 256, on shard-server id:1
+new table is createded with name: stock_data_2, table-id: 257, on shard-server id:1
+new table is createded with name: stock_data_3, table-id: 258, on shard-server id:1
+new table is createded with name: stock_data_4, table-id: 259, on shard-server id:1
+new table is createded with name: stock_data_5, table-id: 260, on shard-server id:1
+new table is createded with name: warehouse_0, table-id: 261, on shard-server id:1
+new table is createded with name: warehouse_1, table-id: 262, on shard-server id:1
+new table is createded with name: warehouse_2, table-id: 263, on shard-server id:1
+new table is createded with name: warehouse_3, table-id: 264, on shard-server id:1
+new table is createded with name: warehouse_4, table-id: 265, on shard-server id:1
+new table is createded with name: warehouse_5, table-id: 266, on shard-server id:1
+new table is createded with name: item, table-id: 267, on shard-server id:1
+new table is createded with name: customer_remote_1, table-id: 1, on shard-server id:0
+new table is createded with name: customer_remote_2, table-id: 2, on shard-server id:0
+new table is createded with name: customer_remote_3, table-id: 3, on shard-server id:0
+new table is createded with name: customer_remote_4, table-id: 4, on shard-server id:0
+new table is createded with name: customer_remote_5, table-id: 5, on shard-server id:0
+new table is createded with name: customer_remote_6, table-id: 6, on shard-server id:0
+new table is createded with name: customer_name_idx_remote_1, table-id: 7, on shard-server id:0
+new table is createded with name: customer_name_idx_remote_2, table-id: 8, on shard-server id:0
+new table is createded with name: customer_name_idx_remote_3, table-id: 9, on shard-server id:0
+new table is createded with name: customer_name_idx_remote_4, table-id: 10, on shard-server id:0
+new table is createded with name: customer_name_idx_remote_5, table-id: 11, on shard-server id:0
+new table is createded with name: customer_name_idx_remote_6, table-id: 12, on shard-server id:0
+new table is createded with name: district_remote_1, table-id: 13, on shard-server id:0
+new table is createded with name: district_remote_2, table-id: 14, on shard-server id:0
+new table is createded with name: district_remote_3, table-id: 15, on shard-server id:0
+new table is createded with name: district_remote_4, table-id: 16, on shard-server id:0
+new table is createded with name: district_remote_5, table-id: 17, on shard-server id:0
+new table is createded with name: district_remote_6, table-id: 18, on shard-server id:0
+new table is createded with name: history_remote_1, table-id: 19, on shard-server id:0
+new table is createded with name: history_remote_2, table-id: 20, on shard-server id:0
+new table is createded with name: history_remote_3, table-id: 21, on shard-server id:0
+new table is createded with name: history_remote_4, table-id: 22, on shard-server id:0
+new table is createded with name: history_remote_5, table-id: 23, on shard-server id:0
+new table is createded with name: history_remote_6, table-id: 24, on shard-server id:0
+new table is createded with name: new_order_remote_1, table-id: 25, on shard-server id:0
+new table is createded with name: new_order_remote_2, table-id: 26, on shard-server id:0
+new table is createded with name: new_order_remote_3, table-id: 27, on shard-server id:0
+new table is createded with name: new_order_remote_4, table-id: 28, on shard-server id:0
+new table is createded with name: new_order_remote_5, table-id: 29, on shard-server id:0
+new table is createded with name: new_order_remote_6, table-id: 30, on shard-server id:0
+new table is createded with name: oorder_remote_1, table-id: 31, on shard-server id:0
+new table is createded with name: oorder_remote_2, table-id: 32, on shard-server id:0
+new table is createded with name: oorder_remote_3, table-id: 33, on shard-server id:0
+new table is createded with name: oorder_remote_4, table-id: 34, on shard-server id:0
+new table is createded with name: oorder_remote_5, table-id: 35, on shard-server id:0
+new table is createded with name: oorder_remote_6, table-id: 36, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_remote_1, table-id: 37, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_remote_2, table-id: 38, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_remote_3, table-id: 39, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_remote_4, table-id: 40, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_remote_5, table-id: 41, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_remote_6, table-id: 42, on shard-server id:0
+new table is createded with name: order_line_remote_1, table-id: 43, on shard-server id:0
+new table is createded with name: order_line_remote_2, table-id: 44, on shard-server id:0
+new table is createded with name: order_line_remote_3, table-id: 45, on shard-server id:0
+new table is createded with name: order_line_remote_4, table-id: 46, on shard-server id:0
+new table is createded with name: order_line_remote_5, table-id: 47, on shard-server id:0
+new table is createded with name: order_line_remote_6, table-id: 48, on shard-server id:0
+new table is createded with name: stock_remote_1, table-id: 49, on shard-server id:0
+new table is createded with name: stock_remote_2, table-id: 50, on shard-server id:0
+new table is createded with name: stock_remote_3, table-id: 51, on shard-server id:0
+new table is createded with name: stock_remote_4, table-id: 52, on shard-server id:0
+new table is createded with name: stock_remote_5, table-id: 53, on shard-server id:0
+new table is createded with name: stock_remote_6, table-id: 54, on shard-server id:0
+new table is createded with name: stock_data_remote_1, table-id: 55, on shard-server id:0
+new table is createded with name: stock_data_remote_2, table-id: 56, on shard-server id:0
+new table is createded with name: stock_data_remote_3, table-id: 57, on shard-server id:0
+new table is createded with name: stock_data_remote_4, table-id: 58, on shard-server id:0
+new table is createded with name: stock_data_remote_5, table-id: 59, on shard-server id:0
+new table is createded with name: stock_data_remote_6, table-id: 60, on shard-server id:0
+new table is createded with name: warehouse_remote_1, table-id: 61, on shard-server id:0
+new table is createded with name: warehouse_remote_2, table-id: 62, on shard-server id:0
+new table is createded with name: warehouse_remote_3, table-id: 63, on shard-server id:0
+new table is createded with name: warehouse_remote_4, table-id: 64, on shard-server id:0
+new table is createded with name: warehouse_remote_5, table-id: 65, on shard-server id:0
+new table is createded with name: warehouse_remote_6, table-id: 66, on shard-server id:0
+new table is createded with name: item_remote_1, table-id: 67, on shard-server id:0
+new table is createded with name: item_remote_2, table-id: 68, on shard-server id:0
+new table is createded with name: item_remote_3, table-id: 69, on shard-server id:0
+new table is createded with name: item_remote_4, table-id: 70, on shard-server id:0
+new table is createded with name: item_remote_5, table-id: 71, on shard-server id:0
+new table is createded with name: item_remote_6, table-id: 72, on shard-server id:0
+20251017-03:59.43-873796(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-874034(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-875894(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31111 (listening on 0.0.0.0:31111)
+20251017-03:59.43-876059(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31111
+20251017-03:59.43-876174(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31112 (listening on 0.0.0.0:31112)
+20251017-03:59.43-876301(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31112
+20251017-03:59.43-883305(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-883872(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-884827(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-885154(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-885611(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-886005(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-886272(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-887014(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-887197(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-888473(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-892454(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-894405(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-03:59.43-904932(us) 21900 ! run             (bench.cc:347):     # of loaders size:6
+start worker:29459
+num batches: 30PinToWarehouseId(): coreid=2 pinned to whse=
+PinToWarehouseId(): coreid=4 pinned to whse=1 (partid=0)
+1 (partid=0)
+PinToWarehouseId(): coreid=3 pinned to whse=1 (partid=0)
+[INFO] finished loading warehouse
+[INFO]   * average warehouse record length: 97 bytes
+PinToWarehouseId(): coreid=3 pinned to whse=2 (partid=1)
+PinToWarehouseId(): coreid=5 pinned to whse=1 (partid=0)
+PinToWarehouseId(): coreid=3 pinned to whse=3 (partid=2)
+PinToWarehouseId(): coreid=3 pinned to whse=4 (partid=3)
+PinToWarehouseId(): coreid=3 pinned to whse=5 (partid=4)
+PinToWarehouseId(): coreid=3 pinned to whse=6 (partid=5)
+[INFO] finished loading district
+[INFO]   * average district record length: 99 bytes
+PinToWarehouseId(): coreid=5 pinned to whse=2 (partid=1)
+[INFO] finished loading item
+[INFO]   * average item record length: 84.1739 bytes
+PinToWarehouseId(): coreid=4 pinned to whse=2 (partid=1)
+PinToWarehouseId(): coreid=5 pinned to whse=3 (partid=2)
+PinToWarehouseId(): coreid=5 pinned to whse=4 (partid=3)
+PinToWarehouseId(): coreid=4 pinned to whse=3 (partid=2)
+PinToWarehouseId(): coreid=5 pinned to whse=5 (partid=4)
+PinToWarehouseId(): coreid=2 pinned to whse=2 (partid=1)
+PinToWarehouseId(): coreid=5 pinned to whse=6 (partid=5)
+PinToWarehouseId(): coreid=4 pinned to whse=4 (partid=3)
+[INFO] finished loading order
+[INFO]   * average order_line record length: 11.2511 bytes
+[INFO]   * average oorder record length: 7.88727 bytes
+[INFO]   * average new_order record length: 12 bytes
+PinToWarehouseId(): coreid=4 pinned to whse=5 (partid=4)
+PinToWarehouseId(): coreid=2 pinned to whse=3 (partid=2)
+PinToWarehouseId(): coreid=4 pinned to whse=6 (partid=5)
+[INFO] finished loading customer
+[INFO]   * average customer record length: 153.954 bytes 
+PinToWarehouseId(): coreid=2 pinned to whse=4 (partid=3)
+PinToWarehouseId(): coreid=2 pinned to whse=5 (partid=4)
+PinToWarehouseId(): coreid=2 pinned to whse=6 (partid=5)
+[INFO] finished loading stock
+[INFO]   * average stock record length: 8 bytes
+timed region dataloading took 17973.5 ms
+DB size: 1199.14 MB
+[0, 0, 0] txns persisted in loading phase
+20251017-04:00.01-878792(us) 21900 ! run             (bench.cc:400):     # of nthreads:6
+starting benchmark...
+--------------Finish loading data and wait for others completing load phase ------------
+tpcc: worker id 8 => warehouses [1, 2)
+tpcc: worker id 9 => warehouses [2, 3)
+tpcc: worker id 10 => warehouses [3, 4)
+tpcc: worker id 11 => warehouses [4, 5)
+tpcc: worker id 12 => warehouses [5, 6)
+tpcc: worker id 13 => warehouses [6, 7)
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+20251017-04:00.01-899333(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-899848(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-900139(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-900434(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-902000(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-902160(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-902749(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-902943(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-903342(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31103 (listening on 0.0.0.0:31103)
+20251017-04:00.01-903475(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31103
+20251017-04:00.01-903698(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31100 (listening on 0.0.0.0:31100)
+20251017-04:00.01-903871(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31100
+20251017-04:00.01-904039(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31101 (listening on 0.0.0.0:31101)
+20251017-04:00.01-904175(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31101
+20251017-04:00.01-904313(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31102 (listening on 0.0.0.0:31102)
+20251017-04:00.01-904460(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31102
+20251017-04:00.01-905194(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-905883(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-906506(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-906853(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+No JEMALLOC_NO_RENAME
+No JEMALLOC_NO_RENAME
+20251017-04:00.01-939289(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-941710(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-943229(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31104 (listening on 0.0.0.0:31104)
+20251017-04:00.01-943362(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31104
+20251017-04:00.01-944015(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-944952(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-946974(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-948466(us) 21900 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31105 (listening on 0.0.0.0:31105)
+20251017-04:00.01-948635(us) 21900 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31105
+20251017-04:00.01-952544(us) 21900 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251017-04:00.01-961495(us) 21900 ! run             (bench.cc:451):     start the running time, runTime:30
+20251017-04:00.01-961700(us) 21900 ! run             (bench.cc:463):     runtime time left:30000 ms, bool:1
+terminate called after throwing an instance of 'std::bad_alloc'
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+bash/shard.sh: line 41: 21900 Aborted                 (core dumped) ./build/dbtest --num-threads 6 --shard-index 1 --shard-config /home/anshtyagi.linux/mako_ansh/mako-project/src/mako/config/local-shards2-warehouses6.yml -F config/1leader_2followers/paxos6\_shardidx1.yml -F config/occ_paxos.yml -P localhost

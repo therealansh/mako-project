@@ -1,0 +1,40 @@
+=========================================
+Testing 1-shard setup with replication
+=========================================
+Starting shard 0...
+Running experiments for 30 seconds...
+Stopping shards...
+
+=========================================
+Checking test results...
+=========================================
+
+Checking test_1shard_replication.sh_shard0-localhost-6.log:
+-----------------
+  ✗ 'agg_persist_throughput' keyword not found
+  ✗ NewOrder_remote_abort_ratio not found
+
+Checking test_1shard_replication.sh_shard0-p1-6.log:
+-----------------
+  ✗ No 'replay_batch' keyword found in test_1shard_replication.sh_shard0-p1-6.log
+
+=========================================
+Some checks failed!
+=========================================
+
+Debug information:
+Check test_1shard_replication.sh\_shard0-localhost-6.log and test_1shard_replication.sh_shard0-p1-6.log for details
+
+Last 10 lines of test_1shard_replication.sh\_shard0-localhost-6.log:
+  Shard index:       0
+  Number of threads: 6
+  Cluster:           localhost
+  Micro benchmark:   disabled
+  Replicated mode:   enabled
+=========================================
+20251017-03:52.46-341533(us) 21021 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+terminate called after throwing an instance of 'YAML::BadFile'
+  what():  bad file: config/1leader_2followers/paxos6_shardidx0.yml
+bash/shard.sh: line 41: 21021 Aborted                 (core dumped) ./build/dbtest --num-threads 6 --shard-index 0 --shard-config /home/anshtyagi.linux/mako_ansh/mako-project/src/mako/config/local-shards1-warehouses6.yml -F config/1leader_2followers/paxos6\_shardidx0.yml -F config/occ_paxos.yml -P localhost --is-replicated
+
+Last 5 lines with 'replay_batch' from test_1shard_replication.sh_shard0-p1-6.log:

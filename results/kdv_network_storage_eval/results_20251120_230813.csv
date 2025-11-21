@@ -1,0 +1,7 @@
+experiment,mode,read_pct,rmw_pct,scan_pct,record_size,update_bytes,num_keys,throughput,network_bytes,original_bytes,encoded_bytes,compression_ratio_pct,rocksdb_bytes,description
+
+small_updates_heavy,baseline,10,0,90,1024,16,10000,,,N/A,N/A,N/A,219256189,"Heavy updates with 16-byte changes (1.5% of record)"
+
+small_updates_heavy,kdv,10,0,90,1024,16,10000,,,0,0,0.00,77780626,"Heavy updates with 16-byte changes (1.5% of record)"
+
+medium_updates_moderate,baseline,30,0,70,1024,256,10000,,,N/A,N/A,N/A,221822137,"Moderate updates with 256-byte changes (25% of record)"

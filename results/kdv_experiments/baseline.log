@@ -1,0 +1,28 @@
+Cleaning up any lingering test processes...
+Cleanup complete.
+=========================================
+Testing 1-shard setup with replication
+=========================================
+Starting shard 0...
+Running experiments for 120 seconds...
+Stopping shards...
+
+=========================================
+Checking test results...
+=========================================
+
+Checking test_1shard_replication.sh_shard0-localhost-6.log:
+-----------------
+  ✓ Found 'agg_persist_throughput' keyword
+    agg_persist_throughput: 17097.3 ops/sec
+  ✓ NewOrder_remote_abort_ratio: -nan (< 20%)
+
+Checking test_1shard_replication.sh_shard0-p1-6.log:
+-----------------
+  ✓ replay_batch: 1772 (> 1000)
+
+=========================================
+All checks passed!
+=========================================
+Checking if all test processes exited cleanly...
+✓ All processes exited cleanly
