@@ -146,6 +146,11 @@ class StringAllocator{
         
         // Conditionally encode with per-record KDV for geo-replication if enabled
         static std::atomic<uint64_t> paxos_seq_num{0};
+        static std::atomic<uint64_t> paxos_total_original_bytes{0};
+        static std::atomic<uint64_t> paxos_total_encoded_bytes{0};
+        static std::atomic<uint64_t> paxos_base_count{0};
+        static std::atomic<uint64_t> paxos_delta_count{0};
+        
         if (BenchmarkConfig::getInstance().getEnableKDVLogs()) {
             uint32_t shard_id = BenchmarkConfig::getInstance().getShardIndex();
             uint32_t partition_id = TThread::getPartitionID();
@@ -157,9 +162,30 @@ class StringAllocator{
                                                                         (const char*)queueLog,
                                                                         pos);
             if (encoded.size() <= max_bytes_size) {
+                // Track Paxos network compression statistics
+                paxos_total_original_bytes.fetch_add(pos, std::memory_order_relaxed);
+                paxos_total_encoded_bytes.fetch_add(encoded.size(), std::memory_order_relaxed);
+                
+                // Periodic reporting of Paxos network compression
+                if (seq % 1000 == 0) {
+                    uint64_t orig = paxos_total_original_bytes.load();
+                    uint64_t enc = paxos_total_encoded_bytes.load();
+                    double compression_ratio = orig > 0 ? (double)enc / orig : 1.0;
+                    double bandwidth_reduction = orig > 0 ? (1.0 - compression_ratio) * 100.0 : 0.0;
+                    std::cout << "[Paxos Network KDV] seq=" << seq 
+                              << ", original_bytes=" << orig
+                              << ", encoded_bytes=" << enc
+                              << ", compression_ratio=" << compression_ratio
+                              << ", bandwidth_reduction=" << bandwidth_reduction << "%"
+                              << std::endl;
+                }
+                
                 memcpy(queueLog, encoded.data(), encoded.size());
                 add_log_to_nc((char *)queueLog, encoded.size(), partition_id, batch_size);
             } else {
+                // Encoded size too large, use original
+                paxos_total_original_bytes.fetch_add(pos, std::memory_order_relaxed);
+                paxos_total_encoded_bytes.fetch_add(pos, std::memory_order_relaxed);
                 add_log_to_nc((char *)queueLog, pos, partition_id, batch_size);
             }
         } else {

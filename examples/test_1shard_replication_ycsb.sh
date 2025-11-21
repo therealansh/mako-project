@@ -9,6 +9,34 @@ echo "========================================="
 echo "Testing 1-shard YCSB setup with replication"
 echo "========================================="
 
+if [ ! -f "config/1leader_2followers/paxos6_shardidx0.yml" ]; then
+    echo "Generating missing Paxos config files..."
+    
+    if [ ! -f "bash/n_partitions" ]; then
+        echo "1" > bash/n_partitions
+    fi
+    
+    if [ ! -f "bash/shard0.config.pub" ]; then
+        cat > bash/shard0.config.pub << 'EOF'
+localhost 127.0.0.1
+p1 127.0.0.1
+p2 127.0.0.1
+learner 127.0.0.1
+EOF
+    fi
+    
+    cd config/1leader_2followers
+    python3 generator.py
+    cd ../..
+    
+    if [ -f "config/1leader_2followers/paxos6_shardidx0.yml" ]; then
+        echo "✓ Paxos config files generated successfully"
+    else
+        echo "✗ Failed to generate Paxos config files"
+        exit 1
+    fi
+fi
+
 trd=${1:-6}
 script_name="$(basename "$0")"
 ps aux | grep -i dbtest | awk "{print \$2}" | xargs kill -9 2>/dev/null

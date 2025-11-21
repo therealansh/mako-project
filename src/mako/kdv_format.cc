@@ -160,7 +160,7 @@ void KDVPartitionState::updateAccessTime(uint64_t key_hash) {
 
 KDVStoreState::KDVStoreState() 
     : max_chain_len_(64),
-      max_delta_size_ratio_(0.9),
+      max_delta_size_ratio_(0.7),  // Reduced from 0.9 to 0.7 for better compression
       max_base_age_(10000) {
 }
 
