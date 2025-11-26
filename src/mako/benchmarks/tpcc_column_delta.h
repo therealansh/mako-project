@@ -151,6 +151,11 @@ enum class StockColId : uint8_t {
 inline void recordTpccUpdateMetrics(const char* table_name, uint32_t changed_fields, 
                                      size_t full_row_size, size_t delta_size) {
 #if MAKO_ENABLE_COLUMN_DELTAS
+    // Only record metrics if column-delta is enabled at runtime
+    if (!isColumnDeltasEnabled()) {
+        return;
+    }
+    
     auto& metrics = getColumnDeltaMetrics();
     metrics.total_updates++;
     

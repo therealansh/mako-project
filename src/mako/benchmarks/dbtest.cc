@@ -1,5 +1,6 @@
 #include <iostream>
 #include <mako.hh>
+#include "lib/column_delta.h"
 
 using namespace std;
 using namespace util;
@@ -9,6 +10,7 @@ static void parse_command_line_args(int argc,
                                     char **argv,
                                     int &is_micro,
                                     int &is_replicated,
+                                    int &disable_column_delta,
                                     string& site_name,
                                     vector<string>& paxos_config_file,
                                     string& local_shards_str)
@@ -25,6 +27,7 @@ static void parse_command_line_args(int argc,
       {"local-shards"               , required_argument , 0                          , 'L'} ,
       {"is-micro"                   , no_argument       , &is_micro                  ,   1} ,
       {"is-replicated"              , no_argument       , &is_replicated             ,   1} ,
+      {"no-column-delta"            , no_argument       , &disable_column_delta      ,   1} ,
       {0, 0, 0, 0}
     };
     int option_index = 0;
@@ -146,13 +149,23 @@ main(int argc, char **argv)
   // Parameters prepared
   int is_micro = 0;  // Flag for micro benchmark mode
   int is_replicated = 0;  // if use Paxos to replicate
+  int disable_column_delta = 0;  // Flag to disable column-delta MVCC (for baseline comparison)
   vector<string> paxos_config_file{};
   string site_name = "";  // For new config format
   string local_shards_str = "";  // For multi-shard mode: comma-separated list
 
   auto& benchConfig = BenchmarkConfig::getInstance();
   // Parse command line arguments
-  parse_command_line_args(argc, argv, is_micro, is_replicated, site_name, paxos_config_file, local_shards_str);
+  parse_command_line_args(argc, argv, is_micro, is_replicated, disable_column_delta, site_name, paxos_config_file, local_shards_str);
+  
+  // Set column-delta enabled/disabled based on command line flag
+  if (disable_column_delta) {
+    mako::setColumnDeltasEnabled(false);
+    Notice("Column-delta MVCC DISABLED (baseline mode)");
+  } else {
+    mako::setColumnDeltasEnabled(true);
+    Notice("Column-delta MVCC ENABLED");
+  }
 
   // Handle new configuration format if site name is provided
   if (!site_name.empty() && benchConfig.getConfig() != nullptr) {
