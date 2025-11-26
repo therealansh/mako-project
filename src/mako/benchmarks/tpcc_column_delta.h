@@ -196,6 +196,13 @@ inline void recordCustomerUpdateMetrics(const customer::value& old_val, const cu
     metrics.total_updates++;
     metrics.customer_updates++;
     
+    // Only count as delta update if runtime flag is enabled
+    if (!isColumnDeltasEnabled()) {
+        metrics.full_row_updates++;
+        metrics.bytes_full_row += full_row_size;
+        return;
+    }
+    
     uint32_t changed = compareCustomerFields(old_val, new_val);
     int num_changed = countChangedFields(changed);
     
@@ -226,6 +233,13 @@ inline void recordWarehouseUpdateMetrics(const warehouse::value& old_val, const 
     metrics.total_updates++;
     metrics.warehouse_updates++;
     
+    // Only count as delta update if runtime flag is enabled
+    if (!isColumnDeltasEnabled()) {
+        metrics.full_row_updates++;
+        metrics.bytes_full_row += full_row_size;
+        return;
+    }
+    
     uint32_t changed = compareWarehouseFields(old_val, new_val);
     int num_changed = countChangedFields(changed);
     
@@ -255,6 +269,13 @@ inline void recordDistrictUpdateMetrics(const district::value& old_val, const di
     auto& metrics = getColumnDeltaMetrics();
     metrics.total_updates++;
     metrics.district_updates++;
+    
+    // Only count as delta update if runtime flag is enabled
+    if (!isColumnDeltasEnabled()) {
+        metrics.full_row_updates++;
+        metrics.bytes_full_row += full_row_size;
+        return;
+    }
     
     uint32_t changed = compareDistrictFields(old_val, new_val);
     int num_changed = countChangedFields(changed);
