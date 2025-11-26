@@ -126,6 +126,66 @@ namespace mako
         return metrics;
     }
 
+    // Forward declaration for buildDeltaFromStructs (defined in column_delta.h)
+    template<typename T>
+    std::string buildDeltaFromStructs(const T& old_val, const T& new_val, uint32_t changed_fields);
+
+    // Thread-local context for passing delta information from TPCC to MVCC layer
+    // This allows the TPCC code to provide decoded old/new values and changed_fields
+    // which mvInstall can use to create actual COL_DELTA nodes
+    struct DeltaContext {
+        bool active{false};                    // Whether delta context is set
+        const void* old_value{nullptr};        // Pointer to decoded old value struct
+        const void* new_value{nullptr};        // Pointer to decoded new value struct
+        uint32_t changed_fields{0};            // Bitmask of changed fields
+        size_t value_size{0};                  // Size of the value struct
+        
+        // Function pointer for building delta from the stored values
+        // This is set by the TPCC layer to the appropriate buildDeltaFromStructs instantiation
+        std::string (*build_delta_fn)(const void*, const void*, uint32_t){nullptr};
+        
+        void reset() {
+            active = false;
+            old_value = nullptr;
+            new_value = nullptr;
+            changed_fields = 0;
+            value_size = 0;
+            build_delta_fn = nullptr;
+        }
+    };
+    
+    inline DeltaContext& getDeltaContext() {
+        thread_local DeltaContext ctx;
+        return ctx;
+    }
+    
+    // RAII helper to set and clear delta context
+    template<typename ValueType>
+    class ScopedDeltaContext {
+    public:
+        ScopedDeltaContext(const ValueType& old_val, const ValueType& new_val, uint32_t changed) {
+            auto& ctx = getDeltaContext();
+            ctx.active = true;
+            ctx.old_value = &old_val;
+            ctx.new_value = &new_val;
+            ctx.changed_fields = changed;
+            ctx.value_size = sizeof(ValueType);
+            ctx.build_delta_fn = &buildDeltaWrapper<ValueType>;
+        }
+        
+        ~ScopedDeltaContext() {
+            getDeltaContext().reset();
+        }
+        
+    private:
+        template<typename T>
+        static std::string buildDeltaWrapper(const void* old_ptr, const void* new_ptr, uint32_t changed) {
+            const T* old_val = static_cast<const T*>(old_ptr);
+            const T* new_val = static_cast<const T*>(new_ptr);
+            return buildDeltaFromStructs(*old_val, *new_val, changed);
+        }
+    };
+
     const int ADVANCER_MARKER_NUM = 2;
     const int NUM_TABLES_PER_SHARD = 200; // for pre-allocated
 

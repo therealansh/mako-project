@@ -376,7 +376,79 @@ public:
             // Update metrics
             mako::getColumnDeltaMetrics().total_updates++;
         } else {
-            // For updates, use COL_BASE format
+            // For updates, check if delta context is set
+            auto& delta_ctx = mako::getDeltaContext();
+            bool use_delta = delta_ctx.active && 
+                             delta_ctx.build_delta_fn != nullptr &&
+                             delta_ctx.changed_fields != 0 &&
+                             mako::countChangedFields(delta_ctx.changed_fields) <= mako::DELTA_COLUMN_THRESHOLD;
+            
+            if (use_delta) {
+                // Build actual column delta using the context
+                std::string delta_payload = delta_ctx.build_delta_fn(
+                    delta_ctx.old_value, delta_ctx.new_value, delta_ctx.changed_fields);
+                
+                if (!delta_payload.empty()) {
+                    // Successfully built delta - create COL_DELTA node for the OLD value
+                    // The NEW value becomes the current full row (COL_BASE)
+                    
+                    // First, create the new head node with full row (COL_BASE)
+                    size_t user_len = newval.length() - mako::EXTRA_BITS_FOR_VALUE;
+                    size_t new_head_len = mako::KIND_BYTE_SIZE + newval.length();
+                    char* new_head = (char*)malloc(new_head_len);
+                    
+                    // Write COL_BASE kind byte for new head
+                    new_head[0] = static_cast<char>(mako::COL_BASE);
+                    
+                    // Copy new value data
+                    memcpy(new_head + mako::KIND_BYTE_SIZE, newval.data(), user_len);
+                    
+                    // Write timestamp/term for new head
+                    memcpy(new_head + new_head_len - mako::EXTRA_BITS_FOR_VALUE, &time_term, mako::BITS_OF_TT);
+                    
+                    // Now create the delta node for the old value
+                    // Delta layout: [delta_payload][EXTRA_BITS_FOR_VALUE]
+                    // Note: delta_payload already includes COL_DELTA kind byte
+                    size_t delta_node_len = delta_payload.size() + mako::EXTRA_BITS_FOR_VALUE;
+                    char* delta_node = (char*)malloc(delta_node_len);
+                    
+                    // Copy delta payload (includes COL_DELTA kind byte)
+                    memcpy(delta_node, delta_payload.data(), delta_payload.size());
+                    
+                    // Copy old timestamp/term from old value
+                    uint32_t* old_time_term = reinterpret_cast<uint32_t*>(oldval_str + oldval_len - mako::EXTRA_BITS_FOR_VALUE);
+                    memcpy(delta_node + delta_node_len - mako::EXTRA_BITS_FOR_VALUE, old_time_term, mako::BITS_OF_TT);
+                    
+                    // Setup delta node's Node header - points to old value's previous
+                    mako::Node* old_header = reinterpret_cast<mako::Node*>(oldval_str + oldval_len - mako::BITS_OF_NODE);
+                    mako::Node* delta_header = reinterpret_cast<mako::Node*>(delta_node + delta_node_len - mako::BITS_OF_NODE);
+                    delta_header->timestamp = old_header->timestamp;
+                    delta_header->data_size = old_header->data_size;
+                    delta_header->data = old_header->data;
+                    
+                    // Setup new head's Node header - points to delta node
+                    mako::Node* new_header = reinterpret_cast<mako::Node*>(new_head + new_head_len - mako::BITS_OF_NODE);
+                    new_header->timestamp = TThread::txn->tid_unique_;
+                    new_header->data_size = delta_node_len;
+                    new_header->data = delta_node;
+                    
+                    // Update metrics
+                    auto& metrics = mako::getColumnDeltaMetrics();
+                    metrics.total_updates++;
+                    metrics.delta_updates++;
+                    metrics.bytes_delta += delta_node_len;
+                    metrics.bytes_full_row += new_head_len;
+                    metrics.bytes_saved += (oldval_len - delta_node_len);
+                    
+                    // Install new head
+                    e->modifyData(new_head);
+                    e->set_length(new_head_len);
+                    lazyReclaim(time_term, current_term, new_header);
+                    return;
+                }
+            }
+            
+            // Fall through to full row update (either delta not applicable or build failed)
             size_t user_len = newval.length() - mako::EXTRA_BITS_FOR_VALUE;
             size_t new_len = mako::KIND_BYTE_SIZE + newval.length();
             char* new_vv = (char*)malloc(new_len);
