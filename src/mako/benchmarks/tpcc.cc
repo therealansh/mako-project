@@ -2922,7 +2922,9 @@ if (TThread::get_is_micro()) {
     {
         uint32_t changed = mako::FieldComparator<warehouse::value>::compare(*v_w, v_w_new);
         mako::ScopedDeltaContext<warehouse::value> delta_ctx(*v_w, v_w_new, changed);
-        mako::recordTpccUpdateMetrics("warehouse");
+        // Calculate delta size: 1 byte header + 1 byte per field ID + field data
+        size_t delta_size = 1 + mako::countChangedFields(changed) * (1 + sizeof(float)); // w_ytd is float
+        mako::recordTpccUpdateMetrics("warehouse", changed, sizeof(warehouse::value), delta_size);
         tbl_warehouse(warehouse_id)->put(txn, Encode(str(), k_w), Encode(str(), v_w_new));
     }
 #else
@@ -2943,7 +2945,9 @@ if (TThread::get_is_micro()) {
     {
         uint32_t changed = mako::FieldComparator<district::value>::compare(*v_d, v_d_new);
         mako::ScopedDeltaContext<district::value> delta_ctx(*v_d, v_d_new, changed);
-        mako::recordTpccUpdateMetrics("district");
+        // Calculate delta size: 1 byte header + 1 byte per field ID + field data
+        size_t delta_size = 1 + mako::countChangedFields(changed) * (1 + sizeof(float)); // d_ytd is float
+        mako::recordTpccUpdateMetrics("district", changed, sizeof(district::value), delta_size);
         tbl_district(warehouse_id)->put(txn, Encode(str(), k_d), Encode(str(), v_d_new));
     }
 #else
@@ -3033,7 +3037,11 @@ if (TThread::get_is_micro()) {
     {
         uint32_t changed = mako::FieldComparator<customer::value>::compare(v_c, v_c_new);
         mako::ScopedDeltaContext<customer::value> delta_ctx(v_c, v_c_new, changed);
-        mako::recordTpccUpdateMetrics("customer");
+        // Calculate delta size: 1 byte header + per-field overhead
+        // Customer Payment updates: c_balance (float), c_ytd_payment (float), c_payment_cnt (int32)
+        // Plus potentially c_data (500 bytes) for bad credit customers
+        size_t delta_size = 1 + mako::countChangedFields(changed) * (1 + 8); // avg 8 bytes per field
+        mako::recordTpccUpdateMetrics("customer", changed, sizeof(customer::value), delta_size);
         if (WarehouseInShard(customerWarehouseID, BenchmarkConfig::getInstance().getShardIndex())) {
           tbl_customer(WarehouseGlobal2Local(customerWarehouseID))->put(txn, EncodeK(str(), k_c), Encode(str(), v_c_new));
         } else {

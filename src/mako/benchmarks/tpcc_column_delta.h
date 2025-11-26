@@ -144,9 +144,17 @@ enum class StockColId : uint8_t {
 // Metrics tracking helpers for TPCC tables
 // ============================================================================
 
-inline void recordTpccUpdateMetrics(const char* table_name) {
+// Record metrics for TPCC table updates
+// This records metrics at the put() call site, which includes attempted updates
+// (not just committed ones). For TPCC, abort rates are typically ~0%, so this
+// is a good approximation of actual committed updates.
+inline void recordTpccUpdateMetrics(const char* table_name, uint32_t changed_fields, 
+                                     size_t full_row_size, size_t delta_size) {
 #if MAKO_ENABLE_COLUMN_DELTAS
     auto& metrics = getColumnDeltaMetrics();
+    metrics.total_updates++;
+    
+    // Track per-table metrics
     if (strcmp(table_name, "customer") == 0) {
         metrics.customer_updates++;
     } else if (strcmp(table_name, "warehouse") == 0) {
@@ -154,8 +162,26 @@ inline void recordTpccUpdateMetrics(const char* table_name) {
     } else if (strcmp(table_name, "district") == 0) {
         metrics.district_updates++;
     }
+    
+    // Track byte metrics
+    metrics.bytes_full_row += full_row_size;
+    
+    // Determine if this would be a delta update (few fields changed)
+    uint32_t num_changed = countChangedFields(changed_fields);
+    if (num_changed > 0 && num_changed <= DELTA_COLUMN_THRESHOLD) {
+        metrics.delta_updates++;
+        metrics.bytes_delta += delta_size;
+        if (full_row_size > delta_size) {
+            metrics.bytes_saved += (full_row_size - delta_size);
+        }
+    } else {
+        metrics.full_row_updates++;
+    }
 #else
     (void)table_name;
+    (void)changed_fields;
+    (void)full_row_size;
+    (void)delta_size;
 #endif
 }
 

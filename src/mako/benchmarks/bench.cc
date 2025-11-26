@@ -12,6 +12,7 @@
 
 #include "bench.h"
 #include "tpcc.h"
+#include "lib/column_delta.h"
 
 #include "../counter.h"
 #include "../scopedperf.hh"
@@ -675,6 +676,32 @@ bench_runner::run()
     cerr << "--- allocator stats ---" << endl;
     ::allocator::DumpStats();
     cerr << "---------------------------------------" << endl;
+
+#if MAKO_ENABLE_COLUMN_DELTAS
+    // Print column-delta MVCC metrics
+    auto& cd_metrics = mako::getColumnDeltaMetrics();
+    if (cd_metrics.total_updates.load() > 0) {
+      cerr << "--- column-delta MVCC metrics ---" << endl;
+      cerr << "cd_total_updates: " << cd_metrics.total_updates.load() << endl;
+      cerr << "cd_delta_updates: " << cd_metrics.delta_updates.load() << endl;
+      cerr << "cd_full_row_updates: " << cd_metrics.full_row_updates.load() << endl;
+      cerr << "cd_bytes_full_row: " << cd_metrics.bytes_full_row.load() << endl;
+      cerr << "cd_bytes_delta: " << cd_metrics.bytes_delta.load() << endl;
+      cerr << "cd_bytes_saved: " << cd_metrics.bytes_saved.load() << endl;
+      double delta_ratio = cd_metrics.total_updates.load() > 0 
+          ? 100.0 * cd_metrics.delta_updates.load() / cd_metrics.total_updates.load() : 0.0;
+      double savings_ratio = cd_metrics.bytes_full_row.load() > 0
+          ? 100.0 * cd_metrics.bytes_saved.load() / cd_metrics.bytes_full_row.load() : 0.0;
+      cerr << "cd_delta_ratio: " << delta_ratio << " %" << endl;
+      cerr << "cd_savings_ratio: " << savings_ratio << " %" << endl;
+      cerr << "--- per-table breakdown ---" << endl;
+      cerr << "cd_customer_updates: " << cd_metrics.customer_updates.load() << endl;
+      cerr << "cd_warehouse_updates: " << cd_metrics.warehouse_updates.load() << endl;
+      cerr << "cd_district_updates: " << cd_metrics.district_updates.load() << endl;
+      cerr << "cd_ycsb_updates: " << cd_metrics.ycsb_updates.load() << endl;
+      cerr << "---------------------------------------" << endl;
+    }
+#endif
 
 #ifdef USE_JEMALLOC
     // cerr << "dumping heap profile..." << endl;

@@ -596,10 +596,17 @@ public:
           e->set_value(v);
           RESET_NODE_BY_E(e)
         } else {
+#if MAKO_ENABLE_COLUMN_DELTAS
+          MultiVersionValue::mvInstallWithDelta(isInsert, isDelete,
+                                     v,
+                                     e,
+                                     TThread::txn->get_current_term());
+#else
           MultiVersionValue::mvInstall(isInsert, isDelete,
                                      v,
                                      e,
                                      TThread::txn->get_current_term());
+#endif
           e->set_length(v.length());
         }
     }
