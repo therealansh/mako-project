@@ -302,4 +302,87 @@ inline lcdf::Str EncodeK(std::string&, const warehouse_key& k) {
   y(inline_str_fixed<9>,w_zip)
 DO_STRUCT(warehouse, WAREHOUSE_KEY_FIELDS, WAREHOUSE_VALUE_FIELDS)
 
+// ============================================================================
+// Column IDs for TPCC tables - used for column-delta MVCC optimization
+// These IDs correspond to the field order in the *_VALUE_FIELDS macros above
+// ============================================================================
+
+// Customer table column IDs (matches CUSTOMER_VALUE_FIELDS order)
+enum class CustomerColId : uint8_t {
+    C_DISCOUNT = 0,
+    C_CREDIT = 1,
+    C_LAST = 2,
+    C_FIRST = 3,
+    C_CREDIT_LIM = 4,
+    C_BALANCE = 5,        // Frequently updated in Payment
+    C_YTD_PAYMENT = 6,    // Frequently updated in Payment
+    C_PAYMENT_CNT = 7,    // Frequently updated in Payment
+    C_DELIVERY_CNT = 8,   // Updated in Delivery
+    C_STREET_1 = 9,
+    C_STREET_2 = 10,
+    C_CITY = 11,
+    C_STATE = 12,
+    C_ZIP = 13,
+    C_PHONE = 14,
+    C_SINCE = 15,
+    C_MIDDLE = 16,
+    CUSTOMER_NFIELDS = 17
+};
+
+// District table column IDs (matches DISTRICT_VALUE_FIELDS order)
+enum class DistrictColId : uint8_t {
+    D_YTD = 0,            // Updated in Payment
+    D_TAX = 1,
+    D_NEXT_O_ID = 2,      // Updated in NewOrder
+    D_NAME = 3,
+    D_STREET_1 = 4,
+    D_STREET_2 = 5,
+    D_CITY = 6,
+    D_STATE = 7,
+    D_ZIP = 8,
+    DISTRICT_NFIELDS = 9
+};
+
+// Warehouse table column IDs (matches WAREHOUSE_VALUE_FIELDS order)
+enum class WarehouseColId : uint8_t {
+    W_YTD = 0,            // Updated in Payment
+    W_TAX = 1,
+    W_NAME = 2,
+    W_STREET_1 = 3,
+    W_STREET_2 = 4,
+    W_CITY = 5,
+    W_STATE = 6,
+    W_ZIP = 7,
+    WAREHOUSE_NFIELDS = 8
+};
+
+// Stock table column IDs (matches STOCK_VALUE_FIELDS order)
+enum class StockColId : uint8_t {
+    S_QUANTITY = 0,       // Updated in NewOrder
+    S_YTD = 1,            // Updated in NewOrder
+    S_ORDER_CNT = 2,      // Updated in NewOrder
+    S_REMOTE_CNT = 3,     // Updated in NewOrder
+    STOCK_NFIELDS = 4
+};
+
+// Order line table column IDs (matches ORDER_LINE_VALUE_FIELDS order)
+enum class OrderLineColId : uint8_t {
+    OL_I_ID = 0,
+    OL_DELIVERY_D = 1,    // Updated in Delivery
+    OL_AMOUNT = 2,
+    OL_SUPPLY_W_ID = 3,
+    OL_QUANTITY = 4,
+    ORDER_LINE_NFIELDS = 5
+};
+
+// Table type identifiers for column-delta encoding
+enum class TpccTableType : uint8_t {
+    CUSTOMER = 0,
+    DISTRICT = 1,
+    WAREHOUSE = 2,
+    STOCK = 3,
+    ORDER_LINE = 4,
+    OTHER = 255  // Tables not optimized for column-delta
+};
+
 #endif

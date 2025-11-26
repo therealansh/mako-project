@@ -45,6 +45,40 @@ namespace mako
         STATUS_NOOPS = 5            // No-ops
     };
 
+    // Feature flag for column-delta MVCC optimization
+    // When enabled, updates store only changed columns instead of full rows
+#ifndef MAKO_ENABLE_COLUMN_DELTAS
+#define MAKO_ENABLE_COLUMN_DELTAS 1
+#endif
+
+    // Value kind byte for distinguishing value types in MVCC chain
+    // Layout: [kind byte][payload][timestamp+term][Node]
+    enum ValueKind : uint8_t {
+        LEGACY_BASE = 0,    // Legacy full row (no kind byte prefix, for backward compat)
+        COL_BASE    = 1,    // Full row with column-delta format support
+        COL_DELTA   = 2     // Column delta (only changed columns stored)
+    };
+
+    // Size of the kind byte prefix (1 byte)
+    const int KIND_BYTE_SIZE = sizeof(uint8_t);
+
+    // Maximum number of columns that can be stored in a delta
+    const int MAX_DELTA_COLUMNS = 16;
+
+    // Threshold: if more than this many columns change, use full row instead of delta
+    const int DELTA_COLUMN_THRESHOLD = 8;
+
+    // Count the number of set bits in a changed_fields bitmask
+    // Used to determine how many columns changed in an update
+    inline int countChangedFields(uint32_t changed_fields) {
+        int count = 0;
+        while (changed_fields) {
+            count += changed_fields & 1;
+            changed_fields >>= 1;
+        }
+        return count;
+    }
+
     const int ADVANCER_MARKER_NUM = 2;
     const int NUM_TABLES_PER_SHARD = 200; // for pre-allocated
 
