@@ -376,9 +376,10 @@ public:
             // Update metrics
             mako::getColumnDeltaMetrics().total_updates++;
         } else {
-            // For updates, check if delta context is set
+            // For updates, check if delta context is set AND runtime flag is enabled
             auto& delta_ctx = mako::getDeltaContext();
-            bool use_delta = delta_ctx.active && 
+            bool use_delta = mako::isColumnDeltasEnabled() &&
+                             delta_ctx.active && 
                              delta_ctx.build_delta_fn != nullptr &&
                              delta_ctx.changed_fields != 0 &&
                              mako::countChangedFields(delta_ctx.changed_fields) <= mako::DELTA_COLUMN_THRESHOLD;

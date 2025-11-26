@@ -51,6 +51,21 @@ namespace mako
 #define MAKO_ENABLE_COLUMN_DELTAS 1
 #endif
 
+    // Runtime flag to enable/disable column-delta (for A/B comparison testing)
+    // This allows running baseline vs modified in the same binary
+    inline std::atomic<bool>& columnDeltasEnabled() {
+        static std::atomic<bool> enabled{true};
+        return enabled;
+    }
+    
+    inline void setColumnDeltasEnabled(bool enabled) {
+        columnDeltasEnabled().store(enabled);
+    }
+    
+    inline bool isColumnDeltasEnabled() {
+        return columnDeltasEnabled().load();
+    }
+
     // Value kind byte for distinguishing value types in MVCC chain
     // Layout: [kind byte][payload][timestamp+term][Node]
     enum ValueKind : uint8_t {
