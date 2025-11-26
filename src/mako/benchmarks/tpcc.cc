@@ -36,6 +36,7 @@
 #include <chrono>
 #include "benchmarks/benchmark_config.h"
 #include "benchmarks/rpc_setup.h"
+#include "tpcc_column_delta.h"
 
 using namespace std;
 using namespace util;
@@ -2917,6 +2918,7 @@ if (TThread::get_is_micro()) {
 
     warehouse::value v_w_new(*v_w);
     v_w_new.w_ytd += paymentAmount;
+    recordWarehouseUpdateMetrics(*v_w, v_w_new, sizeof(warehouse::value));
     tbl_warehouse(warehouse_id)->put(txn, Encode(str(), k_w), Encode(str(), v_w_new));
 
     const district::key k_d(warehouse_id, districtID);
@@ -2929,6 +2931,7 @@ if (TThread::get_is_micro()) {
 
     district::value v_d_new(*v_d);
     v_d_new.d_ytd += paymentAmount;
+    recordDistrictUpdateMetrics(*v_d, v_d_new, sizeof(district::value));
     tbl_district(warehouse_id)->put(txn, Encode(str(), k_d), Encode(str(), v_d_new));
 
     customer::key k_c;
@@ -3009,6 +3012,7 @@ if (TThread::get_is_micro()) {
     v_c_new.c_balance -= paymentAmount;
     v_c_new.c_ytd_payment += paymentAmount;
     v_c_new.c_payment_cnt++;
+    recordCustomerUpdateMetrics(v_c, v_c_new, sizeof(customer::value));
 
     if (WarehouseInShard(customerWarehouseID, BenchmarkConfig::getInstance().getShardIndex())) {
       tbl_customer(WarehouseGlobal2Local(customerWarehouseID))->put(txn, EncodeK(str(), k_c), Encode(str(), v_c_new));
@@ -3650,6 +3654,9 @@ tpcc_do_test(abstract_db *db, int argc, char **argv, int run = 0, bench_runner *
 {
   if (run==1){
     ((tpcc_bench_runner*)rc)->run();
+#if MAKO_ENABLE_COLUMN_DELTAS
+    mako::getColumnDeltaMetrics().print();
+#endif
     mako::stop_erpc_server();
     return rc; // rc is same object as r below
   }

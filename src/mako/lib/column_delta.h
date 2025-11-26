@@ -169,14 +169,79 @@ public:
     }
 };
 
-// Count number of bits set in a bitmask (for counting changed fields)
-inline int countChangedFields(uint32_t changed) {
-    int count = 0;
-    while (changed) {
-        count += changed & 1;
-        changed >>= 1;
+// Template for comparing two struct values and returning a bitmask of changed fields
+// Specializations should be provided for each TPCC table type
+template<typename T>
+struct FieldComparator {
+    static uint32_t compare(const T& old_val, const T& new_val) {
+        return 0xFFFFFFFF; // Default: assume all fields changed
     }
-    return count;
+    
+    static size_t getFieldOffset(uint8_t field_id) {
+        return 0; // Default: unknown offset
+    }
+    
+    static size_t getFieldSize(uint8_t field_id) {
+        return 0; // Default: unknown size
+    }
+};
+
+// Helper to build a delta from two struct values
+// Returns empty string if delta is not beneficial (too many changes)
+template<typename T>
+std::string buildDeltaFromStructs(const T& old_val, const T& new_val, uint32_t changed_fields) {
+    int num_changed = countChangedFields(changed_fields);
+    
+    // If too many fields changed, return empty to signal full row should be used
+    if (num_changed > DELTA_COLUMN_THRESHOLD || num_changed == 0) {
+        return "";
+    }
+    
+    std::vector<std::tuple<uint8_t, const char*, uint16_t>> columns;
+    const char* new_ptr = reinterpret_cast<const char*>(&new_val);
+    
+    for (uint8_t i = 0; i < 32 && changed_fields != 0; i++) {
+        if (changed_fields & (1u << i)) {
+            size_t offset = FieldComparator<T>::getFieldOffset(i);
+            size_t size = FieldComparator<T>::getFieldSize(i);
+            if (offset > 0 && size > 0 && size <= ColumnDelta::MAX_COLUMN_VALUE_SIZE) {
+                columns.emplace_back(i, new_ptr + offset, static_cast<uint16_t>(size));
+            }
+        }
+    }
+    
+    if (columns.empty()) {
+        return "";
+    }
+    
+    return ColumnDelta::buildDelta(columns);
+}
+
+// Apply a delta to a base struct value
+// Returns true if successful
+template<typename T>
+bool applyDeltaToStruct(T& base_val, const char* delta_data, size_t delta_len) {
+    std::vector<std::tuple<uint8_t, size_t, uint16_t>> columns;
+    if (!ColumnDelta::parseDelta(delta_data, delta_len, columns)) {
+        return false;
+    }
+    
+    char* base_ptr = reinterpret_cast<char*>(&base_val);
+    
+    for (const auto& col : columns) {
+        uint8_t col_id = std::get<0>(col);
+        size_t value_offset = std::get<1>(col);
+        uint16_t value_len = std::get<2>(col);
+        
+        size_t field_offset = FieldComparator<T>::getFieldOffset(col_id);
+        size_t field_size = FieldComparator<T>::getFieldSize(col_id);
+        
+        if (field_offset > 0 && field_size == value_len) {
+            std::memcpy(base_ptr + field_offset, delta_data + value_offset, value_len);
+        }
+    }
+    
+    return true;
 }
 
 } // namespace mako

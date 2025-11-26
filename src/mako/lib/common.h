@@ -79,6 +79,53 @@ namespace mako
         return count;
     }
 
+    // Metrics for column-delta evaluation
+    struct ColumnDeltaMetrics {
+        std::atomic<uint64_t> total_updates{0};
+        std::atomic<uint64_t> delta_updates{0};
+        std::atomic<uint64_t> full_row_updates{0};
+        std::atomic<uint64_t> bytes_full_row{0};
+        std::atomic<uint64_t> bytes_delta{0};
+        std::atomic<uint64_t> bytes_saved{0};
+        std::atomic<uint64_t> customer_updates{0};
+        std::atomic<uint64_t> warehouse_updates{0};
+        std::atomic<uint64_t> district_updates{0};
+        
+        void reset() {
+            total_updates = 0;
+            delta_updates = 0;
+            full_row_updates = 0;
+            bytes_full_row = 0;
+            bytes_delta = 0;
+            bytes_saved = 0;
+            customer_updates = 0;
+            warehouse_updates = 0;
+            district_updates = 0;
+        }
+        
+        void print() {
+            printf("\n=== Column-Delta MVCC Metrics ===\n");
+            printf("Total updates: %lu\n", total_updates.load());
+            printf("Delta updates: %lu (%.2f%%)\n", delta_updates.load(), 
+                   total_updates.load() > 0 ? 100.0 * delta_updates.load() / total_updates.load() : 0.0);
+            printf("Full row updates: %lu (%.2f%%)\n", full_row_updates.load(),
+                   total_updates.load() > 0 ? 100.0 * full_row_updates.load() / total_updates.load() : 0.0);
+            printf("Bytes (full row): %lu\n", bytes_full_row.load());
+            printf("Bytes (delta): %lu\n", bytes_delta.load());
+            printf("Bytes saved: %lu (%.2f%%)\n", bytes_saved.load(),
+                   bytes_full_row.load() > 0 ? 100.0 * bytes_saved.load() / bytes_full_row.load() : 0.0);
+            printf("Customer updates: %lu\n", customer_updates.load());
+            printf("Warehouse updates: %lu\n", warehouse_updates.load());
+            printf("District updates: %lu\n", district_updates.load());
+            printf("=================================\n\n");
+        }
+    };
+    
+    inline ColumnDeltaMetrics& getColumnDeltaMetrics() {
+        static ColumnDeltaMetrics metrics;
+        return metrics;
+    }
+
     const int ADVANCER_MARKER_NUM = 2;
     const int NUM_TABLES_PER_SHARD = 200; // for pre-allocated
 
