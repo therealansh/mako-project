@@ -1,0 +1,12 @@
+[KDV Encode] count=1000, bases=16, deltas=984, compression_ratio=0.0688125, bandwidth_reduction=93.1188%, cache_size=1, evictions=0, time_us=5
+[KDV Policy Stats] no_base=0, chain_too_long=0, delta_too_large=0, base_too_old=0
+[KDV Decode] count=1000, bases=16, deltas=984, time_us=7
+=== KDV Synthetic Benchmark ===
+Payload size:          1024 bytes
+Updates:               1000
+Delta region:          16 bytes
+Total original bytes:  1024000
+Total encoded bytes:   70464
+Compression ratio:     0.0688125
+Bandwidth reduction:   93.1188%
+KDV_SYNTHETIC_SUMMARY,payload_size=1024,delta_region=16,num_updates=1000,compression_ratio=0.0688125,bandwidth_reduction_pct=93.1188,total_original_bytes=1024000,total_encoded_bytes=70464

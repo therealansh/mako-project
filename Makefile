@@ -673,6 +673,19 @@ kdv_format_test/fast:
 .PHONY : kdv_format_test/fast
 
 #=============================================================================
+# Target rules for targets named kdv_synthetic_bench
+
+# Build rule for target.
+kdv_synthetic_bench: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kdv_synthetic_bench
+.PHONY : kdv_synthetic_bench
+
+# fast build rule for target.
+kdv_synthetic_bench/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/build
+.PHONY : kdv_synthetic_bench/fast
+
+#=============================================================================
 # Target rules for targets named run_tests
 
 # Build rule for target.
@@ -3300,6 +3313,30 @@ src/mako/benchmarks/encstress.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mako.dir/build.make CMakeFiles/mako.dir/src/mako/benchmarks/encstress.cc.s
 .PHONY : src/mako/benchmarks/encstress.cc.s
 
+src/mako/benchmarks/kdv_synthetic_bench.o: src/mako/benchmarks/kdv_synthetic_bench.cc.o
+.PHONY : src/mako/benchmarks/kdv_synthetic_bench.o
+
+# target to build an object file
+src/mako/benchmarks/kdv_synthetic_bench.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/src/mako/benchmarks/kdv_synthetic_bench.cc.o
+.PHONY : src/mako/benchmarks/kdv_synthetic_bench.cc.o
+
+src/mako/benchmarks/kdv_synthetic_bench.i: src/mako/benchmarks/kdv_synthetic_bench.cc.i
+.PHONY : src/mako/benchmarks/kdv_synthetic_bench.i
+
+# target to preprocess a source file
+src/mako/benchmarks/kdv_synthetic_bench.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/src/mako/benchmarks/kdv_synthetic_bench.cc.i
+.PHONY : src/mako/benchmarks/kdv_synthetic_bench.cc.i
+
+src/mako/benchmarks/kdv_synthetic_bench.s: src/mako/benchmarks/kdv_synthetic_bench.cc.s
+.PHONY : src/mako/benchmarks/kdv_synthetic_bench.s
+
+# target to generate assembly for a file
+src/mako/benchmarks/kdv_synthetic_bench.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/src/mako/benchmarks/kdv_synthetic_bench.cc.s
+.PHONY : src/mako/benchmarks/kdv_synthetic_bench.cc.s
+
 src/mako/benchmarks/paxos_async_commit_test.o: src/mako/benchmarks/paxos_async_commit_test.cc.o
 .PHONY : src/mako/benchmarks/paxos_async_commit_test.o
 
@@ -3787,6 +3824,7 @@ src/mako/kdv_format.o: src/mako/kdv_format.cc.o
 src/mako/kdv_format.cc.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mako.dir/build.make CMakeFiles/mako.dir/src/mako/kdv_format.cc.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_format_test.dir/build.make CMakeFiles/kdv_format_test.dir/src/mako/kdv_format.cc.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/src/mako/kdv_format.cc.o
 .PHONY : src/mako/kdv_format.cc.o
 
 src/mako/kdv_format.i: src/mako/kdv_format.cc.i
@@ -3796,6 +3834,7 @@ src/mako/kdv_format.i: src/mako/kdv_format.cc.i
 src/mako/kdv_format.cc.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mako.dir/build.make CMakeFiles/mako.dir/src/mako/kdv_format.cc.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_format_test.dir/build.make CMakeFiles/kdv_format_test.dir/src/mako/kdv_format.cc.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/src/mako/kdv_format.cc.i
 .PHONY : src/mako/kdv_format.cc.i
 
 src/mako/kdv_format.s: src/mako/kdv_format.cc.s
@@ -3805,6 +3844,7 @@ src/mako/kdv_format.s: src/mako/kdv_format.cc.s
 src/mako/kdv_format.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mako.dir/build.make CMakeFiles/mako.dir/src/mako/kdv_format.cc.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_format_test.dir/build.make CMakeFiles/kdv_format_test.dir/src/mako/kdv_format.cc.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/kdv_synthetic_bench.dir/build.make CMakeFiles/kdv_synthetic_bench.dir/src/mako/kdv_format.cc.s
 .PHONY : src/mako/kdv_format.cc.s
 
 src/mako/lib/client.o: src/mako/lib/client.cc.o
@@ -5817,6 +5857,7 @@ help:
 	@echo "... hello_client"
 	@echo "... hello_server"
 	@echo "... kdv_format_test"
+	@echo "... kdv_synthetic_bench"
 	@echo "... latency"
 	@echo "... mako"
 	@echo "... memdb"
@@ -6151,6 +6192,9 @@ help:
 	@echo "... src/mako/benchmarks/encstress.o"
 	@echo "... src/mako/benchmarks/encstress.i"
 	@echo "... src/mako/benchmarks/encstress.s"
+	@echo "... src/mako/benchmarks/kdv_synthetic_bench.o"
+	@echo "... src/mako/benchmarks/kdv_synthetic_bench.i"
+	@echo "... src/mako/benchmarks/kdv_synthetic_bench.s"
 	@echo "... src/mako/benchmarks/paxos_async_commit_test.o"
 	@echo "... src/mako/benchmarks/paxos_async_commit_test.i"
 	@echo "... src/mako/benchmarks/paxos_async_commit_test.s"

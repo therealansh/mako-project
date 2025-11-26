@@ -1,8 +1,29 @@
+/*
+ * KDV synthetic microbenchmark.
+ *
+ * This is a library-level benchmark that exercises kdv_encode_log /
+ * kdv_decode_log on a single hot key with controlled record size and
+ * update size, to mimic YCSB-style small/medium/large in-place updates.
+ *
+ * Usage:
+ *   ./kdv_synthetic_bench [payload_size] [delta_region] [num_updates]
+ *
+ * Defaults (if no args are provided):
+ *   payload_size = 1024 bytes
+ *   delta_region = 16 bytes
+ *   num_updates  = 1000
+ *
+ * The program prints a human-readable summary plus a single CSV-style
+ * line starting with "KDV_SYNTHETIC_SUMMARY" that can be parsed by
+ * scripts for table generation.
+ */
+
 #include "kdv_format.h"
 #include <cassert>
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 using namespace mako::kdv;
 
@@ -10,6 +31,22 @@ int main(int argc, char** argv) {
     size_t payload_size = 1024;
     size_t num_updates = 1000;
     size_t delta_region = 16;
+
+    if (argc >= 2) {
+        payload_size = static_cast<size_t>(std::strtoull(argv[1], nullptr, 10));
+    }
+    if (argc >= 3) {
+        delta_region = static_cast<size_t>(std::strtoull(argv[2], nullptr, 10));
+    }
+    if (argc >= 4) {
+        num_updates = static_cast<size_t>(std::strtoull(argv[3], nullptr, 10));
+    }
+
+    if (payload_size == 0 || delta_region == 0 || num_updates == 0) {
+        std::cerr << "Invalid arguments. Usage: " << argv[0]
+                  << " [payload_size] [delta_region] [num_updates]" << std::endl;
+        return 1;
+    }
 
     std::string base(payload_size, 'A');
 
@@ -68,8 +105,18 @@ int main(int argc, char** argv) {
     std::cout << "Total original bytes:  " << total_original << std::endl;
     std::cout << "Total encoded bytes:   " << total_encoded << std::endl;
     std::cout << "Compression ratio:     " << compression_ratio << std::endl;
-    std::cout << "Bandwidth reduction:   " << savings_pct << "%"<< std::endl;
+    std::cout << "Bandwidth reduction:   " << savings_pct << "%" << std::endl;
+
+    // Machine-readable summary line for scripts.
+    std::cout << "KDV_SYNTHETIC_SUMMARY"
+              << ",payload_size=" << payload_size
+              << ",delta_region=" << delta_region
+              << ",num_updates=" << num_updates
+              << ",compression_ratio=" << compression_ratio
+              << ",bandwidth_reduction_pct=" << savings_pct
+              << ",total_original_bytes=" << total_original
+              << ",total_encoded_bytes=" << total_encoded
+              << std::endl;
 
     return 0;
 }
-

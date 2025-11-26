@@ -973,10 +973,10 @@ if(BUILD_TESTS)
 
     # TODO: Uncomment when kdv_synthetic_bench.cc is implemented
     # # KDV Synthetic Benchmark (library-level compression evaluation)
-    # add_executable(kdv_synthetic_bench src/mako/benchmarks/kdv_synthetic_bench.cc src/mako/kdv_format.cc)
-    # target_include_directories(kdv_synthetic_bench PRIVATE src src/mako)
-    # target_compile_options(kdv_synthetic_bench PRIVATE -std=c++17 -O2)
-    # target_link_libraries(kdv_synthetic_bench pthread)
+    add_executable(kdv_synthetic_bench src/mako/benchmarks/kdv_synthetic_bench.cc src/mako/kdv_format.cc)
+    target_include_directories(kdv_synthetic_bench PRIVATE src src/mako)
+    target_compile_options(kdv_synthetic_bench PRIVATE -std=c++17 -O2)
+    target_link_libraries(kdv_synthetic_bench pthread)
 
     # Integration tests from CI
     add_test(NAME simpleTransaction COMMAND simpleTransaction)
