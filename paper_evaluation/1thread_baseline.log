@@ -1,0 +1,190 @@
+20251027-02:31.58-245495(us) 06330 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251027-02:31.58-245586(us) 06330 * main            (dbtest.cc:164):    Column-delta MVCC DISABLED (baseline mode)
+allocator::Initialize()
+  hugepgsize: 2097152
+  use MADV_WILLNEED: 1
+  mmap() region [0x7f0ed797f000, 0x7f0f17b7f000)
+cpu0 owns [0x7f0ed7a00000, 0x7f0f17a00000)
+Database Benchmark:
+  pid: 6330
+settings:
+  num-cpus    : 8
+  num-threads : 1
+  shardIndex  : 0
+  paxos_proc_name  : localhost
+  nshards     : 1
+  is_micro    : 0
+  is_replicated : 0
+  var-encode  : yes
+  allocator   : jemalloc
+system properties:
+  tuple_prefetch          : no
+  btree_node_prefetch     : yes
+tpcc settings:
+  cross_partition_transactions : 1
+  read_only_snapshots          : 1
+  partition_locks              : 0
+  separate_tree_per_partition  : 1
+  new_order_remote_item_pct    : 1
+  new_order_fast_id_gen        : 1
+  uniform_item_dist            : 0
+  order_status_scan_hack       : 0
+  workload_mix                 : [45, 43, 4, 4, 4]
+new table is createded with name: customer_0, table-id: 1, on shard-server id:0
+new table is createded with name: customer_name_idx_0, table-id: 2, on shard-server id:0
+new table is createded with name: district_0, table-id: 3, on shard-server id:0
+new table is createded with name: history_0, table-id: 4, on shard-server id:0
+new table is createded with name: new_order_0, table-id: 5, on shard-server id:0
+new table is createded with name: oorder_0, table-id: 6, on shard-server id:0
+new table is createded with name: oorder_c_id_idx_0, table-id: 7, on shard-server id:0
+new table is createded with name: order_line_0, table-id: 8, on shard-server id:0
+new table is createded with name: stock_0, table-id: 9, on shard-server id:0
+new table is createded with name: stock_data_0, table-id: 10, on shard-server id:0
+new table is createded with name: warehouse_0, table-id: 11, on shard-server id:0
+new table is createded with name: item, table-id: 12, on shard-server id:0
+20251027-02:31.58-246583(us) 06330 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251027-02:31.58-246635(us) 06330 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251027-02:31.58-248232(us) 06330 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31007 (listening on 0.0.0.0:31007)
+20251027-02:31.58-248282(us) 06330 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31007
+20251027-02:31.58-248300(us) 06330 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31006 (listening on 0.0.0.0:31006)
+20251027-02:31.58-248316(us) 06330 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31006
+20251027-02:31.58-249592(us) 06330 ! run             (bench.cc:347):     # of loaders size:6
+start worker:2364
+[INFO] finished loading warehouse
+[INFO]   * average warehouse record length: 97 bytes
+[INFO] finished loading item
+[INFO]   * average item record length: 84.1739 bytes
+PinToWarehouseId(): coreid=2 pinned to whse=1 (partid=0)
+[INFO] finished loading stock
+[INFO]   * average stock record length: 8 bytes
+PinToWarehouseId(): coreid=3 pinned to whse=1 (partid=0)
+[INFO] finished loading district
+[INFO]   * average district record length: 99 bytes
+num batches: 30
+PinToWarehouseId(): coreid=4 pinned to whse=1 (partid=0)
+[INFO] finished loading customer
+[INFO]   * average customer record length: 153.725 bytes 
+PinToWarehouseId(): coreid=5 pinned to whse=1 (partid=0)
+[INFO] finished loading order
+[INFO]   * average order_line record length: 10.9193 bytes
+[INFO]   * average oorder record length: 7.4286 bytes
+[INFO]   * average new_order record length: 12 bytes
+timed region dataloading took 1263.47 ms
+DB size: 127.984 MB
+[0, 0, 0] txns persisted in loading phase
+20251027-02:31.59-513162(us) 06330 ! run             (bench.cc:400):     # of nthreads:1
+starting benchmark...
+--------------Finish loading data and wait for others completing load phase ------------
+tpcc: worker id 8 => warehouses [1, 2)
+No JEMALLOC_NO_RENAME
+20251027-02:31.59-514728(us) 06330 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251027-02:31.59-514913(us) 06330 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251027-02:31.59-515118(us) 06330 * Initialize      (rrr_rpc_backend.cc:82): RrrRpcBackend initialized on 127.0.0.1:31000 (listening on 0.0.0.0:31000)
+20251027-02:31.59-515163(us) 06330 * FastTransport   (fasttransport.cc:116): FastTransport initialized with rrr/rpc backend on 127.0.0.1:31000
+20251027-02:31.59-515285(us) 06330 * ParseOldFormat  (configuration.cc:66): Using old configuration format
+20251027-02:31.59-515405(us) 06330 ! run             (bench.cc:451):     start the running time, runTime:30
+20251027-02:31.59-515434(us) 06330 ! run             (bench.cc:463):     runtime time left:30000 ms, bool:1
+20251027-02:32.00-524914(us) 06330 ! run             (bench.cc:463):     runtime time left:29000 ms, bool:1
+20251027-02:32.01-536038(us) 06330 ! run             (bench.cc:463):     runtime time left:28000 ms, bool:1
+20251027-02:32.02-546633(us) 06330 ! run             (bench.cc:463):     runtime time left:27000 ms, bool:1
+20251027-02:32.03-557797(us) 06330 ! run             (bench.cc:463):     runtime time left:26000 ms, bool:1
+20251027-02:32.04-569255(us) 06330 ! run             (bench.cc:463):     runtime time left:25000 ms, bool:1
+20251027-02:32.05-578874(us) 06330 ! run             (bench.cc:463):     runtime time left:24000 ms, bool:1
+20251027-02:32.06-589202(us) 06330 ! run             (bench.cc:463):     runtime time left:23000 ms, bool:1
+20251027-02:32.07-601352(us) 06330 ! run             (bench.cc:463):     runtime time left:22000 ms, bool:1
+20251027-02:32.08-612963(us) 06330 ! run             (bench.cc:463):     runtime time left:21000 ms, bool:1
+20251027-02:32.09-623449(us) 06330 ! run             (bench.cc:463):     runtime time left:20000 ms, bool:1
+20251027-02:32.10-634347(us) 06330 ! run             (bench.cc:463):     runtime time left:19000 ms, bool:1
+20251027-02:32.11-647128(us) 06330 ! run             (bench.cc:463):     runtime time left:18000 ms, bool:1
+20251027-02:32.12-657587(us) 06330 ! run             (bench.cc:463):     runtime time left:17000 ms, bool:1
+20251027-02:32.13-667755(us) 06330 ! run             (bench.cc:463):     runtime time left:16000 ms, bool:1
+20251027-02:32.14-678171(us) 06330 ! run             (bench.cc:463):     runtime time left:15000 ms, bool:1
+20251027-02:32.15-689029(us) 06330 ! run             (bench.cc:463):     runtime time left:14000 ms, bool:1
+20251027-02:32.16-701825(us) 06330 ! run             (bench.cc:463):     runtime time left:13000 ms, bool:1
+20251027-02:32.17-714285(us) 06330 ! run             (bench.cc:463):     runtime time left:12000 ms, bool:1
+20251027-02:32.18-727397(us) 06330 ! run             (bench.cc:463):     runtime time left:11000 ms, bool:1
+20251027-02:32.19-739352(us) 06330 ! run             (bench.cc:463):     runtime time left:10000 ms, bool:1
+20251027-02:32.20-749301(us) 06330 ! run             (bench.cc:463):     runtime time left:9000 ms, bool:1
+20251027-02:32.21-761327(us) 06330 ! run             (bench.cc:463):     runtime time left:8000 ms, bool:1
+20251027-02:32.22-774081(us) 06330 ! run             (bench.cc:463):     runtime time left:7000 ms, bool:1
+20251027-02:32.23-786047(us) 06330 ! run             (bench.cc:463):     runtime time left:6000 ms, bool:1
+20251027-02:32.24-797918(us) 06330 ! run             (bench.cc:463):     runtime time left:5000 ms, bool:1
+20251027-02:32.25-809452(us) 06330 ! run             (bench.cc:463):     runtime time left:4000 ms, bool:1
+20251027-02:32.26-822123(us) 06330 ! run             (bench.cc:463):     runtime time left:3000 ms, bool:1
+20251027-02:32.27-833614(us) 06330 ! run             (bench.cc:463):     runtime time left:2000 ms, bool:1
+20251027-02:32.28-846102(us) 06330 ! run             (bench.cc:463):     runtime time left:1000 ms, bool:1
+20251027-02:32.29-859079(us) 06330 ! run             (bench.cc:473):     runtime_plus:0
+20251027-02:32.29-859137(us) 06330 ! stop            (bench.cc:327):     stop all erpc clients. set stop=falsejump out the while loop
+
+20251027-02:32.29-859149(us) 06330 * PrintStats      (rrr_rpc_backend.cc:449): RrrRpcBackend request stats: msg_size_req_sent: 0 bytes, counter: 0, avg: -nan
+20251027-02:32.29-859554(us) 06330 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+--- n_commits per partition ---
+ par_id: 0, n_commits: 2764765
+--- benchmark statistics ---
+runtime: 30.3444 sec
+memory delta: 1756.56 MB
+n_commits: 2764765
+latency_numer_us: 28857248
+latency_numer_us_remote: 0
+memory delta rate: 57.8873 MB/sec
+logical memory delta: 175.417 MB
+logical memory delta rate: 5.78086 MB/sec
+agg_nosync_throughput: 91112.9 ops/sec
+avg_nosync_per_core_throughput: 91112.9 ops/sec/core
+agg_throughput: 91112.7 ops/sec
+avg_per_core_throughput: 91112.7 ops/sec/core
+agg_persist_throughput: 91112.7 ops/sec
+avg_per_core_persist_throughput: 91112.7 ops/sec/core
+avg_latency: 0.0104375 ms
+avg_persist_latency: 0 ms
+agg_abort_rate: 0 aborts/sec
+avg_per_core_abort_rate: 0 aborts/sec/core
+  NewOrder_local_commit_latency: 0.0118653 ms
+  NewOrder_local_abort_latency: -nan ms
+  NewOrder_local_abort_ratio: 0
+  Payment_local_commit_latency: 0.00366909 ms
+  Payment_local_abort_latency: -nan ms
+  Payment_local_abort_ratio: 0
+  Delivery_local_commit_latency: 0.0487411 ms
+  Delivery_local_abort_latency: -nan ms
+  Delivery_local_abort_ratio: 0
+  OrderStatus_local_commit_latency: 0.00425039 ms
+  OrderStatus_local_abort_latency: -nan ms
+  OrderStatus_local_abort_ratio: 0
+  StockLevel_local_commit_latency: 0.0475185 ms
+  StockLevel_local_abort_latency: -nan ms
+  StockLevel_local_abort_ratio: 0
+  NewOrder_remote_ratio: 0 %
+  NewOrder_remote_abort_ratio: -nan %
+  NewOrder_remote_commit_latency: -nan ms
+  NewOrder_remote_abort_latency: -nan ms
+  Payment_remote_ratio: 0 %
+  Payment_remote_abort_ratio: -nan %
+  Payment_remote_commit_latency: -nan ms
+  Payment_remote_abort_latency: -nan ms
+--- system counters (for benchmark) ---
+--- perf counters (if enabled, for benchmark) ---
+--- allocator stats ---
+[allocator] ncpus=1
+[allocator] cpu=0 fully_faulted?=0 remaining=1073741824 bytes
+---------------------------------------
+--- column-delta MVCC metrics ---
+cd_total_updates: 3573162
+cd_delta_updates: 3573162
+cd_full_row_updates: 0
+cd_bytes_full_row: 427588386
+cd_bytes_delta: 131738375
+cd_bytes_saved: 295850011
+cd_delta_ratio: 100 %
+cd_savings_ratio: 69.1904 %
+--- per-table breakdown ---
+cd_customer_updates: 1191054
+cd_warehouse_updates: 1191054
+cd_district_updates: 1191054
+cd_ycsb_updates: 0
+---------------------------------------
+--- system counters for n_comits ---
+20251027-02:32.30-860144(us) 06330 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251027-02:32.30-860169(us) 06330 * Stop            (rrr_rpc_backend.cc:442): RrrRpcBackend stats: msg_size_resp_sent: 0 bytes, counter: 0, avg: -nan
+20251027-02:32.30-860212(us) 06330 * erpc_server     (rpc_setup.cc:121): the erpc_server is terminated on shardIdx:0, alpha:1!
+20251027-02:32.30-860292(us) 06330 * erpc_server     (rpc_setup.cc:121): the erpc_server is terminated on shardIdx:0, alpha:0!
