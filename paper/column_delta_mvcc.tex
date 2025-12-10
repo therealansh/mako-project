@@ -429,10 +429,10 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \cmidrule(lr){2-4} \cmidrule(lr){5-6}
 & Baseline & No Col-Split & Col-Delta & Baseline & Col-Delta \\
 \midrule
-1 & 91.1 & 92.3 & 92.6 & 0.0104 & 0.0103 \\
-2 & 179.4 & 170.1 & 180.6 & 0.0106 & 0.0105 \\
-4 & 347.2 & 333.3 & 347.1 & 0.0110 & 0.0110 \\
-6 & 516.1 & 496.0 & 508.3 & 0.0111 & 0.0112 \\
+1 & 91.1 & 83.7 & 92.6 & 0.0104 & 0.0103 \\
+2 & 179.4 & 161.5 & 180.6 & 0.0106 & 0.0105 \\
+4 & 347.2 & 316.3 & 347.1 & 0.0110 & 0.0110 \\
+6 & 516.1 & 460.1 & 508.3 & 0.0111 & 0.0112 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -442,7 +442,7 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \item At 1--4 threads, column-delta shows \textbf{no throughput degradation} (within measurement noise).
 \item At 6 threads, we observe a 1.5\% throughput reduction, likely due to increased CPU overhead from delta encoding at high concurrency.
 \item Latency remains virtually identical across all configurations.
-\item \textbf{No Column Split} shows the cost of removing manual vertical partitioning of the Customer table (merging \texttt{customer} and \texttt{customer\_data} into a single table). Throughput impact is minimal (within 5\%) because \texttt{c\_data} is only accessed for ``bad credit'' customers (10\% of Payment transactions).
+\item \textbf{No Column Split} shows the cost of removing all manual vertical partitioning (merging \texttt{customer}/\texttt{customer\_data} and \texttt{stock}/\texttt{stock\_data} into single tables). Throughput drops by 8--11\% due to larger row sizes on both Payment and NewOrder critical paths.
 \end{itemize}
 
 \begin{figure}[t]
@@ -461,7 +461,7 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
     (1, 91.1) (2, 179.4) (4, 347.2) (6, 516.1)
 };
 \addplot[color=orange,mark=diamond*,thick] coordinates {
-    (1, 92.3) (2, 170.1) (4, 333.3) (6, 496.0)
+    (1, 83.7) (2, 161.5) (4, 316.3) (6, 460.1)
 };
 \addplot[color=red,mark=triangle*,thick] coordinates {
     (1, 92.6) (2, 180.6) (4, 347.1) (6, 508.3)
