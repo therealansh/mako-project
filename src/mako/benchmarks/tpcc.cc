@@ -36,6 +36,7 @@
 #include <chrono>
 #include "benchmarks/benchmark_config.h"
 #include "benchmarks/rpc_setup.h"
+#include "tpcc_column_delta.h"
 
 using namespace std;
 using namespace util;
@@ -2917,7 +2918,18 @@ if (TThread::get_is_micro()) {
 
     warehouse::value v_w_new(*v_w);
     v_w_new.w_ytd += paymentAmount;
+#if MAKO_ENABLE_COLUMN_DELTAS
+    {
+        uint32_t changed = mako::FieldComparator<warehouse::value>::compare(*v_w, v_w_new);
+        mako::ScopedDeltaContext<warehouse::value> delta_ctx(*v_w, v_w_new, changed);
+        // Calculate delta size: 1 byte header + 1 byte per field ID + field data
+        size_t delta_size = 1 + mako::countChangedFields(changed) * (1 + sizeof(float)); // w_ytd is float
+        mako::recordTpccUpdateMetrics("warehouse", changed, sizeof(warehouse::value), delta_size);
+        tbl_warehouse(warehouse_id)->put(txn, Encode(str(), k_w), Encode(str(), v_w_new));
+    }
+#else
     tbl_warehouse(warehouse_id)->put(txn, Encode(str(), k_w), Encode(str(), v_w_new));
+#endif
 
     const district::key k_d(warehouse_id, districtID);
     ALWAYS_ERROR(tbl_district(warehouse_id)->get(txn, Encode(obj_key0, k_d), obj_v));
@@ -2929,7 +2941,18 @@ if (TThread::get_is_micro()) {
 
     district::value v_d_new(*v_d);
     v_d_new.d_ytd += paymentAmount;
+#if MAKO_ENABLE_COLUMN_DELTAS
+    {
+        uint32_t changed = mako::FieldComparator<district::value>::compare(*v_d, v_d_new);
+        mako::ScopedDeltaContext<district::value> delta_ctx(*v_d, v_d_new, changed);
+        // Calculate delta size: 1 byte header + 1 byte per field ID + field data
+        size_t delta_size = 1 + mako::countChangedFields(changed) * (1 + sizeof(float)); // d_ytd is float
+        mako::recordTpccUpdateMetrics("district", changed, sizeof(district::value), delta_size);
+        tbl_district(warehouse_id)->put(txn, Encode(str(), k_d), Encode(str(), v_d_new));
+    }
+#else
     tbl_district(warehouse_id)->put(txn, Encode(str(), k_d), Encode(str(), v_d_new));
+#endif
 
     customer::key k_c;
     customer::value v_c;
@@ -3010,11 +3033,28 @@ if (TThread::get_is_micro()) {
     v_c_new.c_ytd_payment += paymentAmount;
     v_c_new.c_payment_cnt++;
 
+#if MAKO_ENABLE_COLUMN_DELTAS
+    {
+        uint32_t changed = mako::FieldComparator<customer::value>::compare(v_c, v_c_new);
+        mako::ScopedDeltaContext<customer::value> delta_ctx(v_c, v_c_new, changed);
+        // Calculate delta size: 1 byte header + per-field overhead
+        // Customer Payment updates: c_balance (float), c_ytd_payment (float), c_payment_cnt (int32)
+        // Plus potentially c_data (500 bytes) for bad credit customers
+        size_t delta_size = 1 + mako::countChangedFields(changed) * (1 + 8); // avg 8 bytes per field
+        mako::recordTpccUpdateMetrics("customer", changed, sizeof(customer::value), delta_size);
+        if (WarehouseInShard(customerWarehouseID, BenchmarkConfig::getInstance().getShardIndex())) {
+          tbl_customer(WarehouseGlobal2Local(customerWarehouseID))->put(txn, EncodeK(str(), k_c), Encode(str(), v_c_new));
+        } else {
+          remote_tbl_customer(customerWarehouseID)->put(txn, EncodeK(str(), k_c), Encode(str(), v_c_new));
+        }
+    }
+#else
     if (WarehouseInShard(customerWarehouseID, BenchmarkConfig::getInstance().getShardIndex())) {
       tbl_customer(WarehouseGlobal2Local(customerWarehouseID))->put(txn, EncodeK(str(), k_c), Encode(str(), v_c_new));
     } else {
       remote_tbl_customer(customerWarehouseID)->put(txn, EncodeK(str(), k_c), Encode(str(), v_c_new));
     }
+#endif
     const history::key k_h(k_c.c_d_id, k_c.c_w_id, k_c.c_id, districtID, warehouse_id, ts);
     history::value v_h;
     v_h.h_amount = paymentAmount;

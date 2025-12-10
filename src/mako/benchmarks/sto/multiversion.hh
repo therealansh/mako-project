@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include "lib/common.h"
+#include "lib/column_delta.h"
 #include <vector>
 #include "benchmarks/sto/sync_util.hh"
 #include "benchmarks/sto/common.hh"
@@ -9,12 +10,111 @@
 #endif
 
 // value field composition: data + mako::BITS_OF_TT (timestamp + term) + mako::BITS_OF_NODE
+// With column-delta enabled: [kind byte][payload][timestamp+term][Node]
 class MultiVersionValue {
 public:
     static bool isDeleted(std::string& v) {
         // for non-deleted value, the length of value at least 2+mako::EXTRA_BITS_FOR_VALUE
         return v.length() == 1+mako::EXTRA_BITS_FOR_VALUE && v[0] == 'B';
     }
+
+    // Get the user data portion of a value (excluding MVCC metadata)
+    // Returns pointer to user data and sets user_len
+    static const char* getUserDataPortion(const char* data, size_t total_len, size_t& user_len) {
+        if (total_len <= mako::EXTRA_BITS_FOR_VALUE) {
+            user_len = 0;
+            return data;
+        }
+        user_len = total_len - mako::EXTRA_BITS_FOR_VALUE;
+        return data;
+    }
+
+#if MAKO_ENABLE_COLUMN_DELTAS
+    // Check if a value node is a column delta (has COL_DELTA kind byte)
+    static bool isColumnDelta(const char* data, size_t total_len) {
+        if (total_len <= mako::EXTRA_BITS_FOR_VALUE + mako::KIND_BYTE_SIZE) {
+            return false;
+        }
+        return static_cast<uint8_t>(data[0]) == mako::COL_DELTA;
+    }
+
+    // Check if a value node is a column base (has COL_BASE kind byte)
+    static bool isColumnBase(const char* data, size_t total_len) {
+        if (total_len <= mako::EXTRA_BITS_FOR_VALUE + mako::KIND_BYTE_SIZE) {
+            return false;
+        }
+        return static_cast<uint8_t>(data[0]) == mako::COL_BASE;
+    }
+
+    // Get the kind byte from a value node
+    static mako::ValueKind getValueKind(const char* data, size_t total_len) {
+        if (total_len <= mako::EXTRA_BITS_FOR_VALUE + mako::KIND_BYTE_SIZE) {
+            return mako::LEGACY_BASE;
+        }
+        uint8_t kind = static_cast<uint8_t>(data[0]);
+        if (kind == mako::COL_BASE || kind == mako::COL_DELTA) {
+            return static_cast<mako::ValueKind>(kind);
+        }
+        return mako::LEGACY_BASE;
+    }
+
+    // Reconstruct a full row from a chain of base + delta nodes
+    // This walks the Node chain backwards to find a base, then applies deltas
+    // Returns the reconstructed full row value (user data only, without MVCC metadata)
+    template<typename ValueType>
+    static std::string reconstructFromDeltas(const char* data, size_t total_len, const ValueType& current_value) {
+        // Collect all nodes in the chain until we find a base
+        std::vector<std::pair<const char*, size_t>> chain;
+        const char* current_data = data;
+        size_t current_len = total_len;
+        
+        while (current_len > mako::EXTRA_BITS_FOR_VALUE) {
+            chain.push_back({current_data, current_len});
+            
+            mako::ValueKind kind = getValueKind(current_data, current_len);
+            if (kind == mako::LEGACY_BASE || kind == mako::COL_BASE) {
+                // Found a base, stop walking
+                break;
+            }
+            
+            // Get next node in chain
+            mako::Node* header = reinterpret_cast<mako::Node*>(
+                const_cast<char*>(current_data) + current_len - mako::BITS_OF_NODE);
+            if (header->data_size <= 0) {
+                break; // End of chain
+            }
+            current_data = header->data;
+            current_len = header->data_size;
+        }
+        
+        if (chain.empty()) {
+            return std::string(data, total_len - mako::EXTRA_BITS_FOR_VALUE);
+        }
+        
+        // Start with the base (last element in chain)
+        const char* base_data = chain.back().first;
+        size_t base_len = chain.back().second;
+        mako::ValueKind base_kind = getValueKind(base_data, base_len);
+        
+        // Copy the current value as starting point
+        ValueType result = current_value;
+        
+        // Apply deltas from oldest to newest (reverse order of chain, excluding base)
+        for (int i = static_cast<int>(chain.size()) - 2; i >= 0; i--) {
+            const char* delta_data = chain[i].first;
+            size_t delta_len = chain[i].second;
+            
+            if (getValueKind(delta_data, delta_len) == mako::COL_DELTA) {
+                // Parse and apply delta
+                size_t delta_user_len = delta_len - mako::EXTRA_BITS_FOR_VALUE;
+                mako::applyDeltaToStruct(delta_data, delta_user_len, result);
+            }
+        }
+        
+        // Serialize result back to string
+        return std::string(reinterpret_cast<const char*>(&result), sizeof(ValueType));
+    }
+#endif // MAKO_ENABLE_COLUMN_DELTAS
 
     template <typename ValueType>
     static std::vector<string> getAllVersion(string val) {
@@ -197,4 +297,112 @@ public:
         }
         return ;
     }
+
+#if MAKO_ENABLE_COLUMN_DELTAS
+    // Column-delta aware mvInstall
+    // Checks DeltaContext and creates delta nodes when appropriate
+    static void mvInstallWithDelta(bool isInsert,
+                                   bool isDelete,
+                                   const string newval,
+                                   versioned_str_struct* e,
+                                   uint8_t current_term) {
+        // Check if we should use column delta
+        auto& delta_ctx = mako::getDeltaContext();
+        bool use_delta = mako::isColumnDeltasEnabled() &&
+                         delta_ctx.active && 
+                         delta_ctx.build_delta_fn != nullptr &&
+                         delta_ctx.changed_fields != 0 &&
+                         mako::countChangedFields(delta_ctx.changed_fields) <= mako::DELTA_COLUMN_THRESHOLD;
+        
+        if (!use_delta || isInsert || isDelete) {
+            // Fall back to standard mvInstall for inserts, deletes, or when delta not applicable
+            mvInstall(isInsert, isDelete, newval, e, current_term);
+            
+            // Track metrics
+            if (!isInsert && !isDelete) {
+                auto& metrics = mako::getColumnDeltaMetrics();
+                metrics.total_updates++;
+                metrics.full_row_updates++;
+                metrics.bytes_full_row += newval.length();
+            }
+            return;
+        }
+        
+        // Build column delta
+        char *oldval_str = (char*)e->data();
+        int oldval_len = e->length();
+        uint32_t time_term = TThread::txn->tid_unique_ * 10 + TThread::txn->current_term_;
+        
+        // Build delta from the context
+        std::string delta_payload = delta_ctx.build_delta_fn(
+            delta_ctx.old_value, delta_ctx.new_value, delta_ctx.changed_fields);
+        
+        if (delta_payload.empty()) {
+            // Delta build failed, fall back to full row
+            mvInstall(isInsert, isDelete, newval, e, current_term);
+            auto& metrics = mako::getColumnDeltaMetrics();
+            metrics.total_updates++;
+            metrics.full_row_updates++;
+            metrics.bytes_full_row += newval.length();
+            return;
+        }
+        
+        // Successfully built delta - create COL_DELTA node for the OLD value
+        // The NEW value becomes the current full row (COL_BASE)
+        
+        // First, create the new head node with full row (COL_BASE)
+        size_t user_len = newval.length() - mako::EXTRA_BITS_FOR_VALUE;
+        size_t new_head_len = mako::KIND_BYTE_SIZE + newval.length();
+        char* new_head = (char*)malloc(new_head_len);
+        
+        // Write COL_BASE kind byte for new head
+        new_head[0] = static_cast<char>(mako::COL_BASE);
+        
+        // Copy new value data
+        memcpy(new_head + mako::KIND_BYTE_SIZE, newval.data(), user_len);
+        
+        // Write timestamp/term for new head
+        memcpy(new_head + new_head_len - mako::EXTRA_BITS_FOR_VALUE, &time_term, mako::BITS_OF_TT);
+        
+        // Now create the delta node for the old value
+        // Delta layout: [delta_payload (includes COL_DELTA kind)][EXTRA_BITS_FOR_VALUE]
+        size_t delta_node_len = delta_payload.size() + mako::EXTRA_BITS_FOR_VALUE;
+        char* delta_node = (char*)malloc(delta_node_len);
+        
+        // Copy delta payload (already includes COL_DELTA kind byte)
+        memcpy(delta_node, delta_payload.data(), delta_payload.size());
+        
+        // Copy old timestamp/term from old value
+        uint32_t* old_time_term = reinterpret_cast<uint32_t*>(oldval_str + oldval_len - mako::EXTRA_BITS_FOR_VALUE);
+        memcpy(delta_node + delta_node_len - mako::EXTRA_BITS_FOR_VALUE, old_time_term, mako::BITS_OF_TT);
+        
+        // Setup delta node's Node header - points to old value's previous
+        mako::Node* old_header = reinterpret_cast<mako::Node*>(oldval_str + oldval_len - mako::BITS_OF_NODE);
+        mako::Node* delta_header = reinterpret_cast<mako::Node*>(delta_node + delta_node_len - mako::BITS_OF_NODE);
+        delta_header->timestamp = old_header->timestamp;
+        delta_header->data_size = old_header->data_size;
+        delta_header->data = old_header->data;
+        
+        // Setup new head's Node header - points to delta node
+        mako::Node* new_header = reinterpret_cast<mako::Node*>(new_head + new_head_len - mako::BITS_OF_NODE);
+        new_header->timestamp = TThread::txn->tid_unique_;
+        new_header->data_size = delta_node_len;
+        new_header->data = delta_node;
+        
+        // Update metrics
+        auto& metrics = mako::getColumnDeltaMetrics();
+        metrics.total_updates++;
+        metrics.delta_updates++;
+        metrics.bytes_delta += delta_node_len;
+        metrics.bytes_full_row += new_head_len;
+        if (oldval_len > (int)delta_node_len) {
+            metrics.bytes_saved += (oldval_len - delta_node_len);
+        }
+        
+        // Install new head
+        e->modifyData(new_head);
+        lazyReclaim(time_term, current_term, new_header);
+    }
+#endif // MAKO_ENABLE_COLUMN_DELTAS
+
 } ;
