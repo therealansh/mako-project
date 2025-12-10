@@ -429,10 +429,10 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \cmidrule(lr){2-4} \cmidrule(lr){5-6}
 & Baseline & No Col-Split & Col-Delta & Baseline & Col-Delta \\
 \midrule
-1 & 91.1 & 65.6 & 92.6 & 0.0104 & 0.0103 \\
-2 & 179.4 & 165.3 & 180.6 & 0.0106 & 0.0105 \\
-4 & 347.2 & 329.9 & 347.1 & 0.0110 & 0.0110 \\
-6 & 516.1 & 402.9 & 508.3 & 0.0111 & 0.0112 \\
+1 & 91.1 & 92.3 & 92.6 & 0.0104 & 0.0103 \\
+2 & 179.4 & 170.1 & 180.6 & 0.0106 & 0.0105 \\
+4 & 347.2 & 333.3 & 347.1 & 0.0110 & 0.0110 \\
+6 & 516.1 & 496.0 & 508.3 & 0.0111 & 0.0112 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -442,7 +442,7 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \item At 1--4 threads, column-delta shows \textbf{no throughput degradation} (within measurement noise).
 \item At 6 threads, we observe a 1.5\% throughput reduction, likely due to increased CPU overhead from delta encoding at high concurrency.
 \item Latency remains virtually identical across all configurations.
-\item \textbf{No Column Split} shows the cost of removing manual vertical partitioning of the STOCK table (merging \texttt{stock} and \texttt{stock\_data} into a single table), which is orthogonal to column-delta (instrumented on Customer, Warehouse, and District tables in Payment). Throughput drops by 5--28\% depending on thread count due to larger row sizes on the NewOrder critical path.
+\item \textbf{No Column Split} shows the cost of removing manual vertical partitioning of the Customer table (merging \texttt{customer} and \texttt{customer\_data} into a single table). Throughput impact is minimal (within 5\%) because \texttt{c\_data} is only accessed for ``bad credit'' customers (10\% of Payment transactions).
 \end{itemize}
 
 \begin{figure}[t]
@@ -461,7 +461,7 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
     (1, 91.1) (2, 179.4) (4, 347.2) (6, 516.1)
 };
 \addplot[color=orange,mark=diamond*,thick] coordinates {
-    (1, 65.6) (2, 165.3) (4, 329.9) (6, 402.9)
+    (1, 92.3) (2, 170.1) (4, 333.3) (6, 496.0)
 };
 \addplot[color=red,mark=triangle*,thick] coordinates {
     (1, 92.6) (2, 180.6) (4, 347.1) (6, 508.3)
