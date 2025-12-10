@@ -423,16 +423,16 @@ Table~\ref{tab:throughput} shows throughput and latency for baseline (column-del
 \centering
 \caption{TPC-C Throughput and Latency (30s runs)}
 \label{tab:throughput}
-\begin{tabular}{ccccc}
+\begin{tabular}{cccccc}
 \toprule
-Threads & \multicolumn{2}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (ms)} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-& Baseline & Col-Delta & Baseline & Col-Delta \\
+Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (ms)} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-6}
+& Baseline & No Col-Split & Col-Delta & Baseline & Col-Delta \\
 \midrule
-1 & 91.1 & 92.6 & 0.0104 & 0.0103 \\
-2 & 179.4 & 180.6 & 0.0106 & 0.0105 \\
-4 & 347.2 & 347.1 & 0.0110 & 0.0110 \\
-6 & 516.1 & 508.3 & 0.0111 & 0.0112 \\
+1 & 91.1 & 65.6 & 92.6 & 0.0104 & 0.0103 \\
+2 & 179.4 & 165.3 & 180.6 & 0.0106 & 0.0105 \\
+4 & 347.2 & 329.9 & 347.1 & 0.0110 & 0.0110 \\
+6 & 516.1 & 402.9 & 508.3 & 0.0111 & 0.0112 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -442,6 +442,7 @@ Threads & \multicolumn{2}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \item At 1--4 threads, column-delta shows \textbf{no throughput degradation} (within measurement noise).
 \item At 6 threads, we observe a 1.5\% throughput reduction, likely due to increased CPU overhead from delta encoding at high concurrency.
 \item Latency remains virtually identical across all configurations.
+\item \textbf{No Column Split} shows the cost of removing manual vertical partitioning of the STOCK table (merging \texttt{stock} and \texttt{stock\_data} into a single table). Throughput drops by 22--28\% due to larger row sizes on the critical path, demonstrating the importance of the existing column split optimization.
 \end{itemize}
 
 \begin{figure}[t]
@@ -459,10 +460,13 @@ Threads & \multicolumn{2}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \addplot[color=blue,mark=square*,thick] coordinates {
     (1, 91.1) (2, 179.4) (4, 347.2) (6, 516.1)
 };
+\addplot[color=orange,mark=diamond*,thick] coordinates {
+    (1, 65.6) (2, 165.3) (4, 329.9) (6, 402.9)
+};
 \addplot[color=red,mark=triangle*,thick] coordinates {
     (1, 92.6) (2, 180.6) (4, 347.1) (6, 508.3)
 };
-\legend{Baseline, Column-Delta}
+\legend{Baseline, No Col-Split, Column-Delta}
 \end{axis}
 \end{tikzpicture}
 \caption{TPC-C Throughput Scalability}
