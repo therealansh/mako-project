@@ -442,7 +442,7 @@ Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \item At 1--4 threads, column-delta shows \textbf{no throughput degradation} (within measurement noise).
 \item At 6 threads, we observe a 1.5\% throughput reduction, likely due to increased CPU overhead from delta encoding at high concurrency.
 \item Latency remains virtually identical across all configurations.
-\item \textbf{No Column Split} shows the cost of removing manual vertical partitioning of the STOCK table (merging \texttt{stock} and \texttt{stock\_data} into a single table). Throughput drops by 22--28\% due to larger row sizes on the critical path, demonstrating the importance of the existing column split optimization.
+\item \textbf{No Column Split} shows the cost of removing manual vertical partitioning of the STOCK table (merging \texttt{stock} and \texttt{stock\_data} into a single table), which is orthogonal to column-delta (instrumented on Customer, Warehouse, and District tables in Payment). Throughput drops by 5--28\% depending on thread count due to larger row sizes on the NewOrder critical path.
 \end{itemize}
 
 \begin{figure}[t]
