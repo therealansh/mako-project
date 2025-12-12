@@ -26,11 +26,7 @@ Anonymous Institution
 \maketitle
 
 \begin{abstract}
-Multi-Version Concurrency Control (MVCC) is fundamental to modern distributed databases, enabling snapshot isolation and non-blocking reads. However, traditional MVCC implementations store complete row copies for each version, leading to significant storage overhead---particularly problematic for wide tables with localized updates. We present \textit{Column-Delta MVCC}, a schema-aware optimization that encodes only modified columns in version chains, achieving up to 69\% storage reduction while maintaining full MVCC semantics.
-
-Our key insight is that transactional workloads exhibit strong column locality: updates typically modify a small subset of columns (e.g., balance fields in payment transactions). By leveraging compile-time schema metadata already present in structured key-value stores, we implement a generic delta encoding layer that works with any schema type without per-table specialization.
-
-We implement Column-Delta MVCC in Mako, a high-performance distributed transactional key-value store. Evaluation on TPC-C shows 69.2\% storage savings with less than 1\% throughput overhead at scale. Our implementation requires only 481 lines of generic infrastructure code and demonstrates that significant storage optimizations can be achieved through careful exploitation of schema information in modern database systems.
+Multi-Version Concurrency Control (MVCC) is fundamental to modern distributed databases, but traditional implementations store full-row copies for every update, causing severe storage amplification for wide tables with highly localized updates. We present Column-Delta MVCC, a schema-aware MVCC variant that encodes only modified columns in version chains by leveraging compile-time schema metadata, enabling a generic delta layer without per-table specialization---implemented in just 481 lines of infrastructure code in Mako, a high-performance distributed transactional key-value store. On TPC-C, Column-Delta MVCC achieves 69.2\% storage savings with less than 1\% throughput overhead compared to baseline, while removing manual vertical partitioning (merging split tables into single tables) degrades throughput by 8--11\%, demonstrating that Column-Delta delivers substantial storage benefits without the performance penalty of naive schema modifications.
 \end{abstract}
 
 \section{Introduction}
@@ -423,16 +419,16 @@ Table~\ref{tab:throughput} shows throughput and latency for baseline (column-del
 \centering
 \caption{TPC-C Throughput and Latency (30s runs)}
 \label{tab:throughput}
-\begin{tabular}{ccccc}
+\begin{tabular}{cccccc}
 \toprule
-Threads & \multicolumn{2}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (ms)} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5}
-& Baseline & Col-Delta & Baseline & Col-Delta \\
+Threads & \multicolumn{3}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (ms)} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-6}
+& Baseline & No Col-Split & Col-Delta & Baseline & Col-Delta \\
 \midrule
-1 & 91.1 & 92.6 & 0.0104 & 0.0103 \\
-2 & 179.4 & 180.6 & 0.0106 & 0.0105 \\
-4 & 347.2 & 347.1 & 0.0110 & 0.0110 \\
-6 & 516.1 & 508.3 & 0.0111 & 0.0112 \\
+1 & 91.1 & 83.7 & 92.6 & 0.0104 & 0.0103 \\
+2 & 179.4 & 161.5 & 180.6 & 0.0106 & 0.0105 \\
+4 & 347.2 & 316.3 & 347.1 & 0.0110 & 0.0110 \\
+6 & 516.1 & 460.1 & 508.3 & 0.0111 & 0.0112 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -442,6 +438,7 @@ Threads & \multicolumn{2}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \item At 1--4 threads, column-delta shows \textbf{no throughput degradation} (within measurement noise).
 \item At 6 threads, we observe a 1.5\% throughput reduction, likely due to increased CPU overhead from delta encoding at high concurrency.
 \item Latency remains virtually identical across all configurations.
+\item \textbf{No Column Split} shows the cost of removing all manual vertical partitioning (merging \texttt{customer}/\texttt{customer\_data} and \texttt{stock}/\texttt{stock\_data} into single tables). Throughput drops by 8--11\% due to larger row sizes on both Payment and NewOrder critical paths.
 \end{itemize}
 
 \begin{figure}[t]
@@ -459,10 +456,13 @@ Threads & \multicolumn{2}{c}{Throughput (Kops/s)} & \multicolumn{2}{c}{Latency (
 \addplot[color=blue,mark=square*,thick] coordinates {
     (1, 91.1) (2, 179.4) (4, 347.2) (6, 516.1)
 };
+\addplot[color=orange,mark=diamond*,thick] coordinates {
+    (1, 83.7) (2, 161.5) (4, 316.3) (6, 460.1)
+};
 \addplot[color=red,mark=triangle*,thick] coordinates {
     (1, 92.6) (2, 180.6) (4, 347.1) (6, 508.3)
 };
-\legend{Baseline, Column-Delta}
+\legend{Baseline, No Col-Split, Column-Delta}
 \end{axis}
 \end{tikzpicture}
 \caption{TPC-C Throughput Scalability}
