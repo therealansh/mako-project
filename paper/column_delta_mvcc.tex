@@ -30,7 +30,7 @@ Multi-Version Concurrency Control (MVCC) is fundamental to modern distributed da
 
 Our key insight is that transactional workloads exhibit strong column locality: updates typically modify a small subset of columns (e.g., balance fields in payment transactions). By leveraging compile-time schema metadata already present in structured key-value stores, we implement a generic delta encoding layer that works with any schema type without per-table specialization.
 
-We implement Column-Delta MVCC in Mako, a high-performance distributed transactional key-value store. Evaluation on TPC-C shows 69.2\% storage savings with less than 1\% throughput overhead at scale. Our implementation requires only 481 lines of generic infrastructure code and demonstrates that significant storage optimizations can be achieved through careful exploitation of schema information in modern database systems.
+We implement Column-Delta MVCC in Mako, a high-performance distributed transactional key-value store. Evaluation on TPC-C shows 69.2\% storage savings with less than 1\% throughput overhead at scale. In contrast, removing manual column splitting (a common optimization that vertically partitions tables) degrades throughput by 8--11\%, demonstrating that column-delta provides storage benefits without the performance penalty of naive approaches. Our implementation requires only 481 lines of generic infrastructure code and demonstrates that significant storage optimizations can be achieved through careful exploitation of schema information in modern database systems.
 \end{abstract}
 
 \section{Introduction}
